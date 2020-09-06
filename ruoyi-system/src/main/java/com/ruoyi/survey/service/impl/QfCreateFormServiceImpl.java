@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
+import com.ruoyi.survey.domain.vo.QfKeyNameVo;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -105,11 +106,11 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertQuestionnaire(QfCreateForm qfCreateForm)  {
-        List<QfKeyName> qfKeyNames = JSONObject.parseArray(qfCreateForm.getJsonData(), QfKeyName.class);
+        QfKeyNameVo qfKeyNames = JSONObject.parseObject(qfCreateForm.getJsonData(), QfKeyNameVo.class);
         int size =-1;
 
         size = qfCreateFormMapper.insertQfCreateForm(qfCreateForm);
-        for (QfKeyName qfKeyName : qfKeyNames) {
+        for (QfKeyName qfKeyName : qfKeyNames.getList()) {
             size = qfKeyNameMapper.insertQfKeyName(qfKeyName.setCreateId(qfCreateForm.getId()));
         }
         return size;
