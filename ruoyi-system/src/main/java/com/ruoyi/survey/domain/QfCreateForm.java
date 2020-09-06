@@ -17,7 +17,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 public class QfCreateForm implements Serializable
 {
     private static final long serialVersionUID = 1L;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     /** $column.columnComment */
     private Long id;
