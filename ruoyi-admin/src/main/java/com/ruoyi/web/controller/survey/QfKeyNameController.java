@@ -1,4 +1,4 @@
-package com.ruoyi.web.controller.survey.controller;
+package com.ruoyi.web.controller.survey;
 
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +15,8 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.survey.domain.QfUserForm;
-import com.ruoyi.survey.service.IQfUserFormService;
+import com.ruoyi.survey.domain.QfKeyName;
+import com.ruoyi.survey.service.IQfKeyNameService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -27,77 +27,77 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2020-09-06
  */
 @RestController
-@RequestMapping("/survey/form")
-public class QfUserFormController extends BaseController
+@RequestMapping("/survey/name")
+public class QfKeyNameController extends BaseController
 {
     @Autowired
-    private IQfUserFormService qfUserFormService;
+    private IQfKeyNameService qfKeyNameService;
 
     /**
      * 查询【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:list')")
+    @PreAuthorize("@ss.hasPermi('survey:name:list')")
     @GetMapping("/list")
-    public TableDataInfo list(QfUserForm qfUserForm)
+    public TableDataInfo list(QfKeyName qfKeyName)
     {
         startPage();
-        List<QfUserForm> list = qfUserFormService.selectQfUserFormList(qfUserForm);
+        List<QfKeyName> list = qfKeyNameService.selectQfKeyNameList(qfKeyName);
         return getDataTable(list);
     }
 
     /**
      * 导出【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:export')")
+    @PreAuthorize("@ss.hasPermi('survey:name:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(QfUserForm qfUserForm)
+    public AjaxResult export(QfKeyName qfKeyName)
     {
-        List<QfUserForm> list = qfUserFormService.selectQfUserFormList(qfUserForm);
-        ExcelUtil<QfUserForm> util = new ExcelUtil<QfUserForm>(QfUserForm.class);
-        return util.exportExcel(list, "form");
+        List<QfKeyName> list = qfKeyNameService.selectQfKeyNameList(qfKeyName);
+        ExcelUtil<QfKeyName> util = new ExcelUtil<QfKeyName>(QfKeyName.class);
+        return util.exportExcel(list, "name");
     }
 
     /**
      * 获取【请填写功能名称】详细信息
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:query')")
+    @PreAuthorize("@ss.hasPermi('survey:name:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return AjaxResult.success(qfUserFormService.selectQfUserFormById(id));
+        return AjaxResult.success(qfKeyNameService.selectQfKeyNameById(id));
     }
 
     /**
      * 新增【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:add')")
+    @PreAuthorize("@ss.hasPermi('survey:name:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody QfUserForm qfUserForm)
+    public AjaxResult add(@RequestBody QfKeyName qfKeyName)
     {
-        return toAjax(qfUserFormService.insertQfUserForm(qfUserForm));
+        return toAjax(qfKeyNameService.insertQfKeyName(qfKeyName));
     }
 
     /**
      * 修改【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:edit')")
+    @PreAuthorize("@ss.hasPermi('survey:name:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody QfUserForm qfUserForm)
+    public AjaxResult edit(@RequestBody QfKeyName qfKeyName)
     {
-        return toAjax(qfUserFormService.updateQfUserForm(qfUserForm));
+        return toAjax(qfKeyNameService.updateQfKeyName(qfKeyName));
     }
 
     /**
      * 删除【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:remove')")
+    @PreAuthorize("@ss.hasPermi('survey:name:remove')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(qfUserFormService.deleteQfUserFormByIds(ids));
+        return toAjax(qfKeyNameService.deleteQfKeyNameByIds(ids));
     }
 }

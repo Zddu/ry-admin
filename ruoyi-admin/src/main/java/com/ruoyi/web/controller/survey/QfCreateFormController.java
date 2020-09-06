@@ -1,4 +1,4 @@
-package com.ruoyi.web.controller.survey.controller;
+package com.ruoyi.web.controller.survey;
 
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +15,8 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.survey.domain.QfKeyName;
-import com.ruoyi.survey.service.IQfKeyNameService;
+import com.ruoyi.survey.domain.QfCreateForm;
+import com.ruoyi.survey.service.IQfCreateFormService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -27,77 +27,77 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2020-09-06
  */
 @RestController
-@RequestMapping("/survey/name")
-public class QfKeyNameController extends BaseController
+@RequestMapping("/survey/create")
+public class QfCreateFormController extends BaseController
 {
     @Autowired
-    private IQfKeyNameService qfKeyNameService;
+    private IQfCreateFormService qfCreateFormService;
 
     /**
      * 查询【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:name:list')")
+    @PreAuthorize("@ss.hasPermi('survey:create:list')")
     @GetMapping("/list")
-    public TableDataInfo list(QfKeyName qfKeyName)
+    public TableDataInfo list(QfCreateForm qfCreateForm)
     {
         startPage();
-        List<QfKeyName> list = qfKeyNameService.selectQfKeyNameList(qfKeyName);
+        List<QfCreateForm> list = qfCreateFormService.selectQfCreateFormList(qfCreateForm);
         return getDataTable(list);
     }
 
     /**
      * 导出【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:name:export')")
+    @PreAuthorize("@ss.hasPermi('survey:create:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(QfKeyName qfKeyName)
+    public AjaxResult export(QfCreateForm qfCreateForm)
     {
-        List<QfKeyName> list = qfKeyNameService.selectQfKeyNameList(qfKeyName);
-        ExcelUtil<QfKeyName> util = new ExcelUtil<QfKeyName>(QfKeyName.class);
-        return util.exportExcel(list, "name");
+        List<QfCreateForm> list = qfCreateFormService.selectQfCreateFormList(qfCreateForm);
+        ExcelUtil<QfCreateForm> util = new ExcelUtil<QfCreateForm>(QfCreateForm.class);
+        return util.exportExcel(list, "form");
     }
 
     /**
      * 获取【请填写功能名称】详细信息
      */
-    @PreAuthorize("@ss.hasPermi('survey:name:query')")
+    @PreAuthorize("@ss.hasPermi('survey:create:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return AjaxResult.success(qfKeyNameService.selectQfKeyNameById(id));
+        return AjaxResult.success(qfCreateFormService.selectQfCreateFormById(id));
     }
 
     /**
      * 新增【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:name:add')")
+    @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody QfKeyName qfKeyName)
+    public AjaxResult add(@RequestBody QfCreateForm qfCreateForm)
     {
-        return toAjax(qfKeyNameService.insertQfKeyName(qfKeyName));
+        return toAjax(qfCreateFormService.insertQfCreateForm(qfCreateForm));
     }
 
     /**
      * 修改【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:name:edit')")
+    @PreAuthorize("@ss.hasPermi('survey:create:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody QfKeyName qfKeyName)
+    public AjaxResult edit(@RequestBody QfCreateForm qfCreateForm)
     {
-        return toAjax(qfKeyNameService.updateQfKeyName(qfKeyName));
+        return toAjax(qfCreateFormService.updateQfCreateForm(qfCreateForm));
     }
 
     /**
      * 删除【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:name:remove')")
+    @PreAuthorize("@ss.hasPermi('survey:create:remove')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(qfKeyNameService.deleteQfKeyNameByIds(ids));
+        return toAjax(qfCreateFormService.deleteQfCreateFormByIds(ids));
     }
 }
