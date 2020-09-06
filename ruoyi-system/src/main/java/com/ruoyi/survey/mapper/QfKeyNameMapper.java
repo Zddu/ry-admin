@@ -2,6 +2,8 @@ package com.ruoyi.survey.mapper;
 
 import java.util.List;
 import com.ruoyi.survey.domain.QfKeyName;
+import com.ruoyi.survey.domain.QfUserForm;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -58,4 +60,6 @@ public interface QfKeyNameMapper
      * @return 结果
      */
     public int deleteQfKeyNameByIds(Long[] ids);
+
+
 }

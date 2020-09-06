@@ -29,11 +29,17 @@ public class QfCreateForm extends BaseEntity
     private String creator;
 
     /** $column.columnComment */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "创建者", width = 30, dateFormat = "yyyy-MM-dd")
     private Date endTime;
 
-    public void setId(Long id) 
+    public QfCreateForm(String jsonData, String creator, Date endTime) {
+        this.jsonData = jsonData;
+        this.creator = creator;
+        this.endTime = endTime;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

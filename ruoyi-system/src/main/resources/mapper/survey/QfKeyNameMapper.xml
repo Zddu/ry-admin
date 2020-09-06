@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.survey.mapper.QfKeyNameMapper">
     
-    <resultMap type="QfKeyName" id="QfKeyNameResult">
+    <resultMap type="com.ruoyi.survey.domain.QfKeyName" id="QfKeyNameResult">
         <result property="id"    column="id"    />
         <result property="createId"    column="create_id"    />
         <result property="key"    column="key"    />
@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, create_id, key, name from qf_key_name
     </sql>
 
-    <select id="selectQfKeyNameList" parameterType="QfKeyName" resultMap="QfKeyNameResult">
+    <select id="selectQfKeyNameList" parameterType="com.ruoyi.survey.domain.QfKeyName" resultMap="QfKeyNameResult">
         <include refid="selectQfKeyNameVo"/>
         <where>  
             <if test="createId != null "> and create_id = #{createId}</if>
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertQfKeyName" parameterType="QfKeyName" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertQfKeyName" parameterType="com.ruoyi.survey.domain.QfKeyName" useGeneratedKeys="true" keyProperty="id">
         insert into qf_key_name
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createId != null">create_id,</if>
@@ -43,7 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateQfKeyName" parameterType="QfKeyName">
+
+    <update id="updateQfKeyName" parameterType="com.ruoyi.survey.domain.QfKeyName">
         update qf_key_name
         <trim prefix="SET" suffixOverrides=",">
             <if test="createId != null">create_id = #{createId},</if>
@@ -63,5 +64,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>

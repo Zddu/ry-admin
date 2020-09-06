@@ -52,7 +52,7 @@ public class QfUserForm extends BaseEntity
     {
         return createId;
     }
-    public void setCommitUser(String commitUser) 
+    public void setCommitUser(String commitUser)
     {
         this.commitUser = commitUser;
     }

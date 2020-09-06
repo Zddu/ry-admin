@@ -39,9 +39,10 @@ public class QfKeyName extends BaseEntity
     {
         return id;
     }
-    public void setCreateId(Long createId) 
+    public QfKeyName setCreateId(Long createId)
     {
         this.createId = createId;
+        return this;
     }
 
     public Long getCreateId() 

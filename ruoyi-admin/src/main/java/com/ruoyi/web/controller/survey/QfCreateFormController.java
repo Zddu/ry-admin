@@ -1,16 +1,15 @@
 package com.ruoyi.web.controller.survey;
 
+import java.text.ParseException;
 import java.util.List;
+
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.web.service.TokenService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -32,7 +31,8 @@ public class QfCreateFormController extends BaseController
 {
     @Autowired
     private IQfCreateFormService qfCreateFormService;
-
+    @Autowired
+    private TokenService tokenService;
     /**
      * 查询【请填写功能名称】列表
      */
@@ -69,14 +69,14 @@ public class QfCreateFormController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 上传问卷
      */
     @PreAuthorize("@ss.hasPermi('survey:create:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "上传文卷", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody QfCreateForm qfCreateForm)
-    {
-        return toAjax(qfCreateFormService.insertQfCreateForm(qfCreateForm));
+    public AjaxResult add(@RequestBody QfCreateForm qfCreateForm) throws ParseException {
+        qfCreateForm.setCreator(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
+        return toAjax(qfCreateFormService.insertQuestionnaire(qfCreateForm));
     }
 
     /**

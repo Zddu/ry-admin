@@ -1,12 +1,21 @@
 package com.ruoyi.survey.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.survey.domain.QfKeyName;
+import com.ruoyi.survey.domain.QfUserForm;
+import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfCreateFormMapper;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.service.IQfCreateFormService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -15,11 +24,11 @@ import com.ruoyi.survey.service.IQfCreateFormService;
  * @date 2020-09-06
  */
 @Service
-public class QfCreateFormServiceImpl implements IQfCreateFormService 
-{
+public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Autowired
     private QfCreateFormMapper qfCreateFormMapper;
-
+    @Autowired
+    private QfKeyNameMapper qfKeyNameMapper;
     /**
      * 查询【请填写功能名称】
      * 
@@ -91,5 +100,18 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService
     public int deleteQfCreateFormById(Long id)
     {
         return qfCreateFormMapper.deleteQfCreateFormById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int insertQuestionnaire(QfCreateForm qfCreateForm)  {
+        List<QfKeyName> qfKeyNames = JSONObject.parseArray(qfCreateForm.getJsonData(), QfKeyName.class);
+        int size =-1;
+
+        size = qfCreateFormMapper.insertQfCreateForm(qfCreateForm);
+        for (QfKeyName qfKeyName : qfKeyNames) {
+            size = qfKeyNameMapper.insertQfKeyName(qfKeyName.setCreateId(qfCreateForm.getId()));
+        }
+        return size;
     }
 }
