@@ -7,13 +7,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.survey.domain.QfCreateForm" id="QfCreateFormResult">
         <result property="id"    column="id"    />
         <result property="strData"    column="json_data"    />
+        <result property="title"    column="title"    />
         <result property="createTime"    column="create_time"    />
         <result property="creator"    column="creator"    />
         <result property="endTime"    column="end_time"    />
     </resultMap>
 
     <sql id="selectQfCreateFormVo">
-        select id, json_data, create_time, creator, end_time from qf_create_form
+        select id, json_data, create_time,title creator, end_time from qf_create_form
     </sql>
 
     <select id="selectQfCreateFormList" parameterType="com.ruoyi.survey.domain.QfCreateForm" resultMap="QfCreateFormResult">
@@ -29,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectQfCreateFormVo"/>
         where id = #{id}
     </select>
-    <select id="selectQfCreateFormByUsername" resultType="com.ruoyi.survey.domain.QfCreateForm">
+    <select id="selectQfCreateFormByUsername" resultMap="QfCreateFormResult">
         select * from qf_create_form
         <where>
             <if test="username != null  and username != ''"> and creator =#{username}</if>
