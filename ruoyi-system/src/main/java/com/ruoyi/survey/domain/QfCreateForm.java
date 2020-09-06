@@ -39,6 +39,9 @@ public class QfCreateForm extends BaseEntity
         this.endTime = endTime;
     }
 
+    public QfCreateForm() {
+    }
+
     public void setId(Long id)
     {
         this.id = id;
