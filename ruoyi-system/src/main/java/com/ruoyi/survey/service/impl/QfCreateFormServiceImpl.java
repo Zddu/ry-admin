@@ -1,14 +1,10 @@
 package com.ruoyi.survey.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.survey.domain.QfKeyName;
-import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyNameVo;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,8 +113,8 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     }
 
     @Override
-    public List<QfCreateForm> selectQfCreateFormByUsername(String username) {
+    public List<QfCreateForm> selectQfCreateFormByUsername(String username, QfCreateForm qfCreateForm) {
 
-        return qfCreateFormMapper.selectQfCreateFormByUsername(username);
+        return qfCreateFormMapper.selectQfCreateFormByUsername(username,qfCreateForm);
     }
 }

@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="com.ruoyi.survey.domain.QfCreateForm" id="QfCreateFormResult">
         <result property="id"    column="id"    />
-        <result property="jsonData"    column="json_data"    />
+        <result property="strData"    column="json_data"    />
         <result property="createTime"    column="create_time"    />
         <result property="creator"    column="creator"    />
         <result property="endTime"    column="end_time"    />
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectQfCreateFormList" parameterType="com.ruoyi.survey.domain.QfCreateForm" resultMap="QfCreateFormResult">
         <include refid="selectQfCreateFormVo"/>
         <where>  
-            <if test="jsonData != null  and jsonData != ''"> and json_data = #{jsonData}</if>
+            <if test="strData != null  and jsonData != ''"> and json_data = #{jsonData}</if>
             <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
             <if test="endTime != null "> and end_time = #{endTime}</if>
         </where>
@@ -30,7 +30,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
     <select id="selectQfCreateFormByUsername" resultType="com.ruoyi.survey.domain.QfCreateForm">
-        select * from qf_create_form where creator =#{username}
+        select * from qf_create_form
+        <where>
+            <if test="creator != null  and creator != ''"> and creator =#{username}</if>
+            <if test="qfCreateForm.id != null  and qfCreateForm.id != ''"> and id like '%${qfCreateForm.id}%'</if>
+            <if test="qfCreateForm.title != null  and qfCreateForm.title != ''"> and title = '%${qfCreateForm.title}%'</if>
+        </where>
     </select>
 
     <insert id="insertQfCreateForm" parameterType="com.ruoyi.survey.domain.QfCreateForm" useGeneratedKeys="true" keyProperty="id">

@@ -66,10 +66,10 @@ public class QfCreateFormController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('survey:create:query')")
     @GetMapping(value = "/getform")
-    public TableDataInfo getInfo() {
+    public TableDataInfo getInfo(@RequestBody QfCreateForm qfCreateForm) {
         startPage();
         List<QfCreateForm> qfCreateForms = qfCreateFormService.
-                selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
+                selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(),qfCreateForm);
         return getDataTable(qfCreateForms);
     }
 

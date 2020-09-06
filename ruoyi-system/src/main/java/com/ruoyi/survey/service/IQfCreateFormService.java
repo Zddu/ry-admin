@@ -1,6 +1,5 @@
 package com.ruoyi.survey.service;
 
-import java.text.ParseException;
 import java.util.List;
 import com.ruoyi.survey.domain.QfCreateForm;
 
@@ -64,5 +63,5 @@ public interface IQfCreateFormService
 
     int insertQuestionnaire(QfCreateForm qfCreateForm);
 
-    List<QfCreateForm> selectQfCreateFormByUsername(String username);
+    List<QfCreateForm> selectQfCreateFormByUsername(String username, QfCreateForm qfCreateForm);
 }

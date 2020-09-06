@@ -60,5 +60,5 @@ public interface QfCreateFormMapper
      */
     public int deleteQfCreateFormByIds(Long[] ids);
 
-    List<QfCreateForm> selectQfCreateFormByUsername(@Param("username") String username);
+    List<QfCreateForm> selectQfCreateFormByUsername(@Param("username") String username,@Param("qfCreateForm") QfCreateForm qfCreateForm);
 }
