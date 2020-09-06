@@ -42,7 +42,7 @@ public class BaseEntity implements Serializable
 
     /** 结束时间 */
     @JsonIgnore
-    private String endTime;
+    private Date endTime;
 
     /** 请求参数 */
     private Map<String, Object> params;
@@ -117,12 +117,12 @@ public class BaseEntity implements Serializable
         this.beginTime = beginTime;
     }
 
-    public String getEndTime()
+    public Date getEndTime()
     {
         return endTime;
     }
 
-    public void setEndTime(String endTime)
+    public void setEndTime(Date endTime)
     {
         this.endTime = endTime;
     }

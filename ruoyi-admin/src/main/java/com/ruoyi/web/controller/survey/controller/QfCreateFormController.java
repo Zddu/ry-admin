@@ -27,7 +27,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2020-09-06
  */
 @RestController
-@RequestMapping("/survey/form")
+@RequestMapping("/survey/create")
 public class QfCreateFormController extends BaseController
 {
     @Autowired
