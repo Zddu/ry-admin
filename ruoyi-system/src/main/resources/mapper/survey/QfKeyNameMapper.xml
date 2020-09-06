@@ -30,17 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
         
     <insert id="insertQfKeyName" parameterType="com.ruoyi.survey.domain.QfKeyName" useGeneratedKeys="true" keyProperty="id">
-        insert into qf_key_name
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="createId != null">create_id,</if>
-            <if test="key != null">key,</if>
-            <if test="name != null">name,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="createId != null">#{createId},</if>
-            <if test="key != null">#{key},</if>
-            <if test="name != null">#{name},</if>
-         </trim>
+        insert into qf_key_name(create_id,qf_key_name.key,qf_key_name.name )
+        values(#{createId},#{key},#{name})
     </insert>
 
 
