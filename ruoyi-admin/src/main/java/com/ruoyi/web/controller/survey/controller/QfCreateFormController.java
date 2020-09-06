@@ -36,7 +36,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 查询【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:list')")
+    @PreAuthorize("@ss.hasPermi('survey:create:list')")
     @GetMapping("/list")
     public TableDataInfo list(QfCreateForm qfCreateForm)
     {
@@ -48,7 +48,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 导出【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:export')")
+    @PreAuthorize("@ss.hasPermi('survey:create:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(QfCreateForm qfCreateForm)
@@ -61,7 +61,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 获取【请填写功能名称】详细信息
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:query')")
+    @PreAuthorize("@ss.hasPermi('survey:create:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -71,7 +71,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 新增【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:add')")
+    @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody QfCreateForm qfCreateForm)
@@ -82,7 +82,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 修改【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:edit')")
+    @PreAuthorize("@ss.hasPermi('survey:create:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody QfCreateForm qfCreateForm)
@@ -93,7 +93,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 删除【请填写功能名称】
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:remove')")
+    @PreAuthorize("@ss.hasPermi('survey:create:remove')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
