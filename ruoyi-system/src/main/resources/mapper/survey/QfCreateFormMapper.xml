@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="username != null  and username != ''"> and creator =#{username}</if>
             <if test="qfCreateForm.id != null  and qfCreateForm.id != ''"> and id like '%${qfCreateForm.id}%'</if>
-            <if test="qfCreateForm.title != null  and qfCreateForm.title != ''"> and title = '%${qfCreateForm.title}%'</if>
+            <if test="qfCreateForm.title != null  and qfCreateForm.title != ''"> and title like '%${qfCreateForm.title}%'</if>
         </where>
     </select>
 
