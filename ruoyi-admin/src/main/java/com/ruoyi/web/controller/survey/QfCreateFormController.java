@@ -1,7 +1,9 @@
 package com.ruoyi.web.controller.survey;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.ServletUtils;
@@ -74,12 +76,11 @@ public class QfCreateFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "上传问卷", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    public AjaxResult add(@RequestParam String endTime,@RequestBody String strData)  {
-        System.out.println(strData);
-        System.out.println(endTime);
-//        qfCreateForm.setCreator(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
-//        qfCreateFormService.insertQuestionnaire(qfCreateForm)
-        return null;
+    public AjaxResult add(@RequestParam String endTime,@RequestBody String strData) throws ParseException {
+        QfCreateForm qfCreateForm=new QfCreateForm();
+        qfCreateForm.setStrData(strData);
+        qfCreateForm.setEndTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime));
+        return toAjax(qfCreateFormService.insertQuestionnaire(qfCreateForm));
     }
 
     /**
