@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectQfCreateFormList" parameterType="com.ruoyi.survey.domain.QfCreateForm" resultMap="QfCreateFormResult">
         <include refid="selectQfCreateFormVo"/>
         <where>  
-            <if test="strData != null  and jsonData != ''"> and json_data = #{jsonData}</if>
+            <if test="strData != null  and strData != ''"> and json_data = #{strData}</if>
             <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
             <if test="endTime != null "> and end_time = #{endTime}</if>
         </where>
@@ -41,13 +41,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertQfCreateForm" parameterType="com.ruoyi.survey.domain.QfCreateForm" useGeneratedKeys="true" keyProperty="id">
         insert into qf_create_form
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="jsonData != null and jsonData != ''">json_data,</if>
+            <if test="strData != null and strData != ''">json_data,</if>
             <if test="createTime != null">create_time,</if>
             <if test="creator != null">creator,</if>
             <if test="endTime != null">end_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="jsonData != null and jsonData != ''">#{jsonData},</if>
+            <if test="strData != null and strData != ''">#{strData},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="creator != null">#{creator},</if>
             <if test="endTime != null">#{endTime},</if>
@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateQfCreateForm" parameterType="com.ruoyi.survey.domain.QfCreateForm">
         update qf_create_form
         <trim prefix="SET" suffixOverrides=",">
-            <if test="jsonData != null and jsonData != ''">json_data = #{jsonData},</if>
+            <if test="strData != null and strData != ''">json_data = #{strData},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="creator != null">creator = #{creator},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
