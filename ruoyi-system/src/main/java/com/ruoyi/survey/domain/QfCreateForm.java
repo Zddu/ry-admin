@@ -1,5 +1,6 @@
 package com.ruoyi.survey.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,35 +14,23 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author Zddeä¸¶
  * @date 2020-09-06
  */
-public class QfCreateForm extends BaseEntity
+public class QfCreateForm implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
+    private Date createTime;
     /** $column.columnComment */
     private Long id;
 
     /** 问卷json数据 */
-    @Excel(name = "问卷json数据")
-    private String jsonData;
+    private String strData;
 
     /** 创建者 */
-    @Excel(name = "创建者")
     private String creator;
 
     /** $column.columnComment */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "创建者", width = 30, dateFormat = "yyyy-MM-dd")
     private Date endTime;
-
-    public QfCreateForm(String jsonData, String creator, Date endTime) {
-        this.jsonData = jsonData;
-        this.creator = creator;
-        this.endTime = endTime;
-    }
-
-    public QfCreateForm() {
-    }
-
     public void setId(Long id)
     {
         this.id = id;
@@ -51,21 +40,30 @@ public class QfCreateForm extends BaseEntity
     {
         return id;
     }
-    public void setJsonData(String jsonData) 
+    public void setStrData(String strData)
     {
-        this.jsonData = jsonData;
+        this.strData = strData;
     }
 
-    public String getJsonData() 
+    public String getJsonData()
     {
-        return jsonData;
+        return strData;
     }
+
     public void setCreator(String creator) 
     {
         this.creator = creator;
     }
 
-    public String getCreator() 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreator()
     {
         return creator;
     }
@@ -79,14 +77,5 @@ public class QfCreateForm extends BaseEntity
         return endTime;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("jsonData", getJsonData())
-            .append("createTime", getCreateTime())
-            .append("creator", getCreator())
-            .append("endTime", getEndTime())
-            .toString();
-    }
+
 }

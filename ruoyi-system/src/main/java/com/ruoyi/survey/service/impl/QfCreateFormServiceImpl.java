@@ -106,7 +106,7 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertQuestionnaire(QfCreateForm qfCreateForm)  {
-        QfKeyNameVo qfKeyNames = JSONObject.parseObject(qfCreateForm.getJsonData(), QfKeyNameVo.class);
+        QfKeyNameVo qfKeyNames = JSONObject.parseObject((String) qfCreateForm.getJsonData(), QfKeyNameVo.class);
         int size =-1;
 
         size = qfCreateFormMapper.insertQfCreateForm(qfCreateForm);
