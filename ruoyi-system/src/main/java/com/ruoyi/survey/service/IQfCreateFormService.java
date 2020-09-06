@@ -63,4 +63,6 @@ public interface IQfCreateFormService
 
 
     int insertQuestionnaire(QfCreateForm qfCreateForm);
+
+    List<QfCreateForm> selectQfCreateFormByUsername(String username);
 }

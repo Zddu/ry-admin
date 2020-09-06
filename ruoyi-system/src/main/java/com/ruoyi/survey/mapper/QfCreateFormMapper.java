@@ -2,6 +2,7 @@ package com.ruoyi.survey.mapper;
 
 import java.util.List;
 import com.ruoyi.survey.domain.QfCreateForm;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -58,4 +59,6 @@ public interface QfCreateFormMapper
      * @return 结果
      */
     public int deleteQfCreateFormByIds(Long[] ids);
+
+    List<QfCreateForm> selectQfCreateFormByUsername(@Param("username") String username);
 }

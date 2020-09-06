@@ -62,13 +62,15 @@ public class QfCreateFormController extends BaseController
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取已创建问卷详细信息
      */
     @PreAuthorize("@ss.hasPermi('survey:create:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
-        return AjaxResult.success(qfCreateFormService.selectQfCreateFormById(id));
+    @GetMapping(value = "/getform")
+    public TableDataInfo getInfo() {
+        startPage();
+        List<QfCreateForm> qfCreateForms = qfCreateFormService.
+                selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
+        return getDataTable(qfCreateForms);
     }
 
     /**
@@ -77,12 +79,16 @@ public class QfCreateFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "上传问卷", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    public AjaxResult add(@RequestParam String endTime,@RequestBody String strData) throws ParseException {
-
+    public AjaxResult add(@RequestParam String endTime,@RequestParam String title ,@RequestBody String strData) throws ParseException {
+        if (endTime==null||title==null||strData==null){
+            return AjaxResult.error("请填写必填数据");
+        }
         QfCreateForm qfCreateForm=new QfCreateForm();
         qfCreateForm.setStrData(strData);
+        qfCreateForm.setTitle(title);
         qfCreateForm.setCreator(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
         qfCreateForm.setEndTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime));
+
         return toAjax(qfCreateFormService.insertQuestionnaire(qfCreateForm));
     }
 

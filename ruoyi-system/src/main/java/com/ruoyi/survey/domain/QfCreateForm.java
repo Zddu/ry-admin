@@ -28,6 +28,7 @@ public class QfCreateForm implements Serializable
     /** 创建者 */
     private String creator;
 
+    private String title;
     /** $column.columnComment */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
@@ -36,7 +37,15 @@ public class QfCreateForm implements Serializable
         this.id = id;
     }
 
-    public Long getId() 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getId()
     {
         return id;
     }
@@ -45,7 +54,7 @@ public class QfCreateForm implements Serializable
         this.strData = strData;
     }
 
-    public String getJsonData()
+    public String getStrData()
     {
         return strData;
     }
