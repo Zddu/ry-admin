@@ -39,14 +39,14 @@ public class QfCreateFormController extends BaseController
     /**
      * 查询【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:create:list')")
-    @GetMapping("/list")
-    public TableDataInfo list(QfCreateForm qfCreateForm)
-    {
-        startPage();
-        List<QfCreateForm> list = qfCreateFormService.selectQfCreateFormList(qfCreateForm);
-        return getDataTable(list);
-    }
+//    @PreAuthorize("@ss.hasPermi('survey:create:list')")
+//    @GetMapping("/list")
+//    public TableDataInfo list(QfCreateForm qfCreateForm)
+//    {
+//        startPage();
+//        List<QfCreateForm> list = qfCreateFormService.selectQfCreateFormList(qfCreateForm);
+//        return getDataTable(list);
+//    }
 
     /**
      * 导出【请填写功能名称】列表
@@ -64,9 +64,9 @@ public class QfCreateFormController extends BaseController
     /**
      * 获取已创建问卷详细信息
      */
-    @PreAuthorize("@ss.hasPermi('survey:create:query')")
-    @GetMapping(value = "/getform")
-    public TableDataInfo getInfo(@RequestBody QfCreateForm qfCreateForm) {
+    @PreAuthorize("@ss.hasPermi('survey:create:list')")
+    @GetMapping("/list")
+    public TableDataInfo getInfo(QfCreateForm qfCreateForm) {
         startPage();
         List<QfCreateForm> qfCreateForms = qfCreateFormService.
                 selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(),qfCreateForm);
