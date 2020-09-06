@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.survey.mapper.QfKeyNameMapper">
+    
+    <resultMap type="QfKeyName" id="QfKeyNameResult">
+        <result property="id"    column="id"    />
+        <result property="createId"    column="create_id"    />
+        <result property="key"    column="key"    />
+        <result property="name"    column="name"    />
+    </resultMap>
+
+    <sql id="selectQfKeyNameVo">
+        select id, create_id, key, name from qf_key_name
+    </sql>
+
+    <select id="selectQfKeyNameList" parameterType="QfKeyName" resultMap="QfKeyNameResult">
+        <include refid="selectQfKeyNameVo"/>
+        <where>  
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="key != null  and key != ''"> and key = #{key}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectQfKeyNameById" parameterType="Long" resultMap="QfKeyNameResult">
+        <include refid="selectQfKeyNameVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertQfKeyName" parameterType="QfKeyName" useGeneratedKeys="true" keyProperty="id">
+        insert into qf_key_name
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">create_id,</if>
+            <if test="key != null">key,</if>
+            <if test="name != null">name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">#{createId},</if>
+            <if test="key != null">#{key},</if>
+            <if test="name != null">#{name},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQfKeyName" parameterType="QfKeyName">
+        update qf_key_name
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="key != null">key = #{key},</if>
+            <if test="name != null">name = #{name},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQfKeyNameById" parameterType="Long">
+        delete from qf_key_name where id = #{id}
+    </delete>
+
+    <delete id="deleteQfKeyNameByIds" parameterType="String">
+        delete from qf_key_name where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

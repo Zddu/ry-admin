@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.survey.mapper.QfCreateFormMapper">
+    
+    <resultMap type="QfCreateForm" id="QfCreateFormResult">
+        <result property="id"    column="id"    />
+        <result property="jsonData"    column="json_data"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="creator"    column="creator"    />
+        <result property="endTime"    column="end_time"    />
+    </resultMap>
+
+    <sql id="selectQfCreateFormVo">
+        select id, json_data, create_time, creator, end_time from qf_create_form
+    </sql>
+
+    <select id="selectQfCreateFormList" parameterType="QfCreateForm" resultMap="QfCreateFormResult">
+        <include refid="selectQfCreateFormVo"/>
+        <where>  
+            <if test="jsonData != null  and jsonData != ''"> and json_data = #{jsonData}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectQfCreateFormById" parameterType="Long" resultMap="QfCreateFormResult">
+        <include refid="selectQfCreateFormVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertQfCreateForm" parameterType="QfCreateForm" useGeneratedKeys="true" keyProperty="id">
+        insert into qf_create_form
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jsonData != null and jsonData != ''">json_data,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="creator != null">creator,</if>
+            <if test="endTime != null">end_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jsonData != null and jsonData != ''">#{jsonData},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="endTime != null">#{endTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQfCreateForm" parameterType="QfCreateForm">
+        update qf_create_form
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jsonData != null and jsonData != ''">json_data = #{jsonData},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQfCreateFormById" parameterType="Long">
+        delete from qf_create_form where id = #{id}
+    </delete>
+
+    <delete id="deleteQfCreateFormByIds" parameterType="String">
+        delete from qf_create_form where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
