@@ -73,7 +73,7 @@ public class QfCreateFormController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "上传文卷", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("/add")
     public AjaxResult add(@RequestBody QfCreateForm qfCreateForm) throws ParseException {
         qfCreateForm.setCreator(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
         return toAjax(qfCreateFormService.insertQuestionnaire(qfCreateForm));
