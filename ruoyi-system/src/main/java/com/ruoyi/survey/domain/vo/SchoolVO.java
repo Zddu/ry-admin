@@ -7,6 +7,6 @@ import lombok.Data;
  **/
 @Data
 public class SchoolVO {
-    private Long schoolId;
+    private Integer schoolId;
     private String schoolName;
 }
