@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectQfUserFormVo">
-        select id, create_id, commit_user, user_id,state ,create_time from qf_school_form
+        select id, create_id, commit_user,state ,create_time from qf_school_form
     </sql>
 
     <select id="selectQfUserFormList" parameterType="com.ruoyi.survey.domain.QfUserForm" resultMap="QfUserFormResult">
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createId != null">create_id,</if>
 
             <if test="createTime != null">create_time,</if>
-            <if test="userId != null">user_id,</if>
+
             <if test="state != null">state,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
