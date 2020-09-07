@@ -74,8 +74,7 @@ public class QfCreateFormController extends BaseController
     @GetMapping("/list")
     public TableDataInfo getInfo(QfCreateForm qfCreateForm) {
         startPage();
-        List<QfCreateForm> qfCreateForms = qfCreateFormService.
-                selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(),qfCreateForm);
+        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(),qfCreateForm);
         return getDataTable(qfCreateForms);
     }
 
@@ -126,5 +125,18 @@ public class QfCreateFormController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(qfCreateFormService.deleteQfCreateFormByIds(ids));
     }
+    /**
+     * 导出创建问卷
+     */
+    @Log(title = "导出创建问卷", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('survey:create:export')")
+    @GetMapping("/export")
+    public AjaxResult export()
+    {
+         List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(),null);
+        ExcelUtil<QfCreateForm> util = new ExcelUtil<>(QfCreateForm.class);
+        return util.exportExcel(qfCreateForms, "创建问卷");
+    }
+
 
 }
