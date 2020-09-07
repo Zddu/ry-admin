@@ -114,5 +114,37 @@ public class QfCreateFormController extends BaseController {
         return util.exportExcel(qfCreateForms, "创建问卷");
     }
 
+    /**
+     * 编辑问卷
+     */
+    @PreAuthorize("@ss.hasPermi('')")
+    @GetMapping("/")
+    public AjaxResult showEditQfCreateForm(Long id) {
+        return AjaxResult.success(qfCreateFormService.selectQfCreateFormById(id));
+    }
 
+    /**
+     * 上传问卷
+     */
+    @PreAuthorize("@ss.hasPermi('')")
+    @Log(title = "上传问卷", businessType = BusinessType.INSERT)
+    @PostMapping("/edit/{id}/{endTime}/{title}")
+    public AjaxResult edit(
+            @PathVariable("id")Long id,
+            @PathVariable("endTime") String endTime,
+            @PathVariable("title") String title,
+            @RequestBody String strData) throws ParseException {
+        QfCreateForm qfCreateForm = new QfCreateForm();
+        qfCreateForm.setId(id);
+        qfCreateForm.setStrData(strData);
+        qfCreateForm.setTitle(title);
+        Date parse = null;
+        try {
+            parse=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime);
+        }finally {
+            qfCreateForm.setEndTime(parse);
+            return toAjax(qfCreateFormService.updateQfCreateForm(qfCreateForm));
+        }
+
+    }
 }
