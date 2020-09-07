@@ -1,5 +1,6 @@
 package com.ruoyi.survey.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +90,11 @@ public class QfKeyNameServiceImpl implements IQfKeyNameService
         List<QfKeyName> qfKeyNames=qfKeyNameMapper.selectQfKeyNameByFormId(id);
         Map<String,Object> dataMap =new HashMap<String, Object>();
         StringBuffer sb =new StringBuffer();
-
+        List<String> titleList = new ArrayList<>();
+        for (QfKeyName qfKeyName : qfKeyNames) {
+            titleList.add(qfKeyName.getName());
+        }
+        dataMap.put("titleList",titleList);
 
 
 
