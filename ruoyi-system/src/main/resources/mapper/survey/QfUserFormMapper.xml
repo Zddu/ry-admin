@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectQfUserFormVo">
-        select id, create_id, commit_user,state ,create_time from qf_school_form
+        select id, create_id,state,school_name,school_id ,create_time from qf_school_form
     </sql>
 
     <select id="selectQfUserFormList" parameterType="com.ruoyi.survey.domain.QfUserForm" resultMap="QfUserFormResult">
