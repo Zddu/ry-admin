@@ -1,14 +1,19 @@
 package com.ruoyi.survey.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.core.domain.entity.SysDept;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyNameVo;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
+import com.ruoyi.system.mapper.SysDeptMapper;
+import com.ruoyi.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfCreateFormMapper;
@@ -30,6 +35,10 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     private QfKeyNameMapper qfKeyNameMapper;
     @Autowired
     private QfUserFormMapper qfUserFormMapper;
+    @Autowired
+    private SysDeptMapper sysDeptMapper;
+    @Autowired
+    private SysUserMapper sysUserMapper;
     /**
      * 查询【请填写功能名称】
      * 
@@ -115,10 +124,21 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int submitQfCreateForm(List<QfUserForm> qfCreateForms) {
-        for (QfUserForm qfUserForm:qfCreateForms) {
+    public int submitQfCreateForm(List<QfUserForm> ids) {
+        List<SysDept> deps=new ArrayList<>();
+        List<SysUser> users =new ArrayList<>();
+        for (QfUserForm schoolId:ids) {
+            //这里的userid是指前端传输的学校id
+            deps.addAll(sysDeptMapper.selectChildrenDeptById(schoolId.getUserId().longValue()));
+        }
+        for (SysDept dep : deps) {
+            users.addAll(sysUserMapper.selectUserByDepId(dep.getDeptId()));
+        }
+        for (SysUser user : users) {
+            QfUserForm qfUserForm = new QfUserForm(ids.get(0).getCreateId(), user.getUserName(), user.getUserId().intValue());
             qfUserFormMapper.insertQfUserForm(qfUserForm);
         }
+
         return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(1));
     }
 }
