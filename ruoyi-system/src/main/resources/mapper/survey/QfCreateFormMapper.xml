@@ -67,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="state != null">state = #{state},</if>
             <if test="hoTime != null">ho_time = #{hoTime},</if>
+            <if test="title != null">title = #{title},</if>
         </trim>
         where id = #{id}
     </update>
