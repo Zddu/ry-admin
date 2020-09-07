@@ -124,11 +124,11 @@ public class QfCreateFormController extends BaseController {
     }
 
     /**
-     * 上传问卷
+     * 修改问卷
      */
     @PreAuthorize("@ss.hasPermi('')")
     @Log(title = "上传问卷", businessType = BusinessType.INSERT)
-    @PostMapping("/edit/{id}/{endTime}/{title}")
+    @PutMapping("/edit/{id}/{endTime}/{title}")
     public AjaxResult edit(
             @PathVariable("id")Long id,
             @PathVariable("endTime") String endTime,
