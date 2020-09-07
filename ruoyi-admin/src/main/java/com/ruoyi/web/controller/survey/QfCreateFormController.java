@@ -25,6 +25,8 @@ import com.ruoyi.survey.service.IQfCreateFormService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 【请填写功能名称】Controller
  *
@@ -119,12 +121,10 @@ public class QfCreateFormController extends BaseController {
      */
     @Log(title = "导出问卷明细", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
-    @GetMapping("/export")
-    public AjaxResult exportDetail(Long id) {
-        Map<String, String> hashMap = new HashMap<>();
-        List<HashMap> qfCreateForms = qfKeyNameService.selectQfKeyNameByFormId(id);
-        ExcelUtil<HashMap> util = new ExcelUtil<>(HashMap.class);
-        return util.exportExcel(qfCreateForms, "创建问卷");
+    @GetMapping("/export/{id}")
+    public void exportDetail(HttpServletResponse response,@PathVariable("id") Long id) {
+         qfKeyNameService.selectQfKeyNameByFormId(response,id);
+
     }
     /**
      * 返回编辑信息

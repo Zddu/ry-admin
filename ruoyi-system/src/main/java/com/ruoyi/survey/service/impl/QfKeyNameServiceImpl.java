@@ -9,6 +9,8 @@ import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.service.IQfKeyNameService;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 【请填写功能名称】Service业务层处理
  * 
@@ -82,7 +84,7 @@ public class QfKeyNameServiceImpl implements IQfKeyNameService
     }
 
     @Override
-    public List<HashMap> selectQfKeyNameByFormId(Long id) {
+    public void selectQfKeyNameByFormId(HttpServletResponse response,Long id) {
         List<QfKeyName> qfKeyNames=qfKeyNameMapper.selectQfKeyNameByFormId(id);
         StringBuffer sb =new StringBuffer();
         for (QfKeyName qfKeyName : qfKeyNames) {
@@ -90,7 +92,6 @@ public class QfKeyNameServiceImpl implements IQfKeyNameService
         }
         sb.deleteCharAt(sb.length()-1);
         HashMap
-        return null;
     }
 
 

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import com.ruoyi.survey.domain.QfKeyName;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 【请填写功能名称】Service接口
  * 
@@ -54,5 +56,5 @@ public interface IQfKeyNameService
 
 
 
-    List<HashMap> selectQfKeyNameByFormId(Long id);
+   void selectQfKeyNameByFormId(HttpServletResponse response,Long id);
 }
