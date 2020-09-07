@@ -28,7 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectQfKeyNameVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectQfKeyNameByFormId" resultMap="QfKeyNameResult">
+        <include refid="selectQfKeyNameVo"/>
+        where create_id = #{id}
+    </select>
+
     <insert id="insertQfKeyName" parameterType="com.ruoyi.survey.domain.QfKeyName" useGeneratedKeys="true" keyProperty="id">
         insert into qf_key_name(create_id,qf_key_name.key,qf_key_name.name )
         values(#{createId},#{key},#{name})

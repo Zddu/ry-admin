@@ -3,15 +3,14 @@ package com.ruoyi.web.controller.survey;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
+import java.util.Map;
 
-import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
-import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfUserFormVo;
-import com.ruoyi.system.domain.SysPost;
+import com.ruoyi.survey.service.IQfKeyNameService;
 import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,8 @@ public class QfCreateFormController extends BaseController {
     private TokenService tokenService;
     @Autowired
     private ISysDeptService deptService;
+    @Autowired
+    private IQfKeyNameService qfKeyNameService;
     /**
      * 获取已创建问卷详细信息
      */
@@ -119,9 +120,10 @@ public class QfCreateFormController extends BaseController {
     @Log(title = "导出问卷明细", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export")
-    public AjaxResult exportDetail() {
-        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(), new QfCreateForm());
-        ExcelUtil<QfCreateForm> util = new ExcelUtil<>(QfCreateForm.class);
+    public AjaxResult exportDetail(Long id) {
+        Map<String, String> hashMap = new HashMap<>();
+        List<HashMap> qfCreateForms = qfKeyNameService.selectQfKeyNameByFormId(id);
+        ExcelUtil<HashMap> util = new ExcelUtil<>(HashMap.class);
         return util.exportExcel(qfCreateForms, "创建问卷");
     }
     /**

@@ -1,5 +1,6 @@
 package com.ruoyi.survey.service;
 
+import java.util.HashMap;
 import java.util.List;
 import com.ruoyi.survey.domain.QfKeyName;
 
@@ -51,11 +52,7 @@ public interface IQfKeyNameService
      */
     public int deleteQfKeyNameByIds(Long[] ids);
 
-    /**
-     * 删除【请填写功能名称】信息
-     * 
-     * @param id 【请填写功能名称】ID
-     * @return 结果
-     */
-    public int deleteQfKeyNameById(Long id);
+
+
+    List<HashMap> selectQfKeyNameByFormId(Long id);
 }

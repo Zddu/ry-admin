@@ -1,6 +1,8 @@
 package com.ruoyi.survey.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
@@ -79,15 +81,17 @@ public class QfKeyNameServiceImpl implements IQfKeyNameService
         return qfKeyNameMapper.deleteQfKeyNameByIds(ids);
     }
 
-    /**
-     * 删除【请填写功能名称】信息
-     * 
-     * @param id 【请填写功能名称】ID
-     * @return 结果
-     */
     @Override
-    public int deleteQfKeyNameById(Long id)
-    {
-        return qfKeyNameMapper.deleteQfKeyNameById(id);
+    public List<HashMap> selectQfKeyNameByFormId(Long id) {
+        List<QfKeyName> qfKeyNames=qfKeyNameMapper.selectQfKeyNameByFormId(id);
+        StringBuffer sb =new StringBuffer();
+        for (QfKeyName qfKeyName : qfKeyNames) {
+            sb.append(qfKeyName.getName()+",");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        HashMap
+        return null;
     }
+
+
 }

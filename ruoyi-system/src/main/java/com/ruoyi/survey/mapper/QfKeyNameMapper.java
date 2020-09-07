@@ -2,7 +2,6 @@ package com.ruoyi.survey.mapper;
 
 import java.util.List;
 import com.ruoyi.survey.domain.QfKeyName;
-import com.ruoyi.survey.domain.QfUserForm;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -62,4 +61,5 @@ public interface QfKeyNameMapper
     public int deleteQfKeyNameByIds(Long[] ids);
 
 
+    List<QfKeyName> selectQfKeyNameByFormId(@Param("id") Long id);
 }
