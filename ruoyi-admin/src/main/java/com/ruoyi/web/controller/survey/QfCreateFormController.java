@@ -9,8 +9,10 @@ import java.util.Map;
 
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
+import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfUserFormVo;
 import com.ruoyi.survey.service.IQfKeyNameService;
+import com.ruoyi.survey.service.IQfUserFormService;
 import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,8 @@ public class QfCreateFormController extends BaseController {
     private ISysDeptService deptService;
     @Autowired
     private IQfKeyNameService qfKeyNameService;
+    @Autowired
+    private IQfUserFormService qfUserFormService;
     /**
      * 获取已创建问卷详细信息
      */
@@ -164,7 +168,10 @@ public class QfCreateFormController extends BaseController {
     @PreAuthorize("@ss.hasPermi('')")
     @GetMapping("/")
     public AjaxResult edit(@RequestParam Long id) throws ParseException {
-        return AjaxResult.success();
+        AjaxResult ajaxResult = AjaxResult.success();
+        ajaxResult.put("schools",qfUserFormService.selectQfUserFormList(new QfUserForm(id,null,null)));
+        ajaxResult.put("form",qfCreateFormService.selectQfCreateFormById(id));
+        return ajaxResult;
     }
 
 }
