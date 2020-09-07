@@ -1,6 +1,7 @@
 package com.ruoyi.survey.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
@@ -140,6 +141,6 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
             qfUserFormMapper.insertQfUserForm(qfUserForm);
         }
 
-        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(qfUserFormVo.getCreateId(),1));
+        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),1));
     }
 }
