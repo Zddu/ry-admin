@@ -128,6 +128,7 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     public int submitQfCreateForm(QfUserFormVo qfUserFormVo) {
         List<SysDept> deps=new ArrayList<>();
         List<SysUser> users =new ArrayList<>();
+        if (qfUserFormVo.getCreateId() ==null &&qfUserFormVo.getSchoolIds()==)
         for (Long schoolId:qfUserFormVo.getSchoolIds()) {
             //这里的userid是指前端传输的学校id
             deps.addAll(sysDeptMapper.selectChildrenDeptById(schoolId));
@@ -140,6 +141,6 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
             qfUserFormMapper.insertQfUserForm(qfUserForm);
         }
 
-        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(1));
+        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(qfUserFormVo.getCreateId(),1));
     }
 }

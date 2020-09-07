@@ -95,7 +95,8 @@ public class QfCreateForm implements Serializable
     public QfCreateForm() {
     }
 
-    public QfCreateForm(Integer state) {
+    public QfCreateForm(Long id,Integer state) {
+        this.id = id;
         this.state = state;
     }
 }
