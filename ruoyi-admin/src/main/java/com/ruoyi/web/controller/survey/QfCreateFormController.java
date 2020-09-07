@@ -127,7 +127,7 @@ public class QfCreateFormController extends BaseController {
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export/{id}")
     public void exportDetail(HttpServletResponse response,@PathVariable("id") Long id) {
-         qfKeyNameService.selectQfKeyNameByFormId(response,id);
+         qfKeyNameService.export(response,id);
 
     }
     /**
@@ -167,7 +167,7 @@ public class QfCreateFormController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('')")
     @GetMapping("/")
-    public AjaxResult edit(@RequestParam Long id) throws ParseException {
+    public AjaxResult edit(@RequestParam Long id) {
         AjaxResult ajaxResult = AjaxResult.success();
         ajaxResult.put("schools",qfUserFormService.selectQfUserFormList(new QfUserForm(id,null,null)));
         ajaxResult.put("form",qfCreateFormService.selectQfCreateFormById(id));

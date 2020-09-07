@@ -21,7 +21,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectQfUserFormVo"/>
         <where>  
             <if test="createId != null "> and create_id = #{createId}</if>
-            <if test="commitUser != null  and commitUser != ''"> and commit_user = #{commitUser}</if>
 
         </where>
     </select>
@@ -35,14 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into qf_school_form
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createId != null">create_id,</if>
-            <if test="commitUser != null and commitUser != ''">commit_user,</if>
+
             <if test="createTime != null">create_time,</if>
             <if test="userId != null">user_id,</if>
             <if test="state != null">state,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="createId != null">#{createId},</if>
-            <if test="commitUser != null and commitUser != ''">#{commitUser},</if>
+
             <if test="createTime != null">#{createTime},</if>
             <if test="userId != null">#{userId},</if>
             <if test="state != null">#{state},</if>
@@ -53,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update qf_school_form
         <trim prefix="SET" suffixOverrides=",">
             <if test="createId != null">create_id = #{createId},</if>
-            <if test="commitUser != null and commitUser != ''">commit_user = #{commitUser},</if>
+
             <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where id = #{id}

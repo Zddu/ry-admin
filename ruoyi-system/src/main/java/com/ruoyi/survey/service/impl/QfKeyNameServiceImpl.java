@@ -84,7 +84,7 @@ public class QfKeyNameServiceImpl implements IQfKeyNameService
     }
 
     @Override
-    public void selectQfKeyNameByFormId(HttpServletResponse response,Long id) {
+    public void export(HttpServletResponse response,Long id) {
         List<QfKeyName> qfKeyNames=qfKeyNameMapper.selectQfKeyNameByFormId(id);
         StringBuffer sb =new StringBuffer();
         for (QfKeyName qfKeyName : qfKeyNames) {

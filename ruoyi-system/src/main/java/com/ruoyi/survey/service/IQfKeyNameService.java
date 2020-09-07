@@ -56,5 +56,7 @@ public interface IQfKeyNameService
 
 
 
-   void selectQfKeyNameByFormId(HttpServletResponse response,Long id);
+
+
+    void export(HttpServletResponse response, Long id);
 }
