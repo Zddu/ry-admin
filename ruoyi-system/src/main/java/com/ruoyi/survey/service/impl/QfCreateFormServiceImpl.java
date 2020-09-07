@@ -129,7 +129,6 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Transactional(rollbackFor = Exception.class)
     public int submitQfCreateForm(QfUserFormVo qfUserFormVo) {
         for (SchoolVO school:qfUserFormVo.getSchools()) {
-            System.out.println(school.getSchoolId());
             qfUserFormMapper.insertQfUserForm(new QfUserForm(qfUserFormVo.getCreateId(),school.getSchoolName(),school.getSchoolId()));
         }
         return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),1));

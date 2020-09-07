@@ -34,6 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into qf_school_form
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createId != null">create_id,</if>
+            <if test="schoolId != null">school_id,</if>
+            <if test="schoolName != null">school_name,</if>
 
             <if test="createTime != null">create_time,</if>
 
@@ -41,7 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="createId != null">#{createId},</if>
-
+            <if test="schoolId != null">#{schoolId},</if>
+            <if test="schoolName != null">#{schoolName},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="state != null">#{state},</if>
          </trim>
