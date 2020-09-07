@@ -165,8 +165,8 @@ public class QfCreateFormController extends BaseController {
     /**
      * 问卷详情
      */
-    @PreAuthorize("@ss.hasPermi('')")
-    @GetMapping("/")
+    @PreAuthorize("@ss.hasPermi('survey:list:detail')")
+    @GetMapping("/detail")
     public AjaxResult edit(@RequestParam Long id) {
         AjaxResult ajaxResult = AjaxResult.success();
         ajaxResult.put("schools",qfUserFormService.selectQfUserFormList(new QfUserForm(id,null,null)));
