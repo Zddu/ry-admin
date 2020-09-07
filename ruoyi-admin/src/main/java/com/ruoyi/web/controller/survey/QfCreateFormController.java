@@ -102,7 +102,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 发布问卷
      */
-    @PreAuthorize("@ss.hasPermi('survey:create:out')")
+    @PreAuthorize("@ss.hasPermi('survey:list:out')")
     @Log(title = "发布问卷", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody QfUserFormVo qfUserFormVo) {
@@ -111,7 +111,6 @@ public class QfCreateFormController extends BaseController
     /**
      * 返回学校列表
      */
-    @PreAuthorize("@ss.hasPermi('survey:create:list')")
     @GetMapping("/listSchool")
     public AjaxResult listSchool() {
         AjaxResult success = AjaxResult.success();
@@ -121,12 +120,11 @@ public class QfCreateFormController extends BaseController
     /**
      * 删除已上传问卷
      */
-    @PreAuthorize("@ss.hasPermi('survey:create:remove')")
+    @PreAuthorize("@ss.hasPermi('survey:list:remove')")
     @Log(title = "删除已上传问卷", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(qfCreateFormService.deleteQfCreateFormByIds(ids));
     }
-
 
 }
