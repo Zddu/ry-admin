@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="creator"    column="creator"    />
         <result property="endTime"    column="end_time"    />
+        <result property="hoTime"    column="end_time"    />
     </resultMap>
 
     <sql id="selectQfCreateFormVo">
@@ -65,6 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="creator != null">creator = #{creator},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="state != null">state = #{state},</if>
+            <if test="hoTime != null">ho_hime = #{hoTime},</if>
         </trim>
         where id = #{id}
     </update>
