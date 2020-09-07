@@ -29,6 +29,16 @@ public class QfCreateForm implements Serializable
     /** $column.columnComment */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date hoTime;
+
+    public Date getHoTime() {
+        return hoTime;
+    }
+
+    public void setHoTime(Date hoTime) {
+        hoTime = hoTime;
+    }
 
     public Integer getState() {
         return state;
@@ -95,8 +105,9 @@ public class QfCreateForm implements Serializable
     public QfCreateForm() {
     }
 
-    public QfCreateForm(Long id,Integer state) {
+    public QfCreateForm(Date hoTime,Long id,Integer state) {
         this.id = id;
         this.state = state;
+        this.hoTime = hoTime;
     }
 }

@@ -1,11 +1,13 @@
 package com.ruoyi.survey.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
@@ -21,6 +23,7 @@ import com.ruoyi.survey.mapper.QfCreateFormMapper;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.service.IQfCreateFormService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -128,7 +131,9 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     public int submitQfCreateForm(QfUserFormVo qfUserFormVo) {
         List<SysDept> deps=new ArrayList<>();
         List<SysUser> users =new ArrayList<>();
-
+        if (ObjectUtils.isEmpty(qfUserFormVo.getCreateId())||ObjectUtils.isEmpty(qfUserFormVo.getSchoolIds())){
+            throw new CustomException("参数为空");
+        }
         for (Long schoolId:qfUserFormVo.getSchoolIds()) {
             //这里的userid是指前端传输的学校id
             deps.addAll(sysDeptMapper.selectChildrenDeptById(schoolId));
@@ -141,6 +146,6 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
             qfUserFormMapper.insertQfUserForm(qfUserForm);
         }
 
-        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(qfUserFormVo.getCreateId(),1));
+        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),1));
     }
 }
