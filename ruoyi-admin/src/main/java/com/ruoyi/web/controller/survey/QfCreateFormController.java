@@ -111,7 +111,6 @@ public class QfCreateFormController extends BaseController
      * 返回学校列表
      */
     @PreAuthorize("@ss.hasPermi('survey:create:list')")
-    @Log(title = "发布问卷", businessType = BusinessType.UPDATE)
     @GetMapping("/listSchool")
     public AjaxResult listSchool() {
         AjaxResult success = AjaxResult.success();
