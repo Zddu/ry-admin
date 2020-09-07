@@ -10,6 +10,7 @@ import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.survey.domain.QfUserForm;
+import com.ruoyi.survey.domain.vo.QfUserFormVo;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -104,8 +105,8 @@ public class QfCreateFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:create:edit')")
     @Log(title = "发布问卷", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody List<QfUserForm> qfCreateForms) {
-        return toAjax(qfCreateFormService.submitQfCreateForm(qfCreateForms));
+    public AjaxResult edit(@RequestBody QfUserFormVo qfUserFormVo) {
+        return toAjax(qfCreateFormService.submitQfCreateForm(qfUserFormVo));
     }
     /**
      * 返回学校列表

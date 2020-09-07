@@ -3,6 +3,7 @@ package com.ruoyi.survey.service;
 import java.util.List;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.domain.QfUserForm;
+import com.ruoyi.survey.domain.vo.QfUserFormVo;
 
 /**
  * 【请填写功能名称】Service接口
@@ -60,5 +61,5 @@ public interface IQfCreateFormService
 
     List<QfCreateForm> selectQfCreateFormByUsername(String username, QfCreateForm qfCreateForm);
 
-    int submitQfCreateForm(List<QfUserForm> ids);
+    int submitQfCreateForm(QfUserFormVo qfUserFormVo);
 }

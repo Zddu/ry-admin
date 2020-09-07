@@ -11,8 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author Zddeä¸¶
  * @date 2020-09-06
  */
-public class QfUserForm extends BaseEntity
-{
+public class QfUserForm extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
