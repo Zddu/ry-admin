@@ -42,30 +42,6 @@ public class QfCreateFormController extends BaseController {
     @Autowired
     private ISysDeptService deptService;
     /**
-     * 查询【请填写功能名称】列表
-     */
-//    @PreAuthorize("@ss.hasPermi('survey:create:list')")
-//    @GetMapping("/list")
-//    public TableDataInfo list(QfCreateForm qfCreateForm)
-//    {
-//        startPage();
-//        List<QfCreateForm> list = qfCreateFormService.selectQfCreateFormList(qfCreateForm);
-//        return getDataTable(list);
-//    }
-
-    /**
-     * 导出【请填写功能名称】列表
-     */
-    @PreAuthorize("@ss.hasPermi('survey:create:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
-    @GetMapping("/export")
-    public AjaxResult export(QfCreateForm qfCreateForm) {
-        List<QfCreateForm> list = qfCreateFormService.selectQfCreateFormList(qfCreateForm);
-        ExcelUtil<QfCreateForm> util = new ExcelUtil<QfCreateForm>(QfCreateForm.class);
-        return util.exportExcel(list, "form");
-    }
-
-    /**
      * 获取已创建问卷详细信息
      */
     @PreAuthorize("@ss.hasPermi('survey:create:list')")
