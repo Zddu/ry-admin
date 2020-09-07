@@ -11,11 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="creator"    column="creator"    />
         <result property="endTime"    column="end_time"    />
-        <result property="hoTime"    column="end_time"    />
+        <result property="hoTime"    column="ho_time"    />
     </resultMap>
 
     <sql id="selectQfCreateFormVo">
-        select id, json_data, create_time,title,creator, end_time from qf_create_form
+        select id, json_data, create_time,title,creator,ho_time, end_time from qf_create_form
     </sql>
 
     <select id="selectQfCreateFormList" parameterType="com.ruoyi.survey.domain.QfCreateForm" resultMap="QfCreateFormResult">

@@ -2,6 +2,7 @@ package com.ruoyi.survey.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,11 +87,10 @@ public class QfKeyNameServiceImpl implements IQfKeyNameService
     @Override
     public void export(HttpServletResponse response,Long id) {
         List<QfKeyName> qfKeyNames=qfKeyNameMapper.selectQfKeyNameByFormId(id);
+        Map<String,Object> dataMap =new HashMap<String, Object>();
         StringBuffer sb =new StringBuffer();
-        for (QfKeyName qfKeyName : qfKeyNames) {
-            sb.append(qfKeyName.getName()+",");
-        }
-        sb.deleteCharAt(sb.length()-1);
+
+
 
 
     }

@@ -280,33 +280,23 @@
                ss:DefaultColumnWidth="48.6" ss:DefaultRowHeight="14.4">
             <Column ss:Index="1" ss:StyleID="Default" ss:AutoFitWidth="0" ss:Width="90.3" ss:Span="3"/>
             <Row ss:Height="14">
-                <Cell ss:StyleID="s50">
-                    <Data ss:Type="String">标题</Data>
-                </Cell>
-                <Cell ss:StyleID="s50">
-                    <Data ss:Type="String">截止时间</Data>
-                </Cell>
-                <Cell ss:StyleID="s50">
-                    <Data ss:Type="String">创建时间</Data>
-                </Cell>
-                <Cell ss:StyleID="s50">
-                    <Data ss:Type="String">状态</Data>
-                </Cell>
+                <#list titleList as title>
+                    <Cell ss:StyleID="s50">
+                        <Data ss:Type="String">${title!''}</Data>
+                    </Cell>
+                </#list>
             </Row>
-            <Row ss:Height="14">
-                <Cell ss:StyleID="s51">
-                    <Data ss:Type="String">测试题目测试题目测试题目测试题目测试题目测试题目</Data>
-                </Cell>
-                <Cell ss:StyleID="s51">
-                    <Data ss:Type="String">2020-09-08 00:00:00</Data>
-                </Cell>
-                <Cell ss:StyleID="s51">
-                    <Data ss:Type="String">2020-09-06 15:36:07</Data>
-                </Cell>
-                <Cell ss:StyleID="s51">
-                    <Data ss:Type="String">已发布</Data>
-                </Cell>
-            </Row>
+            <#list contentList as content>
+                <Row ss:Height="14">
+                    <#list content.list as attribute>
+                        <Cell ss:StyleID="s51">
+                            <Data ss:Type="String">${attribute}</Data>
+                        </Cell>
+                    </#list>
+
+                </Row>
+            </#list>
+
             <Row ss:Height="14" ss:Span="1"/>
         </Table>
         <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
