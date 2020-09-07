@@ -87,6 +87,7 @@ public class QfCreateFormController extends BaseController
         QfCreateForm qfCreateForm=new QfCreateForm();
         qfCreateForm.setStrData(strData);
         qfCreateForm.setTitle(title);
+        qfCreateForm.setCreateTime(new Date());
         qfCreateForm.setCreator(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
         qfCreateForm.setEndTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime));
 
