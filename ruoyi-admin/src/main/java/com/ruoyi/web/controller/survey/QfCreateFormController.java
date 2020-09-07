@@ -113,7 +113,17 @@ public class QfCreateFormController extends BaseController {
         ExcelUtil<QfCreateForm> util = new ExcelUtil<>(QfCreateForm.class);
         return util.exportExcel(qfCreateForms, "创建问卷");
     }
-
+    /**
+     * 导出问卷明细
+     */
+    @Log(title = "导出问卷明细", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('survey:list:export')")
+    @GetMapping("/export")
+    public AjaxResult exportDetail() {
+        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(), new QfCreateForm());
+        ExcelUtil<QfCreateForm> util = new ExcelUtil<>(QfCreateForm.class);
+        return util.exportExcel(qfCreateForms, "创建问卷");
+    }
     /**
      * 返回编辑信息
      */
