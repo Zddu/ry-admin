@@ -42,7 +42,7 @@ public class QfCreateForm implements Serializable
     }
 
     public void setHoTime(Date hoTime) {
-        hoTime = hoTime;
+        this.hoTime = hoTime;
     }
 
     public Integer getState() {
