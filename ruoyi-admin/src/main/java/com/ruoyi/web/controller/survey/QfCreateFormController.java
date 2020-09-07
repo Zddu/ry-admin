@@ -28,14 +28,13 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 【请填写功能名称】Controller
- * 
+ *
  * @author Zddeä¸¶
  * @date 2020-09-06
  */
 @RestController
 @RequestMapping("/survey/create")
-public class QfCreateFormController extends BaseController
-{
+public class QfCreateFormController extends BaseController {
     @Autowired
     private IQfCreateFormService qfCreateFormService;
     @Autowired
@@ -60,8 +59,7 @@ public class QfCreateFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:create:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(QfCreateForm qfCreateForm)
-    {
+    public AjaxResult export(QfCreateForm qfCreateForm) {
         List<QfCreateForm> list = qfCreateFormService.selectQfCreateFormList(qfCreateForm);
         ExcelUtil<QfCreateForm> util = new ExcelUtil<QfCreateForm>(QfCreateForm.class);
         return util.exportExcel(list, "form");
@@ -74,7 +72,7 @@ public class QfCreateFormController extends BaseController
     @GetMapping("/list")
     public TableDataInfo getInfo(QfCreateForm qfCreateForm) {
         startPage();
-        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(),qfCreateForm);
+        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(), qfCreateForm);
         return getDataTable(qfCreateForms);
     }
 
@@ -84,11 +82,11 @@ public class QfCreateFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "上传问卷", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    public AjaxResult add(@RequestParam String endTime,@RequestParam String title ,@RequestBody String strData) throws ParseException {
-        if (endTime==null||title==null||strData==null){
+    public AjaxResult add(@RequestParam String endTime, @RequestParam String title, @RequestBody String strData) throws ParseException {
+        if (endTime == null || title == null || strData == null) {
             return AjaxResult.error("请填写必填数据");
         }
-        QfCreateForm qfCreateForm=new QfCreateForm();
+        QfCreateForm qfCreateForm = new QfCreateForm();
         qfCreateForm.setStrData(strData);
         qfCreateForm.setTitle(title);
         qfCreateForm.setCreateTime(new Date());
@@ -107,33 +105,35 @@ public class QfCreateFormController extends BaseController
     public AjaxResult edit(@RequestBody QfUserFormVo qfUserFormVo) {
         return toAjax(qfCreateFormService.submitQfCreateForm(qfUserFormVo));
     }
+
     /**
      * 返回学校列表
      */
     @GetMapping("/listSchool")
     public AjaxResult listSchool() {
         AjaxResult success = AjaxResult.success();
-        success.put("schools",deptService.selectSchoolList());
+        success.put("schools", deptService.selectSchoolList());
         return success;
     }
+
     /**
      * 删除已上传问卷
      */
     @PreAuthorize("@ss.hasPermi('survey:list:remove')")
     @Log(title = "删除已上传问卷", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
+    @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(qfCreateFormService.deleteQfCreateFormByIds(ids));
     }
+
     /**
      * 导出创建问卷
      */
     @Log(title = "导出创建问卷", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('survey:create:export')")
+    @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export")
-    public AjaxResult export()
-    {
-         List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(),null);
+    public AjaxResult export() {
+        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(), null);
         ExcelUtil<QfCreateForm> util = new ExcelUtil<>(QfCreateForm.class);
         return util.exportExcel(qfCreateForms, "创建问卷");
     }
