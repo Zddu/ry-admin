@@ -46,12 +46,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="creator != null">creator,</if>
             <if test="endTime != null">end_time,</if>
+            <if test="title != null">title,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="strData != null and strData != ''">#{strData},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="creator != null">#{creator},</if>
             <if test="endTime != null">#{endTime},</if>
+            <if test="title != null">#{title},</if>
          </trim>
     </insert>
 
