@@ -102,7 +102,7 @@ public class QfCreateFormController extends BaseController
     /**
      * 发布问卷
      */
-    @PreAuthorize("@ss.hasPermi('survey:create:edit')")
+    @PreAuthorize("@ss.hasPermi('survey:create:out')")
     @Log(title = "发布问卷", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody QfUserFormVo qfUserFormVo) {
