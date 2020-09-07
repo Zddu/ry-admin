@@ -64,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="creator != null">creator = #{creator},</if>
             <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="state != null">state = #{state},</if>
         </trim>
         where id = #{id}
     </update>
