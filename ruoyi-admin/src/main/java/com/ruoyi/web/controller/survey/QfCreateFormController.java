@@ -10,6 +10,8 @@ import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.survey.domain.QfUserForm;
+import com.ruoyi.system.domain.SysPost;
+import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,6 +39,8 @@ public class QfCreateFormController extends BaseController
     private IQfCreateFormService qfCreateFormService;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private ISysDeptService deptService;
     /**
      * 查询【请填写功能名称】列表
      */
@@ -103,7 +107,17 @@ public class QfCreateFormController extends BaseController
     public AjaxResult edit(@RequestBody List<QfUserForm> qfCreateForms) {
         return toAjax(qfCreateFormService.submitQfCreateForm(qfCreateForms));
     }
-
+    /**
+     * 返回学校列表
+     */
+    @PreAuthorize("@ss.hasPermi('survey:create:list')")
+    @Log(title = "发布问卷", businessType = BusinessType.UPDATE)
+    @GetMapping("/listSchool")
+    public AjaxResult listSchool() {
+        AjaxResult success = AjaxResult.success();
+        success.put("schools",deptService.selectSchoolList());
+        return success;
+    }
     /**
      * 删除已上传问卷
      */
@@ -113,4 +127,6 @@ public class QfCreateFormController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(qfCreateFormService.deleteQfCreateFormByIds(ids));
     }
+
+
 }

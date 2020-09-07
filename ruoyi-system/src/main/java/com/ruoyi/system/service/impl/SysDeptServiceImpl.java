@@ -255,6 +255,11 @@ public class SysDeptServiceImpl implements ISysDeptService
         return deptMapper.deleteDeptById(deptId);
     }
 
+    @Override
+    public List<SysDept> selectSchoolList() {
+        return deptMapper.selectSchoolList();
+    }
+
     /**
      * 递归列表
      */
