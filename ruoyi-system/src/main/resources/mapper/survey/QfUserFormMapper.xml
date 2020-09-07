@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.survey.domain.QfUserForm" id="QfUserFormResult">
         <result property="id"    column="id"    />
         <result property="createId"    column="create_id"    />
-        <result property="deptId"    column="dept_id"    />
+        <result property="userId"    column="user_id"    />
         <result property="commitUser"    column="commit_user"    />
         <result property="key"    column="key"    />
         <result property="value"    column="value"    />
@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectQfUserFormVo">
-        select id, create_id, commit_user, dept_id,key, value,state ,create_time from qf_user_form
+        select id, create_id, commit_user, user_id,key, value,state ,create_time from qf_user_form
     </sql>
 
     <select id="selectQfUserFormList" parameterType="com.ruoyi.survey.domain.QfUserForm" resultMap="QfUserFormResult">
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="key != null and key != ''">qf_user_form.key,</if>
             <if test="value != null">qf_user_form.value,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="deptId != null">dept_id,</if>
+            <if test="userId != null">user_id,</if>
             <if test="state != null">state,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="key != null and key != ''">#{key},</if>
             <if test="value != null">#{value},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="deptId != null">#{deptId},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="state != null">#{state},</if>
          </trim>
     </insert>
