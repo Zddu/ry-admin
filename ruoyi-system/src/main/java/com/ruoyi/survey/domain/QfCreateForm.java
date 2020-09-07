@@ -3,6 +3,7 @@ package com.ruoyi.survey.domain;
 import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.annotation.Excel;
 
 
 /**
@@ -15,6 +16,7 @@ public class QfCreateForm implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name ="创建时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     /** $column.columnComment */
     private Long id;
@@ -24,10 +26,13 @@ public class QfCreateForm implements Serializable
 
     /** 创建者 */
     private String creator;
+    @Excel(name ="状态",readConverterExp = "0=未发布,1=已发布")
     private Integer state;
+    @Excel(name ="标题")
     private String title;
     /** $column.columnComment */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name ="截止时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date hoTime;
