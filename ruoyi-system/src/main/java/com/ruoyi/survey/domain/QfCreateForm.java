@@ -3,10 +3,7 @@ package com.ruoyi.survey.domain;
 import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
+
 
 /**
  * 【请填写功能名称】对象 qf_create_form
@@ -27,11 +24,20 @@ public class QfCreateForm implements Serializable
 
     /** 创建者 */
     private String creator;
-
+    private Integer state;
     private String title;
     /** $column.columnComment */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     public void setId(Long id)
     {
         this.id = id;
@@ -86,5 +92,10 @@ public class QfCreateForm implements Serializable
         return endTime;
     }
 
+    public QfCreateForm() {
+    }
 
+    public QfCreateForm(Integer state) {
+        this.state = state;
+    }
 }

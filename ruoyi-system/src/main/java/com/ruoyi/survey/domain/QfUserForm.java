@@ -34,7 +34,27 @@ public class QfUserForm extends BaseEntity
     @Excel(name = "用户提交答案")
     private String value;
 
-    public void setId(Long id) 
+    private Integer deptId;
+
+    private Integer state;
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

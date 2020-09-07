@@ -9,6 +9,9 @@ import java.util.logging.SimpleFormatter;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
+import com.ruoyi.survey.domain.QfUserForm;
+import com.ruoyi.system.domain.SysPost;
+import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,6 +39,8 @@ public class QfCreateFormController extends BaseController
     private IQfCreateFormService qfCreateFormService;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private ISysDeptService deptService;
     /**
      * 查询【请填写功能名称】列表
      */
@@ -94,24 +99,34 @@ public class QfCreateFormController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 发布问卷
      */
     @PreAuthorize("@ss.hasPermi('survey:create:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "发布问卷", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody QfCreateForm qfCreateForm)
-    {
-        return toAjax(qfCreateFormService.updateQfCreateForm(qfCreateForm));
+    public AjaxResult edit(@RequestBody List<QfUserForm> qfCreateForms) {
+        return toAjax(qfCreateFormService.submitQfCreateForm(qfCreateForms));
     }
-
     /**
-     * 删除【请填写功能名称】
+     * 返回学校列表
+     */
+    @PreAuthorize("@ss.hasPermi('survey:create:list')")
+    @Log(title = "发布问卷", businessType = BusinessType.UPDATE)
+    @GetMapping("/listSchool")
+    public AjaxResult listSchool() {
+        AjaxResult success = AjaxResult.success();
+        success.put("schools",deptService.selectSchoolList());
+        return success;
+    }
+    /**
+     * 删除已上传问卷
      */
     @PreAuthorize("@ss.hasPermi('survey:create:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除已上传问卷", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(qfCreateFormService.deleteQfCreateFormByIds(ids));
     }
+
+
 }
