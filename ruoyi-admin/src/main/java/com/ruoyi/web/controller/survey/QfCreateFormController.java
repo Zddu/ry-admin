@@ -109,7 +109,7 @@ public class QfCreateFormController extends BaseController {
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export")
     public AjaxResult export() {
-        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(), null);
+        List<QfCreateForm> qfCreateForms = qfCreateFormService.selectQfCreateFormByUsername(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername(), new QfCreateForm());
         ExcelUtil<QfCreateForm> util = new ExcelUtil<>(QfCreateForm.class);
         return util.exportExcel(qfCreateForms, "创建问卷");
     }
