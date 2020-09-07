@@ -4,20 +4,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.survey.mapper.QfUserFormMapper">
     
-    <resultMap type="QfUserForm" id="QfUserFormResult">
+    <resultMap type="com.ruoyi.survey.domain.QfUserForm" id="QfUserFormResult">
         <result property="id"    column="id"    />
         <result property="createId"    column="create_id"    />
+        <result property="deptId"    column="dept_id"    />
         <result property="commitUser"    column="commit_user"    />
         <result property="key"    column="key"    />
         <result property="value"    column="value"    />
+        <result property="state"    column="state"    />
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectQfUserFormVo">
-        select id, create_id, commit_user, key, value, create_time from qf_user_form
+        select id, create_id, commit_user, dept_id,key, value,state ,create_time from qf_user_form
     </sql>
 
-    <select id="selectQfUserFormList" parameterType="QfUserForm" resultMap="QfUserFormResult">
+    <select id="selectQfUserFormList" parameterType="com.ruoyi.survey.domain.QfUserForm" resultMap="QfUserFormResult">
         <include refid="selectQfUserFormVo"/>
         <where>  
             <if test="createId != null "> and create_id = #{createId}</if>
@@ -32,14 +34,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertQfUserForm" parameterType="QfUserForm" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertQfUserForm" parameterType="com.ruoyi.survey.domain.QfUserForm" useGeneratedKeys="true" keyProperty="id">
         insert into qf_user_form
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createId != null">create_id,</if>
             <if test="commitUser != null and commitUser != ''">commit_user,</if>
-            <if test="key != null and key != ''">key,</if>
-            <if test="value != null">value,</if>
+            <if test="key != null and key != ''">qf_user_form.key,</if>
+            <if test="value != null">qf_user_form.value,</if>
             <if test="createTime != null">create_time,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="state != null">state,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="createId != null">#{createId},</if>
@@ -47,10 +51,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="key != null and key != ''">#{key},</if>
             <if test="value != null">#{value},</if>
             <if test="createTime != null">#{createTime},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="state != null">#{state},</if>
          </trim>
     </insert>
 
-    <update id="updateQfUserForm" parameterType="QfUserForm">
+    <update id="updateQfUserForm" parameterType="com.ruoyi.survey.domain.QfUserForm">
         update qf_user_form
         <trim prefix="SET" suffixOverrides=",">
             <if test="createId != null">create_id = #{createId},</if>

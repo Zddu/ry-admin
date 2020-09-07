@@ -42,15 +42,8 @@ public interface QfCreateFormMapper
      * @param qfCreateForm 【请填写功能名称】
      * @return 结果
      */
-    public int updateQfCreateForm(QfCreateForm qfCreateForm);
+     int updateQfCreateForm(QfCreateForm qfCreateForm);
 
-    /**
-     * 删除【请填写功能名称】
-     * 
-     * @param id 【请填写功能名称】ID
-     * @return 结果
-     */
-    public int deleteQfCreateFormById(Long id);
 
     /**
      * 批量删除【请填写功能名称】
@@ -58,7 +51,7 @@ public interface QfCreateFormMapper
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteQfCreateFormByIds(Long[] ids);
+    int deleteQfCreateFormByIds(Long[] ids);
 
     List<QfCreateForm> selectQfCreateFormByUsername(@Param("username") String username,@Param("qfCreateForm") QfCreateForm qfCreateForm);
 }

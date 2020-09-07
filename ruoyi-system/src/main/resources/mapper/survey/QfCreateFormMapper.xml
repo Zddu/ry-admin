@@ -66,9 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteQfCreateFormById" parameterType="Long">
-        delete from qf_create_form where id = #{id}
-    </delete>
+
 
     <delete id="deleteQfCreateFormByIds" parameterType="String">
         delete from qf_create_form where id in 

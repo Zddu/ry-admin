@@ -2,6 +2,7 @@ package com.ruoyi.survey.service;
 
 import java.util.List;
 import com.ruoyi.survey.domain.QfCreateForm;
+import com.ruoyi.survey.domain.QfUserForm;
 
 /**
  * 【请填写功能名称】Service接口
@@ -51,17 +52,13 @@ public interface IQfCreateFormService
      */
     public int deleteQfCreateFormByIds(Long[] ids);
 
-    /**
-     * 删除【请填写功能名称】信息
-     * 
-     * @param id 【请填写功能名称】ID
-     * @return 结果
-     */
-    public int deleteQfCreateFormById(Long id);
+
 
 
 
     int insertQuestionnaire(QfCreateForm qfCreateForm);
 
     List<QfCreateForm> selectQfCreateFormByUsername(String username, QfCreateForm qfCreateForm);
+
+    int submitQfCreateForm(List<QfUserForm> qfCreateForms);
 }
