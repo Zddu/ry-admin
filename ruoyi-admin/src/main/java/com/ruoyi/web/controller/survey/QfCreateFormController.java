@@ -115,24 +115,23 @@ public class QfCreateFormController extends BaseController {
     }
 
     /**
-     * 编辑问卷
+     * 返回编辑信息
      */
-    @PreAuthorize("@ss.hasPermi('')")
-    @GetMapping("/")
-    public AjaxResult showEditQfCreateForm(Long id) {
+    @GetMapping("/get-edit-data/{id}")
+    public AjaxResult showEditQfCreateForm(@PathVariable Long id) {
         return AjaxResult.success(qfCreateFormService.selectQfCreateFormById(id));
     }
 
     /**
      * 修改问卷
      */
-    @PreAuthorize("@ss.hasPermi('')")
-    @Log(title = "上传问卷", businessType = BusinessType.INSERT)
-    @PutMapping("/edit/{id}/{endTime}/{title}")
+    @PreAuthorize("@ss.hasPermi('survey:list:edit')")
+    @Log(title = "修改问卷", businessType = BusinessType.UPDATE)
+    @PutMapping("/edit")
     public AjaxResult edit(
-            @PathVariable("id")Long id,
-            @PathVariable("endTime") String endTime,
-            @PathVariable("title") String title,
+            @RequestParam Long id,
+            @RequestParam String endTime,
+            @RequestParam String title,
             @RequestBody String strData) throws ParseException {
         QfCreateForm qfCreateForm = new QfCreateForm();
         qfCreateForm.setId(id);
