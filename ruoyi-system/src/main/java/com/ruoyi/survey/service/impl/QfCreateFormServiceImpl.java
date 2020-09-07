@@ -12,6 +12,7 @@ import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyNameVo;
 import com.ruoyi.survey.domain.vo.QfUserFormVo;
+import com.ruoyi.survey.domain.vo.SchoolVO;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
 import com.ruoyi.system.mapper.SysDeptMapper;
@@ -127,20 +128,9 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int submitQfCreateForm(QfUserFormVo qfUserFormVo) {
-        List<SysDept> deps=new ArrayList<>();
-        List<SysUser> users =new ArrayList<>();
-        for (Long schoolId:qfUserFormVo.getSchoolIds()) {
-            //这里的userid是指前端传输的学校id
-            deps.addAll(sysDeptMapper.selectChildrenDeptById(schoolId));
+        for (SchoolVO school:qfUserFormVo.getSchools()) {
+            qfUserFormMapper.insertQfUserForm(new QfUserForm(qfUserFormVo.getCreateId(),school.getSchoolName(),school.getSchoolId().intValue()));
         }
-        for (SysDept dep : deps) {
-            users.addAll(sysUserMapper.selectUserByDepId(dep.getDeptId()));
-        }
-        for (SysUser user : users) {
-            QfUserForm qfUserForm = new QfUserForm(qfUserFormVo.getCreateId(), user.getUserName(), user.getUserId().intValue());
-            qfUserFormMapper.insertQfUserForm(qfUserForm);
-        }
-
         return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),1));
     }
 }

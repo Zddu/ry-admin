@@ -158,4 +158,13 @@ public class QfCreateFormController extends BaseController {
         }
 
     }
+    /**
+     * 问卷详情
+     */
+    @PreAuthorize("@ss.hasPermi('')")
+    @GetMapping("/")
+    public AjaxResult edit(@RequestParam Long id) throws ParseException {
+        return AjaxResult.success();
+    }
+
 }

@@ -23,27 +23,15 @@ public class QfUserForm extends BaseEntity {
 
     /** 提交用户 */
     @Excel(name = "提交用户")
-    private String commitUser;
+    private String schoolName;
 
-    /** 题目对应的key */
-    @Excel(name = "题目对应的key")
-    private String key;
 
-    /** 用户提交答案 */
-    @Excel(name = "用户提交答案")
-    private String value;
 
-    private Integer userId;
+    private Integer schoolId;
 
     private Integer state;
 
-    public Integer getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public Integer getState() {
         return state;
@@ -71,41 +59,30 @@ public class QfUserForm extends BaseEntity {
     {
         return createId;
     }
-    public void setCommitUser(String commitUser)
-    {
-        this.commitUser = commitUser;
+
+    public String getSchoolName() {
+        return schoolName;
     }
 
-    public String getCommitUser() 
-    {
-        return commitUser;
-    }
-    public void setKey(String key) 
-    {
-        this.key = key;
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
-    public String getKey() 
-    {
-        return key;
-    }
-    public void setValue(String value) 
-    {
-        this.value = value;
+    public Integer getSchoolId() {
+        return schoolId;
     }
 
-    public String getValue() 
-    {
-        return value;
+    public void setSchoolId(Integer schoolId) {
+        this.schoolId = schoolId;
     }
 
     public QfUserForm() {
     }
 
-    public QfUserForm(Long createId, String commitUser, Integer userId) {
+    public QfUserForm(Long createId, String schoolName, Integer schoolId) {
         this.createId = createId;
-        this.commitUser = commitUser;
-        this.userId = userId;
+        this.schoolName = schoolName;
+        this.schoolId = schoolId;
     }
 
     @Override
@@ -113,9 +90,7 @@ public class QfUserForm extends BaseEntity {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("createId", getCreateId())
-            .append("commitUser", getCommitUser())
-            .append("key", getKey())
-            .append("value", getValue())
+
             .append("createTime", getCreateTime())
             .toString();
     }

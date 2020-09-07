@@ -6,6 +6,8 @@ import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.List;
+
 /**
  * 【请填写功能名称】对象 qf_user_form
  * 
@@ -15,6 +17,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Data
 public class QfUserFormVo {
     private Long createId;
-    private Long[] schoolIds;
+    private List<SchoolVO> schools;
 
 }
