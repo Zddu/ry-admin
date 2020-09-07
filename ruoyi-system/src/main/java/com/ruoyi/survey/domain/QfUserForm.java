@@ -34,16 +34,16 @@ public class QfUserForm extends BaseEntity
     @Excel(name = "用户提交答案")
     private String value;
 
-    private Integer deptId;
+    private Integer userId;
 
     private Integer state;
 
-    public Integer getDeptId() {
-        return deptId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getState() {
@@ -98,6 +98,15 @@ public class QfUserForm extends BaseEntity
     public String getValue() 
     {
         return value;
+    }
+
+    public QfUserForm() {
+    }
+
+    public QfUserForm(Long createId, String commitUser, Integer userId) {
+        this.createId = createId;
+        this.commitUser = commitUser;
+        this.userId = userId;
     }
 
     @Override
