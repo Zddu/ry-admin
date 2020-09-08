@@ -1,5 +1,7 @@
 package com.ruoyi.survey.util;
 
+import com.ruoyi.common.config.RuoYiConfig;
+import com.ruoyi.common.core.domain.AjaxResult;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.util.ResourceUtils;
@@ -18,17 +20,15 @@ public class ExcelUtil {
     private static Configuration configuration =null;
     private static Map<String, Template> allTemplates =null;
 
-    public static void exportExcel(Map<?, ?> dataMap,String templateName,HttpServletResponse response,String fileName){
+    public static AjaxResult exportExcel(Map<?, ?> dataMap,String templateName,String fileName) {
         byte[] excelByte = getExcelByte(dataMap, templateName);
-        response.setContentType("application/octet-stream");
-        try (ServletOutputStream outputStream = response.getOutputStream()) {
-            response.setHeader("Content-Disposition", "attachment; filename="  + URLEncoder.encode(fileName, "UTF-8"));
-            outputStream.write(excelByte);
-            outputStream.flush();
-        }catch (Exception e){
+        try {
+            new FileOutputStream(getAbsoluteFile(fileName)).write(excelByte);
+        } catch (IOException e) {
             e.printStackTrace();
+            return AjaxResult.error("文件创建失败");
         }
-
+        return AjaxResult.success(fileName);
     }
     private static byte[] getExcelByte(Map<?, ?> dataMap,String templateName){
         Template template =null;
@@ -54,6 +54,16 @@ public class ExcelUtil {
             throw new RuntimeException(e);
         }
         return bos.toByteArray();
+    }
+    private static String getAbsoluteFile(String filename)
+    {
+        String downloadPath = RuoYiConfig.getDownloadPath() + filename;
+        File desc = new File(downloadPath);
+        if (!desc.getParentFile().exists())
+        {
+            desc.getParentFile().mkdirs();
+        }
+        return downloadPath;
     }
 
 }
