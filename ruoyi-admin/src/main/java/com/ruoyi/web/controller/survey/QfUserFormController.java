@@ -37,7 +37,7 @@ public class QfUserFormController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('survey:form:list')")
     @GetMapping("/list")
-    public TableDataInfo list(QfUserForm qfUserForm)
+    public TableDataInfo list(QfUserForm qfUserForm,Long id)
     {
         startPage();
         List<QfUserForm> list = qfUserFormService.selectQfUserFormList(qfUserForm);
