@@ -60,5 +60,5 @@ public interface QfUserFormMapper
      */
     public int deleteQfUserFormByIds(Long[] ids);
 
-    QfUserForm selectQfSchoolFormList(@Param("id") Long id);
+    List<QfUserForm> selectQfSchoolFormList(@Param("id") Long id);
 }

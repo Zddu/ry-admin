@@ -103,7 +103,7 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     }
 
     @Override
-    public QfUserForm selectQfSchoolFormList(Long id) {
+    public List<QfUserForm> selectQfSchoolFormList(Long id) {
         return qfUserFormMapper.selectQfSchoolFormList(id);
     }
 
