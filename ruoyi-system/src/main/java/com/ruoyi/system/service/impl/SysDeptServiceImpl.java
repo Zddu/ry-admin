@@ -21,8 +21,7 @@ import com.ruoyi.system.service.ISysDeptService;
  * @author ruoyi
  */
 @Service
-public class SysDeptServiceImpl implements ISysDeptService
-{
+public class SysDeptServiceImpl implements ISysDeptService {
     @Autowired
     private SysDeptMapper deptMapper;
 
@@ -259,6 +258,13 @@ public class SysDeptServiceImpl implements ISysDeptService
     public List<SysDept> selectSchoolList() {
         return deptMapper.selectSchoolList();
     }
+
+    @Override
+    public Long selectParentDepByChildId(Long deptId) {
+
+        return deptMapper.selectParentDepByChildId(deptId);
+    }
+
 
     /**
      * 递归列表

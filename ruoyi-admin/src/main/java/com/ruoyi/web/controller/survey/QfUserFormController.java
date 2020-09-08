@@ -3,8 +3,11 @@ package com.ruoyi.web.controller.survey;
 import java.util.HashMap;
 import java.util.List;
 
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.service.IQfCreateFormService;
+import com.ruoyi.system.service.ISysDeptService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +33,25 @@ public class QfUserFormController extends BaseController
 {
     @Autowired
     private IQfUserFormService qfUserFormService;
-
+    @Autowired
+    private TokenService tokenService;
     @Autowired
     private IQfCreateFormService qfCreateFormService;
+    @Autowired
+    private ISysDeptService sysDeptService;
     /**
      * 查询【请填写功能名称】列表
      */
     @PreAuthorize("@ss.hasPermi('survey:form:list')")
     @GetMapping("/list")
-    public TableDataInfo list(QfUserForm qfUserForm,Long id)
+    public TableDataInfo list(QfUserForm qfUserForm)
     {
         startPage();
-        List<QfCreateForm> list = qfUserFormService.selectQfUserFormListBySId(qfUserForm,id);
+        List<QfCreateForm> list = qfUserFormService.
+                selectQfUserFormListBySId(
+                        qfUserForm,
+                        sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
+                        );
         return getDataTable(list);
     }
 

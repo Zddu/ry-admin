@@ -116,4 +116,6 @@ public interface SysDeptMapper
     public int deleteDeptById(Long deptId);
 
     List<SysDept> selectSchoolList();
+
+    Long selectParentDepByChildId(@Param("deptId") Long deptId);
 }

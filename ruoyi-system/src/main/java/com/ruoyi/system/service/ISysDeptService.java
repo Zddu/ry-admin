@@ -108,4 +108,6 @@ public interface ISysDeptService
     public int deleteDeptById(Long deptId);
 
     List<SysDept> selectSchoolList();
+
+    Long selectParentDepByChildId(Long deptId);
 }
