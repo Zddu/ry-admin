@@ -69,10 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="state == 3">
                     and end_time <![CDATA[ < ]]> now()
                 </if>
-                <if test="state==0 and state == 1 ">
+                <if test=" state !=2 and state !=3 ">
                     and state = #{state}
                 </if>
-
             </if>
         </where>
     </select>
