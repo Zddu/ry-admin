@@ -46,6 +46,7 @@ public class QfCreateFormController extends BaseController {
     private IQfKeyNameService qfKeyNameService;
     @Autowired
     private IQfUserFormService qfUserFormService;
+
     /**
      * 获取已创建问卷详细信息
      */
@@ -124,7 +125,7 @@ public class QfCreateFormController extends BaseController {
     @Log(title = "导出问卷明细", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export/{id}")
-    public void exportDetail(HttpServletResponse response,@PathVariable("id") Long id) {
+    public AjaxResult exportDetail(HttpServletResponse response,@PathVariable("id") Long id) {
         Map<String,List<String>> map=new HashMap<>();
         List<String> list=new ArrayList<>();
         List<QfKeyName> qfKeyNames = qfKeyNameService.selectQfKeyNameList(new QfKeyName().setCreateId(id));
@@ -132,10 +133,27 @@ public class QfCreateFormController extends BaseController {
             list.add(qfKeyName.getName());
         }
         map.put("titleList",list);
-        com.ruoyi.survey.util.ExcelUtil.exportExcel(
+       return com.ruoyi.survey.util.ExcelUtil.exportExcel(
                 map,
                 "test.ftl",
-                response,
+                qfCreateFormService.selectQfCreateFormById(id).getTitle()
+        );
+    }
+    /**
+     * 导出问卷明细
+     */
+    @Log(title = "导出已收集问卷", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('survey:list:export')")
+    @GetMapping("/export/{id}")
+    public AjaxResult exportCollected(HttpServletResponse response,@PathVariable("id") Long id) {
+        Map<String,List<String>> map=new HashMap<>();
+
+        List<QfKeyName> qfKeyNames = qfKeyNameService.selectQfKeyNameList(new QfKeyName().setCreateId(id));
+
+//       qfSchoolAnswerService.selectSchoolAnswerListByQfSchoolId()
+       return com.ruoyi.survey.util.ExcelUtil.exportExcel(
+                map,
+                "test.ftl",
                 qfCreateFormService.selectQfCreateFormById(id).getTitle()
         );
     }
