@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="qfCreateForm.state == 3">
                     and end_time <![CDATA[ < ]]> now()
                 </if>
-                <if test="qfCreateForm.state==0 or qfCreateForm.state == 1 ">
+                <if test="qfCreateForm.state == 0 or qfCreateForm.state == 1 ">
                     and state = #{qfCreateForm.state}
                 </if>
             </if>
