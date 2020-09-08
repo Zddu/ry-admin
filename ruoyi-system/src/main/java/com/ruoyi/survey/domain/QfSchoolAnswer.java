@@ -67,6 +67,15 @@ public class QfSchoolAnswer extends BaseEntity
         return value;
     }
 
+    public QfSchoolAnswer(Long qfSchoolId, String key, String value) {
+        this.qfSchoolId = qfSchoolId;
+        this.key = key;
+        this.value = value;
+    }
+
+    public QfSchoolAnswer() {
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

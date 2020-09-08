@@ -60,4 +60,6 @@ public interface IQfUserFormService
     public int deleteQfUserFormById(Long id);
 
     QfUserForm selectQfSchoolFormList(Long id);
+
+    int insertAnswer(String json, Long sid, Long cid);
 }

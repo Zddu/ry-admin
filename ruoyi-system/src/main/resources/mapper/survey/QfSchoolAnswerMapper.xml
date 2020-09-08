@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.survey.mapper.QfSchoolAnswerMapper">
     
-    <resultMap type="QfSchoolAnswer" id="QfSchoolAnswerResult">
+    <resultMap type="com.ruoyi.survey.domain.QfSchoolAnswer" id="QfSchoolAnswerResult">
         <result property="id"    column="id"    />
         <result property="qfSchoolId"    column="qf_school_id"    />
         <result property="key"    column="key"    />
@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, qf_school_id, key, value from qf_school_answer
     </sql>
 
-    <select id="selectQfSchoolAnswerList" parameterType="QfSchoolAnswer" resultMap="QfSchoolAnswerResult">
+    <select id="selectQfSchoolAnswerList" parameterType="com.ruoyi.survey.domain.QfSchoolAnswer" resultMap="QfSchoolAnswerResult">
         <include refid="selectQfSchoolAnswerVo"/>
         <where>  
             <if test="qfSchoolId != null "> and qf_school_id = #{qfSchoolId}</if>
@@ -28,8 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectQfSchoolAnswerVo"/>
         where id = #{id}
     </select>
+    <select id="selectQfSchoolAnswerListBySId"  resultMap="QfSchoolAnswerResult">
         
-    <insert id="insertQfSchoolAnswer" parameterType="QfSchoolAnswer" useGeneratedKeys="true" keyProperty="id">
+    </select>
+
+    <insert id="insertQfSchoolAnswer" parameterType="com.ruoyi.survey.domain.QfSchoolAnswer" useGeneratedKeys="true" keyProperty="id">
         insert into qf_school_answer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="qfSchoolId != null">qf_school_id,</if>
@@ -43,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateQfSchoolAnswer" parameterType="QfSchoolAnswer">
+    <update id="updateQfSchoolAnswer" parameterType="com.ruoyi.survey.domain.QfSchoolAnswer">
         update qf_school_answer
         <trim prefix="SET" suffixOverrides=",">
             <if test="qfSchoolId != null">qf_school_id = #{qfSchoolId},</if>

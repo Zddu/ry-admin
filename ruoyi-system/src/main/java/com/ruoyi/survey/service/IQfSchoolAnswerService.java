@@ -58,4 +58,6 @@ public interface IQfSchoolAnswerService
      * @return 结果
      */
     public int deleteQfSchoolAnswerById(Long id);
+
+    List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid);
 }

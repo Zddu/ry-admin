@@ -1,12 +1,21 @@
 package com.ruoyi.survey.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.survey.domain.QfKeyName;
+import com.ruoyi.survey.domain.QfSchoolAnswer;
+import com.ruoyi.survey.mapper.QfSchoolAnswerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.service.IQfUserFormService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -18,7 +27,8 @@ import com.ruoyi.survey.service.IQfUserFormService;
 public class QfUserFormServiceImpl implements IQfUserFormService {
     @Autowired
     private QfUserFormMapper qfUserFormMapper;
-
+    @Autowired
+    private QfSchoolAnswerMapper qfSchoolAnswerMapper;
     /**
      * 查询【请填写功能名称】
      * 
@@ -95,5 +105,23 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     @Override
     public QfUserForm selectQfSchoolFormList(Long id) {
         return qfUserFormMapper.selectQfSchoolFormList(id);
+    }
+
+    @Override
+    @Transactional
+    public int insertAnswer(String json, Long sid, Long cid) {
+        QfUserForm qfUserForm = new QfUserForm(new Date(), 1);
+        int result =qfUserFormMapper.updateQfUserForm(qfUserForm);
+
+        Map parse = JSON.parseObject(json, Map.class);
+        List<QfSchoolAnswer> keyNames=new ArrayList<>();
+
+        for (Object o : parse.keySet()) {
+            keyNames.add(new QfSchoolAnswer(qfUserForm.getId(),String.valueOf(o),String.valueOf(parse.get(o))));
+        }
+        for (QfSchoolAnswer keyName : keyNames) {
+           result = qfSchoolAnswerMapper.insertQfSchoolAnswer(keyName);
+        }
+        return result;
     }
 }

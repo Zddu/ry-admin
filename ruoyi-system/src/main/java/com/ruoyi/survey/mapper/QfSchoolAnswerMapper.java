@@ -2,6 +2,7 @@ package com.ruoyi.survey.mapper;
 
 import java.util.List;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -58,4 +59,6 @@ public interface QfSchoolAnswerMapper
      * @return 结果
      */
     public int deleteQfSchoolAnswerByIds(Long[] ids);
+
+    List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(@Param("cid") Long cid,@Param("sid") Long sid);
 }

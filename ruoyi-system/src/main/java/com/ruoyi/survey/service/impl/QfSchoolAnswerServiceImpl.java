@@ -14,8 +14,7 @@ import com.ruoyi.survey.service.IQfSchoolAnswerService;
  * @date 2020-09-08
  */
 @Service
-public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService 
-{
+public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     @Autowired
     private QfSchoolAnswerMapper qfSchoolAnswerMapper;
 
@@ -89,5 +88,10 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService
     public int deleteQfSchoolAnswerById(Long id)
     {
         return qfSchoolAnswerMapper.deleteQfSchoolAnswerById(id);
+    }
+
+    @Override
+    public List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid) {
+        return qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid,sid);
     }
 }

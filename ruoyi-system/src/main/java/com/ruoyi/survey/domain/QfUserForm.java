@@ -91,10 +91,9 @@ public class QfUserForm extends BaseEntity {
     public QfUserForm() {
     }
 
-    public QfUserForm(Long createId, String schoolName, Integer schoolId) {
-        this.createId = createId;
-        this.schoolName = schoolName;
-        this.schoolId = schoolId;
+    public QfUserForm(Date createTime, Integer state) {
+        this.createTime = createTime;
+        this.state = state;
     }
 
     @Override

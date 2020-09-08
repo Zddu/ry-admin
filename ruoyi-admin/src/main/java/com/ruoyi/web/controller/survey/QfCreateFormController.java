@@ -10,6 +10,7 @@ import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfUserFormVo;
 import com.ruoyi.survey.service.IQfKeyNameService;
+import com.ruoyi.survey.service.IQfSchoolAnswerService;
 import com.ruoyi.survey.service.IQfUserFormService;
 import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,7 +47,8 @@ public class QfCreateFormController extends BaseController {
     private IQfKeyNameService qfKeyNameService;
     @Autowired
     private IQfUserFormService qfUserFormService;
-
+    @Autowired
+    private IQfSchoolAnswerService qfSchoolAnswerService;
     /**
      * 获取已创建问卷详细信息
      */
@@ -183,4 +185,17 @@ public class QfCreateFormController extends BaseController {
         return ajaxResult;
     }
 
+    /**
+     * 查看学校提交问卷详情
+     */
+    @GetMapping("/{sid}/{cid}")
+    public AjaxResult showSchoolMsg(@PathVariable("sid")Long sid,@PathVariable("cid")Long cid ) {
+        AjaxResult ajaxResult = AjaxResult.success();
+        ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormById(cid));
+        ajaxResult.put("answer",qfSchoolAnswerService.selectQfSchoolAnswerListBySId(cid,sid));
+        return ajaxResult;
+    }
+
+
 }
+
