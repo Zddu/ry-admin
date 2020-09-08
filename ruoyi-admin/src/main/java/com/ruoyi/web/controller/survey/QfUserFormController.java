@@ -57,15 +57,7 @@ public class QfUserFormController extends BaseController
         return util.exportExcel(list, "form");
     }
 
-    /**
-     * 展示问卷
-     */
-    @PreAuthorize("@ss.hasPermi('survey:form:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
-        return AjaxResult.success(qfCreateFormService.selectQfCreateFormById(id));
-    }
+
 
     /**
      * 上传答案
