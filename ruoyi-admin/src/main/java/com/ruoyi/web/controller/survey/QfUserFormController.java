@@ -50,8 +50,7 @@ public class QfUserFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:form:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(QfUserForm qfUserForm)
-    {
+    public AjaxResult export(QfUserForm qfUserForm) {
         List<QfUserForm> list = qfUserFormService.selectQfUserFormList(qfUserForm);
         ExcelUtil<QfUserForm> util = new ExcelUtil<QfUserForm>(QfUserForm.class);
         return util.exportExcel(list, "form");
