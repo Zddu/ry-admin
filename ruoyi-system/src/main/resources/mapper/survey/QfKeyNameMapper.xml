@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectQfKeyNameVo">
-        select id, create_id, key, name from qf_key_name
+        select id, create_id, qf_key_name.key, qf_key_name.name from qf_key_name
     </sql>
 
     <select id="selectQfKeyNameList" parameterType="com.ruoyi.survey.domain.QfKeyName" resultMap="QfKeyNameResult">

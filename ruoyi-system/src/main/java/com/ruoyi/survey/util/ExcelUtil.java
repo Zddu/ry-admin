@@ -8,7 +8,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,7 +34,7 @@ public class ExcelUtil {
         try {
             configuration = new Configuration(Configuration.VERSION_2_3_0);
             configuration.setDefaultEncoding("UTF-8");
-            String url = ResourceUtils.getURL("classpath:").getPath()+"template";
+            String url = ResourceUtils.getURL("classpath:").getPath()+ "template";
             configuration.setDirectoryForTemplateLoading(new File(url.substring(1)));
             template =configuration.getTemplate(templateName);
         } catch (IOException ex) {
