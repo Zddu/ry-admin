@@ -140,24 +140,6 @@ public class QfCreateFormController extends BaseController {
         );
     }
     /**
-     * 导出问卷明细
-     */
-    @Log(title = "导出已收集问卷", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('survey:list:export')")
-    @GetMapping("/export/{id}")
-    public AjaxResult exportCollected(HttpServletResponse response,@PathVariable("id") Long id) {
-        Map<String,List<String>> map=new HashMap<>();
-
-        List<QfKeyName> qfKeyNames = qfKeyNameService.selectQfKeyNameList(new QfKeyName().setCreateId(id));
-
-//       qfSchoolAnswerService.selectSchoolAnswerListByQfSchoolId()
-       return com.ruoyi.survey.util.ExcelUtil.exportExcel(
-                map,
-                "test.ftl",
-                qfCreateFormService.selectQfCreateFormById(id).getTitle()
-        );
-    }
-    /**
      * 返回编辑信息
      */
     @GetMapping("/get-edit-data/{id}")
