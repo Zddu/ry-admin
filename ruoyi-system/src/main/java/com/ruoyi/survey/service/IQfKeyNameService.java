@@ -58,5 +58,4 @@ public interface IQfKeyNameService
 
 
 
-    void export(HttpServletResponse response, Long id);
 }
