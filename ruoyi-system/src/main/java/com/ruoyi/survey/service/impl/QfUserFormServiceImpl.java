@@ -7,8 +7,10 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
+import com.ruoyi.survey.mapper.QfCreateFormMapper;
 import com.ruoyi.survey.mapper.QfSchoolAnswerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     private QfUserFormMapper qfUserFormMapper;
     @Autowired
     private QfSchoolAnswerMapper qfSchoolAnswerMapper;
+    @Autowired
+    private QfCreateFormMapper qfCreateFormMapper;
     /**
      * 查询【请填写功能名称】
      * 
@@ -123,5 +127,11 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
            result = qfSchoolAnswerMapper.insertQfSchoolAnswer(keyName);
         }
         return result;
+    }
+
+    @Override
+    public List<QfCreateForm> selectQfUserFormListBySId(QfUserForm qfUserForm, Long id) {
+
+        return qfCreateFormMapper.selectQfUserFormListBySId(qfUserForm,id);
     }
 }

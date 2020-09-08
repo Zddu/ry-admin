@@ -1,6 +1,8 @@
 package com.ruoyi.survey.service;
 
 import java.util.List;
+
+import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.domain.QfUserForm;
 
 /**
@@ -62,4 +64,6 @@ public interface IQfUserFormService
     List<QfUserForm> selectQfSchoolFormList(Long id);
 
     int insertAnswer(String json, Long sid, Long cid);
+
+    List<QfCreateForm> selectQfUserFormListBySId(QfUserForm qfUserForm, Long id);
 }

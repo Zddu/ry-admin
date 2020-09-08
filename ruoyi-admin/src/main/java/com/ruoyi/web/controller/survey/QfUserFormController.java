@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.survey;
 import java.util.HashMap;
 import java.util.List;
 
+import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.service.IQfCreateFormService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,7 +41,7 @@ public class QfUserFormController extends BaseController
     public TableDataInfo list(QfUserForm qfUserForm,Long id)
     {
         startPage();
-        List<QfUserForm> list = qfUserFormService.selectQfUserFormList(qfUserForm);
+        List<QfCreateForm> list = qfUserFormService.selectQfUserFormListBySId(qfUserForm,id);
         return getDataTable(list);
     }
 

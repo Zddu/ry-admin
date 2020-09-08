@@ -2,6 +2,7 @@ package com.ruoyi.survey.mapper;
 
 import java.util.List;
 import com.ruoyi.survey.domain.QfCreateForm;
+import com.ruoyi.survey.domain.QfUserForm;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -54,4 +55,6 @@ public interface QfCreateFormMapper
     int deleteQfCreateFormByIds(Long[] ids);
 
     List<QfCreateForm> selectQfCreateFormByUsername(@Param("username") String username,@Param("qfCreateForm") QfCreateForm qfCreateForm);
+
+    List<QfCreateForm> selectQfUserFormListBySId(QfUserForm qfUserForm,@Param("id") Long id);
 }
