@@ -29,7 +29,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectQfUserFormVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectQfSchoolFormList" resultMap="QfUserFormResult">
+        select t1.id, create_id,if(t3.end_time is null,5,t1.state) as state,school_name,school_id ,t1.create_time from qf_school_form as t1 left join
+(select t2.id as cid,t2.end_time from qf_create_form as t2 where t2.end_time <![CDATA[ >= ]]> now()) as t3
+on t1.create_id = t3.cid where create_id =#{id}
+    </select>
+
     <insert id="insertQfUserForm" parameterType="com.ruoyi.survey.domain.QfUserForm" useGeneratedKeys="true" keyProperty="id">
         insert into qf_school_form
         <trim prefix="(" suffix=")" suffixOverrides=",">

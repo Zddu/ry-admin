@@ -15,8 +15,7 @@ import com.ruoyi.survey.service.IQfUserFormService;
  * @date 2020-09-06
  */
 @Service
-public class QfUserFormServiceImpl implements IQfUserFormService 
-{
+public class QfUserFormServiceImpl implements IQfUserFormService {
     @Autowired
     private QfUserFormMapper qfUserFormMapper;
 
@@ -91,5 +90,10 @@ public class QfUserFormServiceImpl implements IQfUserFormService
     public int deleteQfUserFormById(Long id)
     {
         return qfUserFormMapper.deleteQfUserFormById(id);
+    }
+
+    @Override
+    public QfUserForm selectQfSchoolFormList(Long id) {
+        return qfUserFormMapper.selectQfSchoolFormList(id);
     }
 }

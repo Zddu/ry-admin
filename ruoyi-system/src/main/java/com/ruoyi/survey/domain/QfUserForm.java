@@ -1,9 +1,12 @@
 package com.ruoyi.survey.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.util.Date;
 
 /**
  * 【请填写功能名称】对象 qf_user_form
@@ -24,14 +27,23 @@ public class QfUserForm extends BaseEntity {
     /** 提交用户 */
     @Excel(name = "提交用户")
     private String schoolName;
-
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
     private Integer schoolId;
 
     private Integer state;
 
 
+    @Override
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public Integer getState() {
         return state;

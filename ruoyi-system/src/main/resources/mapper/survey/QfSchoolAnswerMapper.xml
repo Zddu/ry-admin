@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.survey.mapper.QfSchoolAnswerMapper">
+    
+    <resultMap type="QfSchoolAnswer" id="QfSchoolAnswerResult">
+        <result property="id"    column="id"    />
+        <result property="qfSchoolId"    column="qf_school_id"    />
+        <result property="key"    column="key"    />
+        <result property="value"    column="value"    />
+    </resultMap>
+
+    <sql id="selectQfSchoolAnswerVo">
+        select id, qf_school_id, key, value from qf_school_answer
+    </sql>
+
+    <select id="selectQfSchoolAnswerList" parameterType="QfSchoolAnswer" resultMap="QfSchoolAnswerResult">
+        <include refid="selectQfSchoolAnswerVo"/>
+        <where>  
+            <if test="qfSchoolId != null "> and qf_school_id = #{qfSchoolId}</if>
+            <if test="key != null  and key != ''"> and key = #{key}</if>
+            <if test="value != null  and value != ''"> and value = #{value}</if>
+        </where>
+    </select>
+    
+    <select id="selectQfSchoolAnswerById" parameterType="Long" resultMap="QfSchoolAnswerResult">
+        <include refid="selectQfSchoolAnswerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertQfSchoolAnswer" parameterType="QfSchoolAnswer" useGeneratedKeys="true" keyProperty="id">
+        insert into qf_school_answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="qfSchoolId != null">qf_school_id,</if>
+            <if test="key != null">key,</if>
+            <if test="value != null">value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="qfSchoolId != null">#{qfSchoolId},</if>
+            <if test="key != null">#{key},</if>
+            <if test="value != null">#{value},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQfSchoolAnswer" parameterType="QfSchoolAnswer">
+        update qf_school_answer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="qfSchoolId != null">qf_school_id = #{qfSchoolId},</if>
+            <if test="key != null">key = #{key},</if>
+            <if test="value != null">value = #{value},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQfSchoolAnswerById" parameterType="Long">
+        delete from qf_school_answer where id = #{id}
+    </delete>
+
+    <delete id="deleteQfSchoolAnswerByIds" parameterType="String">
+        delete from qf_school_answer where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

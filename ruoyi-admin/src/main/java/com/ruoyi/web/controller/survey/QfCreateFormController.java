@@ -178,7 +178,7 @@ public class QfCreateFormController extends BaseController {
     @GetMapping("/detail")
     public AjaxResult edit(@RequestParam Long id) {
         AjaxResult ajaxResult = AjaxResult.success();
-        ajaxResult.put("schools",qfUserFormService.selectQfUserFormList(new QfUserForm(id,null,null)));
+        ajaxResult.put("schools",qfUserFormService.selectQfSchoolFormList(id));
         ajaxResult.put("form",qfCreateFormService.selectQfCreateFormById(id));
         return ajaxResult;
     }
