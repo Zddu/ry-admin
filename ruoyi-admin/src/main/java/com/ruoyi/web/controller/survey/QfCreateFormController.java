@@ -125,7 +125,7 @@ public class QfCreateFormController extends BaseController {
     @Log(title = "导出问卷明细", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export/{id}")
-    public AjaxResult exportDetail(HttpServletResponse response,@PathVariable("id") Long id) {
+    public AjaxResult exportDetail(@PathVariable("id") Long id) {
         Map<String,List<String>> map=new HashMap<>();
         List<String> list=new ArrayList<>();
         List<QfKeyName> qfKeyNames = qfKeyNameService.selectQfKeyNameList(new QfKeyName().setCreateId(id));
@@ -136,7 +136,7 @@ public class QfCreateFormController extends BaseController {
        return com.ruoyi.survey.util.ExcelUtil.exportExcel(
                 map,
                 "test.ftl",
-                qfCreateFormService.selectQfCreateFormById(id).getTitle()
+                qfCreateFormService.selectQfCreateFormById(id).getTitle()+".xls"
         );
     }
     /**
