@@ -275,8 +275,8 @@
             <Font ss:FontName="Arial" x:CharSet="134" ss:Size="10"/>
         </Style>
     </Styles>
-    <Worksheet ss:Name="创建问卷">
-        <Table ss:ExpandedColumnCount="4" ss:ExpandedRowCount="4" x:FullColumns="1" x:FullRows="1"
+    <Worksheet ss:Name="问卷">
+        <Table x:FullColumns="1" x:FullRows="1"
                ss:DefaultColumnWidth="48.6" ss:DefaultRowHeight="14.4">
             <Column ss:Index="1" ss:StyleID="Default" ss:AutoFitWidth="0" ss:Width="90.3" ss:Span="3"/>
             <Row ss:Height="14">
@@ -286,17 +286,18 @@
                     </Cell>
                 </#list>
             </Row>
-            <#list contentList as content>
+            <#if contentList??>
+                <#list contentList as content>
                 <Row ss:Height="14">
                     <#list content.list as attribute>
                         <Cell ss:StyleID="s51">
-                            <Data ss:Type="String">${attribute}</Data>
+                            <Data ss:Type="String">${attribute!""}</Data>
                         </Cell>
                     </#list>
 
                 </Row>
-            </#list>
-
+                </#list>
+            </#if>
             <Row ss:Height="14" ss:Span="1"/>
         </Table>
         <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">

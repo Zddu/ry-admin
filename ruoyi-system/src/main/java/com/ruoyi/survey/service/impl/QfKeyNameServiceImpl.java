@@ -85,20 +85,7 @@ public class QfKeyNameServiceImpl implements IQfKeyNameService
         return qfKeyNameMapper.deleteQfKeyNameByIds(ids);
     }
 
-    @Override
-    public void export(HttpServletResponse response,Long id) {
-        List<QfKeyName> qfKeyNames=qfKeyNameMapper.selectQfKeyNameByFormId(id);
-        Map<String,Object> dataMap =new HashMap<String, Object>();
-        StringBuffer sb =new StringBuffer();
-        List<String> titleList = new ArrayList<>();
-        for (QfKeyName qfKeyName : qfKeyNames) {
-            titleList.add(qfKeyName.getName());
-        }
-        dataMap.put("titleList",titleList);
 
-
-
-    }
 
 
 }

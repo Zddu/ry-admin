@@ -2,13 +2,11 @@ package com.ruoyi.web.controller.survey;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
+import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfUserFormVo;
 import com.ruoyi.survey.service.IQfKeyNameService;
@@ -127,8 +125,19 @@ public class QfCreateFormController extends BaseController {
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export/{id}")
     public void exportDetail(HttpServletResponse response,@PathVariable("id") Long id) {
-         qfKeyNameService.export(response,id);
-
+        Map<String,List<String>> map=new HashMap<>();
+        List<String> list=new ArrayList<>();
+        List<QfKeyName> qfKeyNames = qfKeyNameService.selectQfKeyNameList(new QfKeyName().setCreateId(id));
+        for (QfKeyName qfKeyName : qfKeyNames) {
+            list.add(qfKeyName.getName());
+        }
+        map.put("titleList",list);
+        com.ruoyi.survey.util.ExcelUtil.exportExcel(
+                map,
+                "test.ftl",
+                response,
+                qfCreateFormService.selectQfCreateFormById(id).getTitle()
+        );
     }
     /**
      * 返回编辑信息
