@@ -42,13 +42,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="qfCreateForm.state == 2">
                     and end_time <![CDATA[ >= ]]> now()
                 </if>
-                <if test="state == 3">
+                <if test="qfCreateForm.state == 3">
                     and end_time <![CDATA[ < ]]> now()
                 </if>
-                <if test="state==0 and state == 1 ">
+                <if test="qfCreateForm.state==0 and qfCreateForm.state == 1 ">
                     and state = #{qfCreateForm.state}
                 </if>
-
             </if>
         </where>
 
