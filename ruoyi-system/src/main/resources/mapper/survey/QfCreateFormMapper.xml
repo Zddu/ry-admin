@@ -39,13 +39,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qfCreateForm.id != null  and qfCreateForm.id != ''"> and qf_create_form.id = #{id}</if>
             <if test="qfCreateForm.title != null  and qfCreateForm.title != ''"> and title like '%${qfCreateForm.title}%'</if>
             <if test="qfCreateForm.state != null  and qfCreateForm.state != ''">
+                <if test="qfCreateForm.state == 4">
+                    and state = 0
+                </if>
                 <if test="qfCreateForm.state == 2">
                     and end_time <![CDATA[ >= ]]> now()
                 </if>
                 <if test="qfCreateForm.state == 3">
                     and end_time <![CDATA[ < ]]> now()
                 </if>
-                <if test="qfCreateForm.state == 0 or qfCreateForm.state == 1 ">
+
+                <if test="qfCreateForm.state == 1">
                     and state = #{qfCreateForm.state}
                 </if>
             </if>
