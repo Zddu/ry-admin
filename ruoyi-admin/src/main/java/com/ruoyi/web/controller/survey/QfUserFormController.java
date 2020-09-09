@@ -76,8 +76,8 @@ public class QfUserFormController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('survey:form:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestParam String json,Long sid,Long cid) {
+    @PostMapping("/commit")
+    public AjaxResult add(@RequestBody String json,@RequestParam Long sid,@RequestParam Long cid) {
         return toAjax(qfUserFormService.insertAnswer(json,sid,cid));
     }
 
