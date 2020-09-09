@@ -186,6 +186,7 @@ public class QfCreateFormController extends BaseController {
     public AjaxResult showSchoolMsg(@PathVariable("sid")Long sid,@PathVariable("cid")Long cid ) {
         AjaxResult ajaxResult = AjaxResult.success();
         ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormById(cid));
+        //sid为发布问卷学校
         ajaxResult.put("answer",qfSchoolAnswerService.selectQfSchoolAnswerListBySId(cid,sid));
         return ajaxResult;
     }

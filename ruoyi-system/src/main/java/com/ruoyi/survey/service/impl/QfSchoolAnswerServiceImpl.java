@@ -1,6 +1,8 @@
 package com.ruoyi.survey.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.survey.mapper.QfUserFormMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfSchoolAnswerMapper;
@@ -17,6 +19,8 @@ import com.ruoyi.survey.service.IQfSchoolAnswerService;
 public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     @Autowired
     private QfSchoolAnswerMapper qfSchoolAnswerMapper;
+    @Autowired
+    private QfUserFormMapper qfUserFormMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -92,6 +96,6 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
 
     @Override
     public List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid) {
-        return qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid,sid);
+        return qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid,qfUserFormMapper.selectQfUserFormById(sid).getSchoolId().longValue());
     }
 }
