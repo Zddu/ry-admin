@@ -1,6 +1,8 @@
 package com.ruoyi.survey.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.survey.domain.QfSchoolAnswer;
 
 /**
@@ -60,4 +62,6 @@ public interface IQfSchoolAnswerService
     public int deleteQfSchoolAnswerById(Long id);
 
     List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid);
+
+    Map<String, Object> exportQfSchoolAnswer(Long cid, Long selectParentDepByChildId);
 }

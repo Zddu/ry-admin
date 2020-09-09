@@ -114,7 +114,9 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     @Override
     @Transactional
     public int insertAnswer(String json, Long sid, Long cid) {
-        QfUserForm qfUserForm = new QfUserForm(new Date(), 1);
+        QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
+        qfUserForm.setCreateTime(new Date());
+        qfUserForm.setState(1);
         int result =qfUserFormMapper.updateQfUserForm(qfUserForm);
 
         Map parse = JSON.parseObject(json, Map.class);

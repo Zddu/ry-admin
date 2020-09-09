@@ -61,12 +61,15 @@ public class QfUserFormController extends BaseController
     /**
      * 导出已填写的问卷
      */
-//    @PreAuthorize("@ss.hasPermi('survey:form:export')")
-//    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
-//    @GetMapping("/export")
-//    public AjaxResult export(QfUserForm qfUserForm) {
-//        Map<String,Object> map =
-//    }
+    @PreAuthorize("@ss.hasPermi('survey:form:export')")
+    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @GetMapping("/export")
+    public AjaxResult export(@RequestParam Long cid) {
+        Map<String,Object> map = qfSchoolAnswerService.exportQfSchoolAnswer(cid,
+                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
+                );
+        return null;
+    }
 
 
 
@@ -90,8 +93,7 @@ public class QfUserFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:form:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody QfUserForm qfUserForm)
-    {
+    public AjaxResult edit(@RequestBody QfUserForm qfUserForm) {
         return toAjax(qfUserFormService.updateQfUserForm(qfUserForm));
     }
 

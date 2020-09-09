@@ -68,7 +68,12 @@ public class QfKeyName extends BaseEntity
         return name;
     }
 
+    public QfKeyName(Long createId) {
+        this.createId = createId;
+    }
 
+    public QfKeyName() {
+    }
 
     @Override
     public String toString() {
