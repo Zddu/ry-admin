@@ -106,7 +106,7 @@ public class QfUserFormController extends BaseController
     }
 
     /**
-     * 查看学校提交问卷详情
+     * 查看问卷详情
      */
     @GetMapping("/{cid}")
     public AjaxResult showSchoolMsg(@PathVariable("cid")Long cid ) {

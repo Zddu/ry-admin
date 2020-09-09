@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
     <select id="selectQfSchoolAnswerListBySId"  resultMap="QfSchoolAnswerResult">
-        
+        select qf_school_answer.id, qf_school_answer.key, qf_school_answer.value from qf_school_answer,qf_school_form where qf_school_form.id =qf_school_answer.qf_school_id and qf_school_form.create_id =#{cid} and qf_school_form.school_id = #{sid}
     </select>
 
     <insert id="insertQfSchoolAnswer" parameterType="com.ruoyi.survey.domain.QfSchoolAnswer" useGeneratedKeys="true" keyProperty="id">
