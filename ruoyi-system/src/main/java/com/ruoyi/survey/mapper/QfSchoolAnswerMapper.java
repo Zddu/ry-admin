@@ -64,5 +64,5 @@ public interface QfSchoolAnswerMapper
 
     List<QfSchoolAnswer> selectAllQfSchoolAnswer();
 
-    int updateQfSchoolAnswerByKey(QfSchoolAnswer keyName);
+    int updateQfSchoolAnswerByKeyAndSchool(QfSchoolAnswer keyName);
 }

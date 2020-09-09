@@ -58,14 +58,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
-    <update id="updateQfSchoolAnswerByKey">
+    <update id="updateQfSchoolAnswerByKeyAndSchool">
         update qf_school_answer
         <trim prefix="SET" suffixOverrides=",">
-            <if test="qfSchoolId != null">qf_school_id = #{qfSchoolId},</if>
-            <if test="key != null">qf_school_answer.key = #{key},</if>
             <if test="value != null">qf_school_answer.value = #{value},</if>
         </trim>
-        where qf_school_answer.key = #{key}
+        where qf_school_answer.key = #{key} and qf_school_id = #{qfSchoolId}
     </update>
 
     <delete id="deleteQfSchoolAnswerById" parameterType="Long">

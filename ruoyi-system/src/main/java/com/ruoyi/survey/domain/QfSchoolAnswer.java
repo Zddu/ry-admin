@@ -83,12 +83,13 @@ public class QfSchoolAnswer extends BaseEntity
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         QfSchoolAnswer that = (QfSchoolAnswer) o;
-        return Objects.equals(key, that.key);
+        return Objects.equals(qfSchoolId, that.qfSchoolId) &&
+                Objects.equals(key, that.key);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key);
+        return Objects.hash(qfSchoolId, key);
     }
 
     @Override
