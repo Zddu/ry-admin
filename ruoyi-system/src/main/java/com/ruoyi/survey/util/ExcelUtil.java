@@ -98,7 +98,7 @@ public class ExcelUtil {
 ////        HSSFCellStyle dateCellStyle = workbook.createCellStyle();
 ////        dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
 
-        XSSFSheet sheet = workbook.createSheet("员工信息表");
+        XSSFSheet sheet = workbook.createSheet("问卷表");
 
         XSSFRow row = sheet.createRow(0);
         XSSFCell cell;
