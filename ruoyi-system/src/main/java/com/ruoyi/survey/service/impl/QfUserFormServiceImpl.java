@@ -132,9 +132,17 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         for (Object o : parse.keySet()) {
             keyNames.add(new QfSchoolAnswer(qfUserForm.getId(),String.valueOf(o),String.valueOf(parse.get(o))));
         }
-        for (QfSchoolAnswer keyName : keyNames) {
-           result = qfSchoolAnswerMapper.insertQfSchoolAnswer(keyName);
+        List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectAllQfSchoolAnswer();
+        if (qfSchoolAnswers.indexOf(keyNames.get(0))!=-1){
+            for (QfSchoolAnswer keyName : keyNames) {
+                result = qfSchoolAnswerMapper.insertQfSchoolAnswer(keyName);
+            }
+        }else{
+            for (QfSchoolAnswer keyName : keyNames){
+                result = qfSchoolAnswerMapper.updateQfSchoolAnswerByKey(keyName);
+            }
         }
+
         return result;
     }
 

@@ -128,6 +128,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
         for (QfUserForm qfUserForm:qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid))){
             List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue());
             List<QfKeyIndexAnswer> answers = new ArrayList<>();
+
             answers.add(new QfKeyIndexAnswer(0,qfUserForm.getSchoolName()));
             for (QfSchoolAnswer qfSchoolAnswer : qfSchoolAnswers) {
                 QfKeyIndexAnswer answer = new QfKeyIndexAnswer();

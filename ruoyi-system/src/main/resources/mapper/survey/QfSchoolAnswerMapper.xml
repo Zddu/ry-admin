@@ -31,6 +31,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectQfSchoolAnswerListBySId"  resultMap="QfSchoolAnswerResult">
         select qf_school_answer.id, qf_school_answer.key, qf_school_answer.value from qf_school_answer,qf_school_form where qf_school_form.id =qf_school_answer.qf_school_id and qf_school_form.create_id =#{cid} and qf_school_form.school_id =#{sid}
     </select>
+    <select id="selectAllQfSchoolAnswer" resultMap="QfSchoolAnswerResult">
+        <include refid="selectQfSchoolAnswerVo"/>
+    </select>
 
     <insert id="insertQfSchoolAnswer" parameterType="com.ruoyi.survey.domain.QfSchoolAnswer" useGeneratedKeys="true" keyProperty="id">
         insert into qf_school_answer
@@ -50,10 +53,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update qf_school_answer
         <trim prefix="SET" suffixOverrides=",">
             <if test="qfSchoolId != null">qf_school_id = #{qfSchoolId},</if>
-            <if test="key != null">key = #{key},</if>
-            <if test="value != null">value = #{value},</if>
+            <if test="key != null">qf_school_answer.key = #{key},</if>
+            <if test="value != null">qf_school_answer.value = #{value},</if>
         </trim>
         where id = #{id}
+    </update>
+    <update id="updateQfSchoolAnswerByKey">
+        update qf_school_answer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="qfSchoolId != null">qf_school_id = #{qfSchoolId},</if>
+            <if test="key != null">qf_school_answer.key = #{key},</if>
+            <if test="value != null">qf_school_answer.value = #{value},</if>
+        </trim>
+        where qf_school_answer.key = #{key}
     </update>
 
     <delete id="deleteQfSchoolAnswerById" parameterType="Long">
