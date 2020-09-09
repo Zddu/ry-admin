@@ -139,7 +139,7 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
             }
         }else{
             for (QfSchoolAnswer keyName : keyNames){
-                result = qfSchoolAnswerMapper.updateQfSchoolAnswerByKey(keyName);
+                result = qfSchoolAnswerMapper.updateQfSchoolAnswerByKeyAndSchool(keyName);
             }
         }
 
