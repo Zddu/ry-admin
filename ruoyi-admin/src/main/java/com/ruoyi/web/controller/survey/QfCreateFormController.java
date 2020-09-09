@@ -135,6 +135,16 @@ public class QfCreateFormController extends BaseController {
         }
        return com.ruoyi.survey.util.ExcelUtil.emloyeeExcel(list, qfCreateFormService.selectQfCreateFormById(id).getTitle()+".xlsx");
     }
+
+    /**
+     * 导出已填写的问卷
+     */
+    @PreAuthorize("@ss.hasPermi('survey:form:export')")
+    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @GetMapping("/exportAll/{id}")
+    public AjaxResult export(@PathVariable("id") Long cid) {
+        return  qfSchoolAnswerService.exportQfSchoolAnswer(cid);
+    }
     /**
      * 返回编辑信息
      */

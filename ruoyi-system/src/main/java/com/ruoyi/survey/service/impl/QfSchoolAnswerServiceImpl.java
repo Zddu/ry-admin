@@ -116,7 +116,9 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     @Override
     public AjaxResult exportQfSchoolAnswer(Long cid) {
         Map<String,String> titleMap =new HashMap<>();
+        titleMap.put("学校","学校名称");
         List<String> titleList =new ArrayList<>();
+        titleList.add("学校名称");
         List<QfKeyName> keyNames = qfKeyNameMapper.selectQfKeyNameList(new QfKeyName(cid));
         for (QfKeyName keyName : keyNames) {
             titleMap.put(keyName.getKey(),keyName.getName());
@@ -126,6 +128,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
         for (QfUserForm qfUserForm:qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid))){
             List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue());
             List<QfKeyIndexAnswer> answers = new ArrayList<>();
+            answers.add(new QfKeyIndexAnswer(0,qfUserForm.getSchoolName()));
             for (QfSchoolAnswer qfSchoolAnswer : qfSchoolAnswers) {
                 QfKeyIndexAnswer answer = new QfKeyIndexAnswer();
                 answer.setKeyIndex(
