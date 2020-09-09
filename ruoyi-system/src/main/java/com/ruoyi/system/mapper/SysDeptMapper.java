@@ -117,5 +117,5 @@ public interface SysDeptMapper
 
     List<SysDept> selectSchoolList();
 
-    Long selectParentDepByChildId(@Param("deptId") Long deptId);
+    Long selectParentDepByChildId(@Param("id") Long deptId);
 }
