@@ -63,5 +63,5 @@ public interface IQfSchoolAnswerService
 
     List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid);
 
-    Map<String, Object> exportQfSchoolAnswer(Long cid, Long selectParentDepByChildId);
+    Map<String, Object> exportQfSchoolAnswer(Long cid);
 }

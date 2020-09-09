@@ -97,7 +97,11 @@ public class QfUserForm extends BaseEntity {
         this.schoolId = schoolId;
     }
 
-    public QfUserForm(Long id,Date createTime, Integer state) {
+    public QfUserForm(Long createId) {
+        this.createId = createId;
+    }
+
+    public QfUserForm(Long id, Date createTime, Integer state) {
         this.id = id;
         this.createTime = createTime;
         this.state = state;
