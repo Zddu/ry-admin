@@ -130,6 +130,7 @@ public class QfCreateFormController extends BaseController {
     public AjaxResult exportDetail(@PathVariable("id") Long id) {
         List<String> list=new ArrayList<>();
         List<QfKeyName> qfKeyNames = qfKeyNameService.selectQfKeyNameList(new QfKeyName().setCreateId(id));
+        list.add("学校名称");
         for (QfKeyName qfKeyName : qfKeyNames) {
             list.add(qfKeyName.getName());
         }
