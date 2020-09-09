@@ -76,8 +76,10 @@ public class QfUserFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:form:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping("/commit")
-    public AjaxResult add(@RequestBody String json,@RequestParam Long sid,@RequestParam Long cid) {
-        return toAjax(qfUserFormService.insertAnswer(json,sid,cid));
+    public AjaxResult add(@RequestBody String json,@RequestParam Long cid) {
+        return toAjax(qfUserFormService.insertAnswer(json,
+                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
+                ,cid));
     }
 
 
@@ -112,7 +114,8 @@ public class QfUserFormController extends BaseController
         AjaxResult ajaxResult = AjaxResult.success();
         ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormById(cid));
         ajaxResult.put("answer",qfSchoolAnswerService.selectQfSchoolAnswerListBySId(cid,
-                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()))
+                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
+                )
         );
         return ajaxResult;
     }
