@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="qfUserForm.state  == 6">
                     and end_time <![CDATA[ < ]]> now()
                 </if>
-                <if test=" qfUserForm.state  !=2 and qfUserForm.state  !=3 ">
+                <if test=" qfUserForm.state  !=5 and qfUserForm.state  !=6 ">
                     and qf_school_form.state = #{state}
                 </if>
             </if>
