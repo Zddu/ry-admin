@@ -43,7 +43,7 @@ public class QfUserFormController extends BaseController
     @Autowired
     private IQfSchoolAnswerService qfSchoolAnswerService;
     /**
-     * 查询【请填写功能名称】列表
+     * 查询学校收到的列表
      */
     @PreAuthorize("@ss.hasPermi('survey:form:list')")
     @GetMapping("/list")
