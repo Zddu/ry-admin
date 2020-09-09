@@ -121,7 +121,6 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
 
     @Override
     public List<QfCreateForm> selectQfCreateFormByUsername(String username, QfCreateForm qfCreateForm) {
-
         return qfCreateFormMapper.selectQfCreateFormByUsername(username,qfCreateForm);
     }
 

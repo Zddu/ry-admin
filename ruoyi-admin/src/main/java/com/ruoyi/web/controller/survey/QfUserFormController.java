@@ -58,16 +58,7 @@ public class QfUserFormController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出已填写的问卷
-     */
-    @PreAuthorize("@ss.hasPermi('survey:form:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
-    @GetMapping("/export")
-    public AjaxResult export(@RequestParam Long cid) {
 
-        return  qfSchoolAnswerService.exportQfSchoolAnswer(cid);
-    }
 
 
 
