@@ -1,10 +1,13 @@
 package com.ruoyi.survey.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.survey.domain.QfKeyName;
+import com.ruoyi.survey.domain.QfUserForm;
+import com.ruoyi.survey.domain.vo.QfKeyIndexAnswer;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,18 +109,31 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     }
 
     @Override
-    public Map<String, Object> exportQfSchoolAnswer(Long cid, Long sid) {
-        List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, sid);
+    public Map<String, Object> exportQfSchoolAnswer(Long cid) {
         Map<String,String> titleMap =new HashMap<>();
         Map<String,String> answerMap =new HashMap<>();
-
-        for (QfSchoolAnswer qfSchoolAnswer : qfSchoolAnswers) {
-            answerMap.put(qfSchoolAnswer.getKey().substring(qfSchoolAnswer.getKey().lastIndexOf("_")+1),qfSchoolAnswer.getValue());
-        }
-
+        List<String> titleList =new ArrayList<>();
         List<QfKeyName> keyNames = qfKeyNameMapper.selectQfKeyNameList(new QfKeyName(cid));
         for (QfKeyName keyName : keyNames) {
             titleMap.put(keyName.getKey(),keyName.getName());
+            titleList.add(keyName.getName());
+        }
+
+        List<List<QfKeyIndexAnswer>> values =new ArrayList<>();
+
+        for (QfUserForm qfUserForm:qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid))){
+            List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue());
+            for (QfSchoolAnswer qfSchoolAnswer : qfSchoolAnswers) {
+                QfKeyIndexAnswer answer = new QfKeyIndexAnswer();
+                answer.setKeyIndex(
+                        titleList.indexOf(
+                                titleMap.get(qfSchoolAnswer.getKey().substring(qfSchoolAnswer.getKey().lastIndexOf("_")+1)
+                                )
+                        )
+                );
+                answer.setValue(qfSchoolAnswer.getValue());
+
+            }
         }
 
 

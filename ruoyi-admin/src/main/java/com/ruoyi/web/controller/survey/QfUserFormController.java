@@ -65,9 +65,7 @@ public class QfUserFormController extends BaseController
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(@RequestParam Long cid) {
-        Map<String,Object> map = qfSchoolAnswerService.exportQfSchoolAnswer(cid,
-                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
-                );
+        Map<String,Object> map = qfSchoolAnswerService.exportQfSchoolAnswer(cid);
         return null;
     }
 

@@ -11,4 +11,12 @@ public class QfKeyIndexAnswer {
     private Integer keyIndex;
     //答案
     private String value;
+
+    public QfKeyIndexAnswer(Integer keyIndex, String value) {
+        this.keyIndex = keyIndex;
+        this.value = value;
+    }
+
+    public QfKeyIndexAnswer() {
+    }
 }
