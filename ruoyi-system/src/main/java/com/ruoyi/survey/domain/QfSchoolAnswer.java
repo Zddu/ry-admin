@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Objects;
+
 /**
  * 【请填写功能名称】对象 qf_school_answer
  * 
@@ -74,6 +76,19 @@ public class QfSchoolAnswer extends BaseEntity
     }
 
     public QfSchoolAnswer() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QfSchoolAnswer that = (QfSchoolAnswer) o;
+        return Objects.equals(key, that.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key);
     }
 
     @Override

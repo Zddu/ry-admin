@@ -61,4 +61,8 @@ public interface QfSchoolAnswerMapper
     public int deleteQfSchoolAnswerByIds(Long[] ids);
 
     List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(@Param("cid") Long cid,@Param("sid") Long sid);
+
+    List<QfSchoolAnswer> selectAllQfSchoolAnswer();
+
+    int updateQfSchoolAnswerByKey(QfSchoolAnswer keyName);
 }
