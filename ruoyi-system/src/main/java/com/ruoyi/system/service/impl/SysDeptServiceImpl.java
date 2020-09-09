@@ -242,17 +242,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         }
     }
 
-    /**
-     * 删除部门管理信息
-     * 
-     * @param deptId 部门ID
-     * @return 结果
-     */
-    @Override
-    public int deleteDeptById(Long deptId)
-    {
-        return deptMapper.deleteDeptById(deptId);
-    }
+
 
     @Override
     public List<SysDept> selectSchoolList() {

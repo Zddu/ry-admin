@@ -99,13 +99,6 @@ public interface ISysDeptService
      */
     public int updateDept(SysDept dept);
 
-    /**
-     * 删除部门管理信息
-     * 
-     * @param deptId 部门ID
-     * @return 结果
-     */
-    public int deleteDeptById(Long deptId);
 
     List<SysDept> selectSchoolList();
 
