@@ -12,12 +12,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,14 +80,16 @@ public class ExcelUtil {
      *
      * @return
      */
-    public static ResponseEntity<byte[]> emloyeeExcel(List<String> titles, List<QfKeyIndexAnswer> values) {
+    public static AjaxResult emloyeeExcel(List<String> titles,String fileName){
+        return emloyeeExcel(titles,new ArrayList<>(),fileName);
+    }
+    public static AjaxResult emloyeeExcel(List<String> titles, List<List<QfKeyIndexAnswer>> values,String fileName) {
         //1,创建一个excel文档
         HSSFWorkbook workbook = new HSSFWorkbook();
         //2,创建文档摘要
         workbook.createInformationProperties();
         //5,创建样式
         HSSFCellStyle hssfCellStyle = workbook.createCellStyle();
-        int columnNum = titles.size();
         //设置表头背景颜色
         hssfCellStyle.setFillForegroundColor(IndexedColors.WHITE.index);
         hssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -93,34 +97,33 @@ public class ExcelUtil {
         dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
         HSSFSheet sheet = workbook.createSheet("员工信息表");
         HSSFRow row = sheet.createRow(0);
-        HSSFCell cell=null;
-        for (int i=0;i<columnNum;i++){
-            sheet.setColumnWidth(i,10*256);
-            cell = row.createCell(i);
-            cell.setCellValue(titles.get(i));
-            cell.setCellStyle(hssfCellStyle);
+        HSSFCell cell;
+        if (!ObjectUtils.isEmpty(titles)){
+            for (int i=0;i<titles.size();i++){
+                sheet.setColumnWidth(i,10*256);
+                cell = row.createCell(i);
+                cell.setCellValue(titles.get(i));
+                cell.setCellStyle(hssfCellStyle);
+            }
         }
 
 
-        for (int i = 0;i<values.size();i++){
-            QfKeyIndexAnswer answer = values.get(i);
-            HSSFRow row1 = sheet.createRow(i + 1);
-            row1.createCell(answer.getKeyIndex()).setCellValue(answer.getValue());
+        if (!ObjectUtils.isEmpty(values)){
+            for (int i = 0;i<values.size();i++){
+                List<QfKeyIndexAnswer> answers = values.get(i);
+                HSSFRow row1 = sheet.createRow(i + 1);
+                for (QfKeyIndexAnswer answer:answers){
+                    row1.createCell(answer.getKeyIndex()).setCellValue(answer.getValue());
+                }
+            }
         }
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        HttpHeaders headers = new HttpHeaders();
         try {
-            //避免中文乱码设置字符编码格式
-            headers.setContentDispositionFormData("attachment",new String("员工信息表.xls".getBytes("UTF-8"),"ISO-8859-1"));
-            //设置成下载文件
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            //将文件写入到输出流，通过输出流转换成byte数组
-            workbook.write(baos);
-        } catch (IOException e) {
-            e.printStackTrace();
+            workbook.write(new FileOutputStream(getAbsoluteFile(fileName)));
+            workbook.close();
+        } catch (Exception ex) {
+            return AjaxResult.error("文件创建失败");
         }
-        return new ResponseEntity<byte[]>(baos.toByteArray(), headers, HttpStatus.CREATED);
+        return AjaxResult.success(fileName);
     }
 
 }
