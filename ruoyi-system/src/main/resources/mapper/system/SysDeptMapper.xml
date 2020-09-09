@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where parent_id = "100"
 	</select>
     <select id="selectParentDepByChildId" resultType="java.lang.Long">
-		select d.parent_id from sys_dept d where d.dept_id =#{deptId}
+		select d.parent_id from sys_dept d where d.dept_id =#{id}
 	</select>
 
     <insert id="insertDept" parameterType="SysDept">
@@ -154,7 +154,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </set>
  	    where dept_id in (${ancestors})
 	</update>
-	
+
 
 
 </mapper> 
