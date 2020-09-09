@@ -86,7 +86,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectParentDepByChildId" resultType="java.lang.Long">
 		select d.parent_id from sys_dept d where d.dept_id =#{id}
 	</select>
-
+	<delete id="deleteDeptById" parameterType="Long">
+		update sys_dept set del_flag = '2' where dept_id = #{deptId}
+	</delete>
     <insert id="insertDept" parameterType="SysDept">
  		insert into sys_dept(
  			<if test="deptId != null and deptId != 0">dept_id,</if>
