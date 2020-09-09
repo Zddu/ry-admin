@@ -96,6 +96,6 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
 
     @Override
     public List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid) {
-        return qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid,qfUserFormMapper.selectQfUserFormById(sid).getSchoolId().longValue());
+        return qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid,sid);
     }
 }

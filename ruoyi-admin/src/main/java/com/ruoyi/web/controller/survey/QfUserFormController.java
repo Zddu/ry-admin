@@ -7,6 +7,7 @@ import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.service.IQfCreateFormService;
+import com.ruoyi.survey.service.IQfSchoolAnswerService;
 import com.ruoyi.system.service.ISysDeptService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +40,8 @@ public class QfUserFormController extends BaseController
     private IQfCreateFormService qfCreateFormService;
     @Autowired
     private ISysDeptService sysDeptService;
+    @Autowired
+    private IQfSchoolAnswerService qfSchoolAnswerService;
     /**
      * 查询【请填写功能名称】列表
      */
@@ -49,7 +52,8 @@ public class QfUserFormController extends BaseController
         List<QfCreateForm> list = qfUserFormService.
                 selectQfUserFormListBySId(
                         qfUserForm,
-                        sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()));
+                        sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
+                );
         return getDataTable(list);
     }
 
@@ -101,7 +105,19 @@ public class QfUserFormController extends BaseController
         return toAjax(qfUserFormService.deleteQfUserFormByIds(ids));
     }
 
-
+    /**
+     * 查看学校提交问卷详情
+     */
+    @GetMapping("/{cid}")
+    public AjaxResult showSchoolMsg(@PathVariable("cid")Long cid ) {
+        AjaxResult ajaxResult = AjaxResult.success();
+        ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormById(cid));
+        //sid为发布学校问卷表的id
+        ajaxResult.put("answer",qfSchoolAnswerService.selectQfSchoolAnswerListBySId(cid,
+                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()))
+        );
+        return ajaxResult;
+    }
 
 
 }
