@@ -133,7 +133,7 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
             keyNames.add(new QfSchoolAnswer(qfUserForm.getId(),String.valueOf(o),String.valueOf(parse.get(o))));
         }
         List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectAllQfSchoolAnswer();
-        if (qfSchoolAnswers.indexOf(keyNames.get(0))!=-1){
+        if (qfSchoolAnswers.indexOf(keyNames.get(0))==-1){
             for (QfSchoolAnswer keyName : keyNames) {
                 result = qfSchoolAnswerMapper.insertQfSchoolAnswer(keyName);
             }
