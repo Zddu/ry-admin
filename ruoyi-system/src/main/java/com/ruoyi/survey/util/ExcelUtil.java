@@ -8,6 +8,7 @@ import freemarker.template.Template;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -80,72 +81,51 @@ public class ExcelUtil {
      *
      * @return
      */
-    public static void  test(List<String> titles,String fileName) throws IOException {
-        List<List<QfKeyIndexAnswer>> values =new ArrayList<>();
-        //1,创建一个excel文档
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        //2,创建文档摘要
-        workbook.createInformationProperties();
-        //5,创建样式
-        HSSFCellStyle hssfCellStyle = workbook.createCellStyle();
-        //设置表头背景颜色
-        hssfCellStyle.setFillForegroundColor(IndexedColors.WHITE.index);
-        hssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        HSSFCellStyle dateCellStyle = workbook.createCellStyle();
-        dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
-        HSSFSheet sheet = workbook.createSheet("员工信息表");
-        HSSFRow row = sheet.createRow(0);
-        HSSFCell cell;
-        if (!ObjectUtils.isEmpty(titles)){
-            for (int i=0;i<titles.size();i++){
-                sheet.setColumnWidth(i,10*256);
-                cell = row.createCell(i);
-                cell.setCellValue(titles.get(i));
-                cell.setCellStyle(hssfCellStyle);
-            }
-        }
-
-
-        if (!ObjectUtils.isEmpty(values)){
-            for (int i = 0;i<values.size();i++){
-                List<QfKeyIndexAnswer> answers = values.get(i);
-                HSSFRow row1 = sheet.createRow(i + 1);
-                for (QfKeyIndexAnswer answer:answers){
-                    row1.createCell(answer.getKeyIndex()).setCellValue(answer.getValue());
-                }
-            }
-        }
-        ByteArrayOutputStream bos=new ByteArrayOutputStream();
-        workbook.write(bos);
-        workbook.close();
-        File file = new File("C:\\Users\\Administrator\\Desktop\\excelTemplate\\"+fileName);
-
-
-    }
+//    public static void  test(List<String> titles,String fileName) throws IOException {
+//
+//        ByteArrayOutputStream bos=new ByteArrayOutputStream();
+//        workbook.write(bos);
+//        workbook.close();
+//        File file = new File("C:\\Users\\Administrator\\Desktop\\excelTemplate\\"+fileName);
+//        byte[] bytes = bos.toByteArray();
+//        BufferedOutputStream bufferos =new BufferedOutputStream(new FileOutputStream(file));
+//        bufferos.write(bytes);
+//        bufferos.flush();
+//        bufferos.close();
+//
+//
+//    }
     public static AjaxResult emloyeeExcel(List<String> titles,String fileName){
         return emloyeeExcel(titles,new ArrayList<>(),fileName);
     }
     public static AjaxResult emloyeeExcel(List<String> titles, List<List<QfKeyIndexAnswer>> values,String fileName) {
+
         //1,创建一个excel文档
-        HSSFWorkbook workbook = new HSSFWorkbook();
+        XSSFWorkbook workbook = new XSSFWorkbook();
         //2,创建文档摘要
-        workbook.createInformationProperties();
+//        workbook.createInformationProperties();
+        XSSFFont font = workbook.createFont();
+        font.setBold(true);
         //5,创建样式
-        HSSFCellStyle hssfCellStyle = workbook.createCellStyle();
+        XSSFCellStyle cellStyle = workbook.createCellStyle();
         //设置表头背景颜色
-        hssfCellStyle.setFillForegroundColor(IndexedColors.WHITE.index);
-        hssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        HSSFCellStyle dateCellStyle = workbook.createCellStyle();
-        dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
-        HSSFSheet sheet = workbook.createSheet("员工信息表");
-        HSSFRow row = sheet.createRow(0);
-        HSSFCell cell;
+        cellStyle.setFont(font);
+//        hssfCellStyle.setFillForegroundColor(IndexedColors.WHITE.index);
+////        hssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+////        HSSFCellStyle dateCellStyle = workbook.createCellStyle();
+////        dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
+
+        XSSFSheet sheet = workbook.createSheet("问卷表");
+
+        XSSFRow row = sheet.createRow(0);
+        XSSFCell cell;
         if (!ObjectUtils.isEmpty(titles)){
             for (int i=0;i<titles.size();i++){
                 sheet.setColumnWidth(i,10*256);
                 cell = row.createCell(i);
                 cell.setCellValue(titles.get(i));
-                cell.setCellStyle(hssfCellStyle);
+                cell.setCellStyle(cellStyle);
+
             }
         }
 
@@ -153,7 +133,7 @@ public class ExcelUtil {
         if (!ObjectUtils.isEmpty(values)){
             for (int i = 0;i<values.size();i++){
                 List<QfKeyIndexAnswer> answers = values.get(i);
-                HSSFRow row1 = sheet.createRow(i + 1);
+                XSSFRow row1 = sheet.createRow(i + 1);
                 for (QfKeyIndexAnswer answer:answers){
                     row1.createCell(answer.getKeyIndex()).setCellValue(answer.getValue());
                 }
