@@ -74,7 +74,7 @@ public class QfUserFormController extends BaseController
     /**
      * 上传答案
      */
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "上传问卷内容", businessType = BusinessType.INSERT)
     @PostMapping("/commit")
     public AjaxResult add(@RequestBody String json,@RequestParam Long cid) {
         return toAjax(qfUserFormService.insertAnswer(json,
