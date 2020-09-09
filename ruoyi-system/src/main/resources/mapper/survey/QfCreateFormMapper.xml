@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectQfUserFormListBySId" resultMap="QfCreateFormResult">
     select qf_create_form.id,qf_create_form.end_time,qf_create_form.title,qf_school_form.state from qf_create_form,qf_school_form
         <where>
-            qf_create_form.id =qf_school_form.create_id
+            qf_create_form.id =qf_school_form.create_id and qf_school_form.school_id = #{id}
             <if test="qfUserForm.id != null  and qfUserForm.id != ''"> and qf_create_form.id = #{id}</if>
             <if test="qfUserForm.title != null  and qfUserForm.title != ''"> and qf_create_form.title like '%${qfUserForm.title}%'</if>
             <if test="qfUserForm.state != null  and qfUserForm.state != ''">
