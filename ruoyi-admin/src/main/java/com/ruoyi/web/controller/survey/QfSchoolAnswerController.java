@@ -1,4 +1,4 @@
-package com.ruoyi.survey.controller;
+package com.ruoyi.web.controller.survey;
 
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
