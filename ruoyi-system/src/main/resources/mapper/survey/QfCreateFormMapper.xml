@@ -60,16 +60,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select qf_create_form.end_time,qf_create_form.title,qf_school_form.state from qf_create_form,qf_school_form
         <where>
             qf_create_form.id =qf_school_form.create_id
-            <if test="qfCreateForm.id != null  and qfCreateForm.id != ''"> and qf_create_form.id = #{id}</if>
-            <if test="qfCreateForm.title != null  and qfCreateForm.title != ''"> and qf_create_form.title like '%${qfCreateForm.title}%'</if>
-            <if test="qfCreateForm.state != null  and qfCreateForm.state != ''">
-                <if test="state == 2">
+            <if test="qfUserForm.id != null  and qfUserForm.id != ''"> and qf_create_form.id = #{id}</if>
+            <if test="qfUserForm.title != null  and qfUserForm.title != ''"> and qf_create_form.title like '%${qfUserForm.title}%'</if>
+            <if test="qfUserForm.state != null  and qfUserForm.state != ''">
+                <if test="qfUserForm.state == 2">
                     and end_time <![CDATA[ >= ]]> now()
                 </if>
-                <if test="state == 3">
+                <if test="qfUserForm.state  == 3">
                     and end_time <![CDATA[ < ]]> now()
                 </if>
-                <if test=" state !=2 and state !=3 ">
+                <if test=" qfUserForm.state  !=2 and qfUserForm.state  !=3 ">
                     and state = #{state}
                 </if>
             </if>
