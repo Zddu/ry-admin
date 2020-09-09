@@ -122,9 +122,9 @@ public class QfCreateFormController extends BaseController {
         return util.exportExcel(qfCreateForms, "创建问卷");
     }
     /**
-     * 导出问卷明细
+     * 导出问卷题目
      */
-    @Log(title = "导出问卷明细", businessType = BusinessType.EXPORT)
+    @Log(title = "导出问卷题目", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @GetMapping("/export/{id}")
     public AjaxResult exportDetail(@PathVariable("id") Long id) {
@@ -141,7 +141,7 @@ public class QfCreateFormController extends BaseController {
      * 导出已填写的问卷
      */
     @PreAuthorize("@ss.hasPermi('survey:form:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出已填写的问卷", businessType = BusinessType.EXPORT)
     @GetMapping("/exportAll/{id}")
     public AjaxResult export(@PathVariable("id") Long cid) {
         return  qfSchoolAnswerService.exportQfSchoolAnswer(cid);
