@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.domain.QfKeyName;
@@ -18,6 +19,7 @@ import com.ruoyi.survey.mapper.QfUserFormMapper;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.service.IQfUserFormService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -115,6 +117,9 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     @Transactional
     public int insertAnswer(String json, Long sid, Long cid) {
         QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
+        if (ObjectUtils.isEmpty(qfUserForm)){
+            throw new CustomException("该角色没有表单提交权限");
+        }
         qfUserForm.setCreateTime(new Date());
         qfUserForm.setState(1);
         int result =qfUserFormMapper.updateQfUserForm(qfUserForm);
