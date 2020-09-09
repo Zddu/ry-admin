@@ -116,6 +116,10 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     @Override
     @Transactional
     public int insertAnswer(String json, Long sid, Long cid) {
+        QfCreateForm qfCreateForm = qfCreateFormMapper.selectQfCreateFormById(cid);
+        if (qfCreateForm.getEndTime().getTime()<new Date().getTime()){
+            throw new CustomException("已截止");
+        }
         QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
         if (ObjectUtils.isEmpty(qfUserForm)){
             throw new CustomException("该角色没有表单提交权限");
@@ -123,10 +127,8 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         qfUserForm.setCreateTime(new Date());
         qfUserForm.setState(1);
         int result =qfUserFormMapper.updateQfUserForm(qfUserForm);
-
         Map parse = JSON.parseObject(json, Map.class);
         List<QfSchoolAnswer> keyNames=new ArrayList<>();
-
         for (Object o : parse.keySet()) {
             keyNames.add(new QfSchoolAnswer(qfUserForm.getId(),String.valueOf(o),String.valueOf(parse.get(o))));
         }
