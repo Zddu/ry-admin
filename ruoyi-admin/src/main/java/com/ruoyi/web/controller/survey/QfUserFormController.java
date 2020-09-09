@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.survey;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
@@ -58,16 +59,14 @@ public class QfUserFormController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出已填写的问卷
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
-    @GetMapping("/export")
-    public AjaxResult export(QfUserForm qfUserForm) {
-        List<QfUserForm> list = qfUserFormService.selectQfUserFormList(qfUserForm);
-        ExcelUtil<QfUserForm> util = new ExcelUtil<QfUserForm>(QfUserForm.class);
-        return util.exportExcel(list, "form");
-    }
+//    @PreAuthorize("@ss.hasPermi('survey:form:export')")
+//    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+//    @GetMapping("/export")
+//    public AjaxResult export(QfUserForm qfUserForm) {
+//        Map<String,Object> map =
+//    }
 
 
 
