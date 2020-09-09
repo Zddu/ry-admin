@@ -36,8 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into qf_school_answer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="qfSchoolId != null">qf_school_id,</if>
-            <if test="key != null">key,</if>
-            <if test="value != null">value,</if>
+            <if test="key != null">qf_school_answer.key,</if>
+            <if test="value != null">qf_school_answer.value,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="qfSchoolId != null">#{qfSchoolId},</if>

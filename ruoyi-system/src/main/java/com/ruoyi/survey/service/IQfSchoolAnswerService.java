@@ -3,6 +3,7 @@ package com.ruoyi.survey.service;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
 
 /**
@@ -63,5 +64,5 @@ public interface IQfSchoolAnswerService
 
     List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid);
 
-    Map<String, Object> exportQfSchoolAnswer(Long cid);
+    AjaxResult exportQfSchoolAnswer(Long cid);
 }

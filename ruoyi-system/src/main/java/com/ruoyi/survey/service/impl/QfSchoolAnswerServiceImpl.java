@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyIndexAnswer;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
+import com.ruoyi.survey.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfSchoolAnswerMapper;
@@ -109,9 +111,9 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     }
 
     @Override
-    public Map<String, Object> exportQfSchoolAnswer(Long cid) {
+    public AjaxResult exportQfSchoolAnswer(Long cid) {
         Map<String,String> titleMap =new HashMap<>();
-        Map<String,String> answerMap =new HashMap<>();
+
         List<String> titleList =new ArrayList<>();
         List<QfKeyName> keyNames = qfKeyNameMapper.selectQfKeyNameList(new QfKeyName(cid));
         for (QfKeyName keyName : keyNames) {
@@ -123,6 +125,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
 
         for (QfUserForm qfUserForm:qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid))){
             List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue());
+            List<QfKeyIndexAnswer> answers = new ArrayList<>();
             for (QfSchoolAnswer qfSchoolAnswer : qfSchoolAnswers) {
                 QfKeyIndexAnswer answer = new QfKeyIndexAnswer();
                 answer.setKeyIndex(
@@ -132,11 +135,12 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
                         )
                 );
                 answer.setValue(qfSchoolAnswer.getValue());
-
+                answers.add(answer);
             }
+            values.add(answers);
         }
 
 
-        return null;
+        return ExcelUtil.emloyeeExcel(titleList,values,"");
     }
 }
