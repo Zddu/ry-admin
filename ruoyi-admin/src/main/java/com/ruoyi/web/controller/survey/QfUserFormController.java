@@ -49,8 +49,7 @@ public class QfUserFormController extends BaseController
         List<QfCreateForm> list = qfUserFormService.
                 selectQfUserFormListBySId(
                         qfUserForm,
-                        sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
-                        );
+                        sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()));
         return getDataTable(list);
     }
 
