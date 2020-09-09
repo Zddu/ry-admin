@@ -9,6 +9,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyIndexAnswer;
+import com.ruoyi.survey.mapper.QfCreateFormMapper;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
 import com.ruoyi.survey.util.ExcelUtil;
@@ -32,6 +33,8 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     private QfUserFormMapper qfUserFormMapper;
     @Autowired
     private QfKeyNameMapper qfKeyNameMapper;
+    @Autowired
+    private QfCreateFormMapper qfCreateFormMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -113,16 +116,13 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     @Override
     public AjaxResult exportQfSchoolAnswer(Long cid) {
         Map<String,String> titleMap =new HashMap<>();
-
         List<String> titleList =new ArrayList<>();
         List<QfKeyName> keyNames = qfKeyNameMapper.selectQfKeyNameList(new QfKeyName(cid));
         for (QfKeyName keyName : keyNames) {
             titleMap.put(keyName.getKey(),keyName.getName());
             titleList.add(keyName.getName());
         }
-
         List<List<QfKeyIndexAnswer>> values =new ArrayList<>();
-
         for (QfUserForm qfUserForm:qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid))){
             List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue());
             List<QfKeyIndexAnswer> answers = new ArrayList<>();
@@ -130,7 +130,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
                 QfKeyIndexAnswer answer = new QfKeyIndexAnswer();
                 answer.setKeyIndex(
                         titleList.indexOf(
-                                titleMap.get(qfSchoolAnswer.getKey().substring(qfSchoolAnswer.getKey().lastIndexOf("_")+1)
+                                titleMap.get(qfSchoolAnswer.getKey().substring(qfSchoolAnswer.getKey().indexOf("_")+1)
                                 )
                         )
                 );
@@ -139,8 +139,6 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
             }
             values.add(answers);
         }
-
-
-        return ExcelUtil.emloyeeExcel(titleList,values,"");
+        return ExcelUtil.emloyeeExcel(titleList,values,qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xlsx");
     }
 }
