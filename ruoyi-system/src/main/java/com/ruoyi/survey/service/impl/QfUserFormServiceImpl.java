@@ -134,7 +134,18 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         Map parse = JSON.parseObject(json, Map.class);
         List<QfSchoolAnswer> keyNames=new ArrayList<>();
         for (Object o : parse.keySet()) {
-            keyNames.add(new QfSchoolAnswer(qfUserForm.getId(),String.valueOf(o),String.valueOf(parse.get(o))));
+            keyNames.add(
+                    new QfSchoolAnswer(
+                            qfUserForm.getId(),
+                            String.valueOf(o),
+                            String.valueOf(
+                                    parse.get(o)),
+                            QfUtils.getValueType(
+                                    parse,
+                                    (String) o
+                            )
+                    )
+            );
         }
         List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectAllQfSchoolAnswer();
         if (qfSchoolAnswers.indexOf(keyNames.get(0))==-1){

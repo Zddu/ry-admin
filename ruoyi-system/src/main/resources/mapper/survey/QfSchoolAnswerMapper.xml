@@ -9,10 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="qfSchoolId"    column="qf_school_id"    />
         <result property="key"    column="key"    />
         <result property="value"    column="value"    />
+        <result property="type"    column="type"    />
     </resultMap>
 
     <sql id="selectQfSchoolAnswerVo">
-        select id, qf_school_id, qf_school_answer.key, qf_school_answer.value from qf_school_answer
+        select id, qf_school_id, qf_school_answer.key, qf_school_answer.value,qf_school_answer.type from qf_school_answer
     </sql>
 
     <select id="selectQfSchoolAnswerList" parameterType="com.ruoyi.survey.domain.QfSchoolAnswer" resultMap="QfSchoolAnswerResult">
@@ -29,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
     <select id="selectQfSchoolAnswerListBySId"  resultMap="QfSchoolAnswerResult">
-        select qf_school_answer.id, qf_school_answer.key, qf_school_answer.value from qf_school_answer,qf_school_form where qf_school_form.id =qf_school_answer.qf_school_id and qf_school_form.create_id =#{cid} and qf_school_form.school_id =#{sid}
+        select qf_school_answer.id, qf_school_answer.key,qf_school_answer.type, qf_school_answer.value from qf_school_answer,qf_school_form where qf_school_form.id =qf_school_answer.qf_school_id and qf_school_form.create_id =#{cid} and qf_school_form.school_id =#{sid}
     </select>
     <select id="selectAllQfSchoolAnswer" resultMap="QfSchoolAnswerResult">
         <include refid="selectQfSchoolAnswerVo"/>
@@ -41,11 +42,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qfSchoolId != null">qf_school_id,</if>
             <if test="key != null">qf_school_answer.key,</if>
             <if test="value != null">qf_school_answer.value,</if>
+            <if test="type != null">qf_school_answer.type,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="qfSchoolId != null">#{qfSchoolId},</if>
             <if test="key != null">#{key},</if>
-            <if test="value != null">#{value},</if>
+            <if test="type != null">#{type},</if>
          </trim>
     </insert>
 
@@ -55,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qfSchoolId != null">qf_school_id = #{qfSchoolId},</if>
             <if test="key != null">qf_school_answer.key = #{key},</if>
             <if test="value != null">qf_school_answer.value = #{value},</if>
+            <if test="type != null">qf_school_answer.type = #{type},</if>
         </trim>
         where id = #{id}
     </update>

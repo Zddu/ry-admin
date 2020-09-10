@@ -37,7 +37,17 @@ public class QfSchoolAnswer extends BaseEntity {
     @Excel(name = "答案")
     private String value;
 
-    public void setId(Long id) 
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -74,7 +84,7 @@ public class QfSchoolAnswer extends BaseEntity {
         return value;
     }
 
-    public QfSchoolAnswer(Long qfSchoolId, String key, String value) {
+    public QfSchoolAnswer(Long qfSchoolId, String key, String value,String type) {
         this.qfSchoolId = qfSchoolId;
         this.key = key;
         if (ObjectUtils.isEmpty(value)){
@@ -85,6 +95,7 @@ public class QfSchoolAnswer extends BaseEntity {
                 throw new CustomException("有必填非空");
             }
         }
+        this.type=type;
         this.value = value;
     }
 

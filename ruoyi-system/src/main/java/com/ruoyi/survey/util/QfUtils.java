@@ -5,10 +5,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.uuid.UUID;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
+import com.sun.javafx.collections.MappingChange;
 
-import java.util.ArrayList;
+
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 
 /**
  * @date 2020/9/10 -- 8:50
@@ -50,4 +51,17 @@ public class QfUtils {
         QfSchoolAnswer.setRequiredTitles(titles);
     }
 
+    public static String getValueType(Map map, String key) {
+        if (map.get(key) instanceof String){
+           return "string";
+        }
+        else if (map.get(key) instanceof Integer){
+            return "number";
+        }
+        else if (map.get(key) ==null){
+           return null;
+        }else{
+           return "array";
+        }
+    }
 }
