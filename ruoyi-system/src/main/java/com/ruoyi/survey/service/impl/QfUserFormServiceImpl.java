@@ -120,6 +120,8 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         if (qfCreateForm.getEndTime().getTime()<new Date().getTime()){
             throw new CustomException("已截止");
         }
+
+
         QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
         if (ObjectUtils.isEmpty(qfUserForm)){
             throw new CustomException("该角色没有表单提交权限");
