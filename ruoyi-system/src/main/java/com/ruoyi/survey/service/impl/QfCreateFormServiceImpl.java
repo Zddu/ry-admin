@@ -121,10 +121,9 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
             set.add(qfKeyName.getName());
         }
         if (set.size()!=qfKeyNames.getList().size()){
-            throw new CustomException("");
+            throw new CustomException("有重复标题的数据");
         }
         for (QfKeyName qfKeyName : qfKeyNames.getList()) {
-
             size = qfKeyNameMapper.insertQfKeyName(qfKeyName.setCreateId(qfCreateForm.getId()));
         }
 
