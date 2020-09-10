@@ -164,7 +164,6 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     @Override
     public List<QfCreateForm> selectQfUserFormListBySId(QfCreateForm qfUserForm, Long id) {
         List<QfCreateForm> qfCreateForms = qfCreateFormMapper.selectQfUserFormListBySId(qfUserForm, id);
-        QfUtils.endTime2Last(qfCreateForms);
         return qfCreateForms;
     }
 }
