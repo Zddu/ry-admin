@@ -26,7 +26,6 @@ import com.ruoyi.survey.service.IQfCreateFormService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 【创建问卷】Controller
@@ -140,7 +139,7 @@ public class QfCreateFormController extends BaseController {
     /**
      * 导出已填写的问卷
      */
-    @PreAuthorize("@ss.hasPermi('survey:form:export')")
+    @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @Log(title = "导出已填写的问卷", businessType = BusinessType.EXPORT)
     @GetMapping("/exportAll/{id}")
     public AjaxResult export(@PathVariable("id") Long cid) {
