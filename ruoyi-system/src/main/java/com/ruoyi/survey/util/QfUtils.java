@@ -4,12 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.uuid.UUID;
+import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
 import com.sun.javafx.collections.MappingChange;
 
 
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @date 2020/9/10 -- 8:50
@@ -63,5 +63,16 @@ public class QfUtils {
         }else{
            return "array";
         }
+    }
+
+    public static void endTime2Last(List<QfCreateForm> qfCreateForms) {
+        List<QfCreateForm> endtime =new ArrayList<>();
+        for (QfCreateForm createForm : qfCreateForms) {
+            if (createForm.getEndTime().getTime()<=new Date().getTime()){
+                endtime.add(createForm);
+                qfCreateForms.remove(createForm);
+            }
+        }
+        qfCreateForms.addAll(endtime);
     }
 }
