@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="qfSchoolId != null">#{qfSchoolId},</if>
             <if test="key != null">#{key},</if>
+            <if test="value != null">#{value},</if>
             <if test="type != null">#{type},</if>
          </trim>
     </insert>
