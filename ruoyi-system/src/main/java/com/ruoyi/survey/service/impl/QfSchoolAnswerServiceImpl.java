@@ -120,6 +120,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
         List<String> titleList =new ArrayList<>();
         titleList.add("学校名称");
         List<QfKeyName> keyNames = qfKeyNameMapper.selectQfKeyNameList(new QfKeyName(cid));
+
         for (QfKeyName keyName : keyNames) {
             titleMap.put(keyName.getKey(),keyName.getName());
             titleList.add(keyName.getName());

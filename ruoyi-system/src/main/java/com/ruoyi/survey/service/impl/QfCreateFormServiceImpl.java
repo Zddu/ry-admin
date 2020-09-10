@@ -15,6 +15,7 @@ import com.ruoyi.survey.domain.vo.QfUserFormVo;
 import com.ruoyi.survey.domain.vo.SchoolVO;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
+import com.ruoyi.survey.util.QfUtils;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,9 +110,9 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertQuestionnaire(QfCreateForm qfCreateForm)  {
+        qfCreateForm.setStrData(QfUtils.restructureJson(qfCreateForm.getStrData()));
         QfKeyNameVo qfKeyNames = JSONObject.parseObject(qfCreateForm.getStrData(), QfKeyNameVo.class);
         int size =-1;
-
         size = qfCreateFormMapper.insertQfCreateForm(qfCreateForm);
         for (QfKeyName qfKeyName : qfKeyNames.getList()) {
             size = qfKeyNameMapper.insertQfKeyName(qfKeyName.setCreateId(qfCreateForm.getId()));

@@ -13,6 +13,7 @@ import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
 import com.ruoyi.survey.mapper.QfCreateFormMapper;
 import com.ruoyi.survey.mapper.QfSchoolAnswerMapper;
+import com.ruoyi.survey.util.QfUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
@@ -120,7 +121,8 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         if (qfCreateForm.getEndTime().getTime()<new Date().getTime()){
             throw new CustomException("已截止");
         }
-
+        //校验必填项
+//        QfUtils.verificationRequired(json,qfCreateForm.getStrData());
 
         QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
         if (ObjectUtils.isEmpty(qfUserForm)){
