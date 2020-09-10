@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 </if>
             </if>
         </where>
-
+        order by qf_create_form.end_time
     </select>
     <select id="selectQfUserFormListBySId" resultMap="QfCreateFormResult">
     select qf_create_form.id,qf_create_form.end_time,qf_create_form.title,qf_school_form.state from qf_create_form,qf_school_form
@@ -78,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 </if>
             </if>
         </where>
+        order by qf_create_form.end_time
     </select>
 
     <insert id="insertQfCreateForm" parameterType="com.ruoyi.survey.domain.QfCreateForm" useGeneratedKeys="true" keyProperty="id">

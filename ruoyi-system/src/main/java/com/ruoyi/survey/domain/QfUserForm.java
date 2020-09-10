@@ -33,7 +33,15 @@ public class QfUserForm extends BaseEntity {
     private Integer schoolId;
 
     private Integer state;
+    private String reason;
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     @Override
     public Date getCreateTime() {

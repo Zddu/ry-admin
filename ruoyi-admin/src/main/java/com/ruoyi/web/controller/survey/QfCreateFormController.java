@@ -205,7 +205,13 @@ public class QfCreateFormController extends BaseController {
         return ajaxResult;
     }
 
-
+    /**
+     * 修改状态
+     */
+    @PutMapping("/update")
+     public AjaxResult updateQfState(@RequestBody QfUserForm stateVo){
+        return toAjax(qfUserFormService.updateQfUserForm(stateVo));
+     }
 
 }
 

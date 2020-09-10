@@ -57,11 +57,6 @@ public class QfUserFormController extends BaseController
                 );
         return getDataTable(list);
     }
-
-
-
-
-
     /**
      * 上传答案
      */
@@ -72,9 +67,6 @@ public class QfUserFormController extends BaseController
                 sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
                 ,cid));
     }
-
-
-
     /**
      * 修改【请填写功能名称】
      */
@@ -84,7 +76,6 @@ public class QfUserFormController extends BaseController
     public AjaxResult edit(@RequestBody QfUserForm qfUserForm) {
         return toAjax(qfUserFormService.updateQfUserForm(qfUserForm));
     }
-
     /**
      * 删除【请填写功能名称】
      */
@@ -95,7 +86,6 @@ public class QfUserFormController extends BaseController
     {
         return toAjax(qfUserFormService.deleteQfUserFormByIds(ids));
     }
-
     /**
      * 查看问卷详情
      */
