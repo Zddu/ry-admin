@@ -208,6 +208,7 @@ public class QfCreateFormController extends BaseController {
     /**
      * 修改状态
      */
+    @Log(title = "更新问卷状态", businessType = BusinessType.UPDATE)
     @PutMapping("/update")
      public AjaxResult updateQfState(@RequestBody QfUserForm stateVo){
         return toAjax(qfUserFormService.updateQfUserForm(stateVo));
