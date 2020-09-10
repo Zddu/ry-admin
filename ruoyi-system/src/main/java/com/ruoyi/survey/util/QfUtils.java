@@ -21,7 +21,7 @@ public class QfUtils {
         for (int i = 0; i < list.size(); i++) {
             String s = UUID.randomUUID().toString().replaceAll("-", "");
             list.getJSONObject(i).put("key",s);
-            list.getJSONObject(i).put("model",s);
+            list.getJSONObject(i).put("model","_"+s);
         }
         obj.put("list",list);
         return JSON.toJSONString(obj);
