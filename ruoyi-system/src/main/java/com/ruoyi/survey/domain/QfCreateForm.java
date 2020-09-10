@@ -37,6 +37,15 @@ public class QfCreateForm implements Serializable
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date hoTime;
 
+    private String reason;
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public Date getHoTime() {
         return hoTime;
