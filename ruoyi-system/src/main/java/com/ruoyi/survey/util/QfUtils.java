@@ -70,8 +70,10 @@ public class QfUtils {
         for (QfCreateForm createForm : qfCreateForms) {
             if (createForm.getEndTime().getTime()<=new Date().getTime()){
                 endtime.add(createForm);
-                qfCreateForms.remove(createForm);
             }
+        }
+        for (QfCreateForm qfCreateForm : endtime) {
+            qfCreateForms.remove(qfCreateForm);
         }
         qfCreateForms.addAll(endtime);
     }
