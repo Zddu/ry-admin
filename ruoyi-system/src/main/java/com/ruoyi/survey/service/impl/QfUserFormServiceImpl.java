@@ -121,8 +121,8 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         if (qfCreateForm.getEndTime().getTime()<new Date().getTime()){
             throw new CustomException("已截止");
         }
-        //校验必填项
-//        QfUtils.verificationRequired(json,qfCreateForm.getStrData());
+        //插入表单必填项
+        QfUtils.verificationRequired(qfCreateForm.getStrData());
 
         QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
         if (ObjectUtils.isEmpty(qfUserForm)){

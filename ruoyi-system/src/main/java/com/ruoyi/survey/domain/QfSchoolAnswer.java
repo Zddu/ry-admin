@@ -1,10 +1,14 @@
 package com.ruoyi.survey.domain;
 
+import com.ruoyi.common.exception.CustomException;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import org.springframework.util.ObjectUtils;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,8 +17,9 @@ import java.util.Objects;
  * @author Zddeä¸¶
  * @date 2020-09-08
  */
-public class QfSchoolAnswer extends BaseEntity
-{
+public class QfSchoolAnswer extends BaseEntity {
+
+    private static HashSet<String> requiredTitles;
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
@@ -72,7 +77,19 @@ public class QfSchoolAnswer extends BaseEntity
     public QfSchoolAnswer(Long qfSchoolId, String key, String value) {
         this.qfSchoolId = qfSchoolId;
         this.key = key;
+        if (ObjectUtils.isEmpty(value)){
+            if (requiredTitles==null){
+                throw new RuntimeException("请先校验表单有哪些必填项");
+            }
+            if (requiredTitles.contains(key)){
+                throw new CustomException("有必填非空");
+            }
+        }
         this.value = value;
+    }
+
+    public static void setRequiredTitles(HashSet<String> requiredTitles) {
+        QfSchoolAnswer.requiredTitles = requiredTitles;
     }
 
     public QfSchoolAnswer() {
