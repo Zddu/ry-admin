@@ -26,8 +26,6 @@ import com.ruoyi.survey.service.IQfCreateFormService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * 【创建问卷】Controller
  *
@@ -206,7 +204,13 @@ public class QfCreateFormController extends BaseController {
         return ajaxResult;
     }
 
-
+    /**
+     * 修改状态
+     */
+    @PutMapping("/update")
+     public AjaxResult updateQfState(@RequestBody QfUserForm stateVo){
+        return toAjax(qfUserFormService.updateQfUserForm(stateVo));
+     }
 
 }
 
