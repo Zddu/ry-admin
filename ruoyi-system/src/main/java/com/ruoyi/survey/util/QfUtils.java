@@ -66,15 +66,33 @@ public class QfUtils {
     }
 
     public static void endTime2Last(List<QfCreateForm> qfCreateForms) {
-        List<QfCreateForm> endtime =new ArrayList<>();
+        List<QfCreateForm> item =new ArrayList<>();
+        //将截止的放到最后
         for (QfCreateForm createForm : qfCreateForms) {
             if (createForm.getEndTime().getTime()<=new Date().getTime()){
-                endtime.add(createForm);
+                item.add(createForm);
             }
         }
-        for (QfCreateForm qfCreateForm : endtime) {
+        for (QfCreateForm qfCreateForm : item) {
             qfCreateForms.remove(qfCreateForm);
         }
-        qfCreateForms.addAll(endtime);
+        qfCreateForms.addAll(item);
+
+    }
+
+
+    public static List<QfCreateForm>  rejected2Head(List<QfCreateForm> qfCreateForms) {
+        List<QfCreateForm> item =new ArrayList<>();
+        //将已驳回的放到最前面
+        for (QfCreateForm createForm : qfCreateForms) {
+            if (createForm.getState()==2){
+                item.add(createForm);
+            }
+        }
+        for (QfCreateForm qfCreateForm : item) {
+            qfCreateForms.remove(qfCreateForm);
+        }
+        item.addAll(qfCreateForms);
+       return item;
     }
 }

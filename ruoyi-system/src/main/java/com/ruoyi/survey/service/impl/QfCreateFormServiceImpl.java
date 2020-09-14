@@ -133,9 +133,6 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Override
     public List<QfCreateForm> selectQfCreateFormByUsername(String username, QfCreateForm qfCreateForm) {
         List<QfCreateForm> qfCreateForms = qfCreateFormMapper.selectQfCreateFormByUsername(username, qfCreateForm);
-        //将已截止的排序放在最后
-        QfUtils.endTime2Last(qfCreateForms);
-
         return qfCreateForms;
     }
 

@@ -164,7 +164,11 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
 
     @Override
     public List<QfCreateForm> selectQfUserFormListBySId(QfCreateForm qfUserForm, Long id) {
+        //为了方便起见将状态字段换成了用户的提交状态
         List<QfCreateForm> qfCreateForms = qfCreateFormMapper.selectQfUserFormListBySId(qfUserForm, id);
-        return qfCreateForms;
+        //将已截止的排序放在最后
+        QfUtils.endTime2Last(qfCreateForms);
+        //将
+        return  QfUtils.rejected2Head(qfCreateForms);
     }
 }

@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 </if>
             </if>
         </where>
-        order by qf_create_form.end_time
+        order by qf_create_form.end_time desc
     </select>
 
     <insert id="insertQfCreateForm" parameterType="com.ruoyi.survey.domain.QfCreateForm" useGeneratedKeys="true" keyProperty="id">
