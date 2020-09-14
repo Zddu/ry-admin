@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsItemsMapper">
+    
+    <resultMap type="com.ruoyi.assets.domain.AssetsItems" id="AssetsItemsResult">
+        <result property="id"    column="id"    />
+        <result property="itemName"    column="item_name"    />
+    </resultMap>
+
+    <sql id="selectAssetsItemsVo">
+        select id, item_name from assets_items
+    </sql>
+
+    <select id="selectAssetsItemsList" parameterType="com.ruoyi.assets.domain.AssetsItems" resultMap="AssetsItemsResult">
+        <include refid="selectAssetsItemsVo"/>
+        <where>  
+            <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetsItemsById" parameterType="Long" resultMap="AssetsItemsResult">
+        <include refid="selectAssetsItemsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetsItems" parameterType="com.ruoyi.assets.domain.AssetsItems" useGeneratedKeys="true" keyProperty="id">
+        insert into assets_items
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">item_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetsItems" parameterType="com.ruoyi.assets.domain.AssetsItems">
+        update assets_items
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetsItemsById" parameterType="Long">
+        delete from assets_items where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetsItemsByIds" parameterType="String">
+        delete from assets_items where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
