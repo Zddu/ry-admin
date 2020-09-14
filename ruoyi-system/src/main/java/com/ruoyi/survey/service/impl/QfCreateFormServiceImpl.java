@@ -146,8 +146,8 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     }
 
     @Override
-    public QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid) {
+    public QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid,Long sid) {
 
-        return qfCreateFormMapper.selectQfCreateFormAndUserFormReasonById(cid);
+        return qfCreateFormMapper.selectQfCreateFormAndUserFormReasonById(cid,sid);
     }
 }

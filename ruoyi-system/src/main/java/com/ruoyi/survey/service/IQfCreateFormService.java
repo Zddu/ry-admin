@@ -63,5 +63,5 @@ public interface IQfCreateFormService
 
     int submitQfCreateForm(QfUserFormVo qfUserFormVo);
 
-    QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid);
+    QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid,Long sid);
 }
