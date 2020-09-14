@@ -44,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="propertyName != null and propertyName != ''">property_name,</if>
         </trim>
+        values
         <foreach collection="assetsPropertiesModels" item="item" separator=",">
             (#{item.propertyName})
         </foreach>

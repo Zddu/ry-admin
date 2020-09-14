@@ -103,7 +103,6 @@ public class AssetsPropertiesModelServiceImpl implements IAssetsPropertiesModelS
     @Transactional(rollbackFor = Exception.class)
     public int modifyPropertiesModel(List<AssetsPropertiesModel> assetsPropertiesModels) {
         assetsPropertiesModelMapper.deleteAssetsPropertiesModel();
-        assetsPropertiesModelMapper.modifyPropertiesModel(assetsPropertiesModels);
-        return 0;
+        return assetsPropertiesModelMapper.modifyPropertiesModel(assetsPropertiesModels);
     }
 }
