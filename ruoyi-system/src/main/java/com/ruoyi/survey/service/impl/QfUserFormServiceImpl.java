@@ -118,13 +118,14 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     @Transactional
     public int insertAnswer(String json, Long sid, Long cid) {
         QfCreateForm qfCreateForm = qfCreateFormMapper.selectQfCreateFormById(cid);
-        if (qfCreateForm.getEndTime().getTime()<new Date().getTime()){
+        QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
+        if (qfCreateForm.getEndTime().getTime()<new Date().getTime()||qfUserForm.getState()!=2){
             throw new CustomException("已截止");
         }
         //插入表单必填项
         QfUtils.verificationRequired(qfCreateForm.getStrData());
 
-        QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
+
         if (ObjectUtils.isEmpty(qfUserForm)){
             throw new CustomException("该角色没有表单提交权限");
         }
