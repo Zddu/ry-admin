@@ -92,7 +92,15 @@ public class QfUserFormController extends BaseController
     @GetMapping("/{cid}")
     public AjaxResult showSchoolMsg(@PathVariable("cid")Long cid ) {
         AjaxResult ajaxResult = AjaxResult.success();
-        ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormAndUserFormReasonById(cid,sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()));
+        ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormAndUserFormReasonById(
+                cid,
+                sysDeptService.selectParentDepByChildId(
+                        tokenService.getLoginUser(ServletUtils.getRequest()).
+                                getUser().
+                                getDeptId())
+                )
+        );
+
         ajaxResult.put("answer",qfSchoolAnswerService.selectQfSchoolAnswerListBySId(cid,
                 sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
                 )
