@@ -60,4 +60,8 @@ public interface IAssetsPropertiesModelService
      * @return 结果
      */
     public int deleteAssetsPropertiesModelById(Long id);
+
+    List<AssetsPropertiesModel> selectAssetsPropertiesModel();
+
+    int modifyPropertiesModel(List<AssetsPropertiesModel> assetsPropertiesModels);
 }

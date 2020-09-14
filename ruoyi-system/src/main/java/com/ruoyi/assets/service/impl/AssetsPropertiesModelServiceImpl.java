@@ -6,6 +6,7 @@ import com.ruoyi.assets.mapper.AssetsPropertiesModelMapper;
 import com.ruoyi.assets.service.IAssetsPropertiesModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,8 +17,7 @@ import java.util.List;
  * @date 2020-09-14
  */
 @Service
-public class AssetsPropertiesModelServiceImpl implements IAssetsPropertiesModelService
-{
+public class AssetsPropertiesModelServiceImpl implements IAssetsPropertiesModelService {
     @Autowired
     private AssetsPropertiesModelMapper assetsPropertiesModelMapper;
 
@@ -91,5 +91,19 @@ public class AssetsPropertiesModelServiceImpl implements IAssetsPropertiesModelS
     public int deleteAssetsPropertiesModelById(Long id)
     {
         return assetsPropertiesModelMapper.deleteAssetsPropertiesModelById(id);
+    }
+
+    @Override
+    public List<AssetsPropertiesModel> selectAssetsPropertiesModel() {
+
+        return assetsPropertiesModelMapper.selectAssetsPropertiesModel();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int modifyPropertiesModel(List<AssetsPropertiesModel> assetsPropertiesModels) {
+        assetsPropertiesModelMapper.deleteAssetsPropertiesModel();
+        assetsPropertiesModelMapper.modifyPropertiesModel(assetsPropertiesModels);
+        return 0;
     }
 }

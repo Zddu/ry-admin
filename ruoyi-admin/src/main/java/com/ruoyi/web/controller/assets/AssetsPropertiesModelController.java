@@ -33,35 +33,34 @@ public class AssetsPropertiesModelController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:model:list')")
     @GetMapping("/list")
-    public TableDataInfo list(AssetsPropertiesModel assetsPropertiesModel)
-    {
+    public TableDataInfo list(AssetsPropertiesModel assetsPropertiesModel) {
         startPage();
         List<AssetsPropertiesModel> list = assetsPropertiesModelService.selectAssetsPropertiesModelList(assetsPropertiesModel);
         return getDataTable(list);
     }
 
+
+
+
     /**
-     * 导出【请填写功能名称】列表
+     * 获取模板信息
      */
-    @PreAuthorize("@ss.hasPermi('assets:model:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
-    @GetMapping("/export")
-    public AjaxResult export(AssetsPropertiesModel assetsPropertiesModel)
-    {
-        List<AssetsPropertiesModel> list = assetsPropertiesModelService.selectAssetsPropertiesModelList(assetsPropertiesModel);
-        ExcelUtil<AssetsPropertiesModel> util = new ExcelUtil<AssetsPropertiesModel>(AssetsPropertiesModel.class);
-        return util.exportExcel(list, "model");
+    @PreAuthorize("@ss.hasPermi('assets:model:query')")
+    @GetMapping(value = "/model")
+    public AjaxResult getInfo() {
+        return AjaxResult.success(assetsPropertiesModelService.selectAssetsPropertiesModel());
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 修改模板字段(已存在保留，不存在插入)
      */
-    @PreAuthorize("@ss.hasPermi('assets:model:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
-        return AjaxResult.success(assetsPropertiesModelService.selectAssetsPropertiesModelById(id));
+    @PreAuthorize("@ss.hasPermi('assets:model:add')")
+    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @PostMapping("/modify")
+    public AjaxResult modify(@RequestBody List<AssetsPropertiesModel> assetsPropertiesModels) {
+        return toAjax(assetsPropertiesModelService.modifyPropertiesModel(assetsPropertiesModels));
     }
+
 
     /**
      * 新增【请填写功能名称】
@@ -69,30 +68,12 @@ public class AssetsPropertiesModelController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:model:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody AssetsPropertiesModel assetsPropertiesModel)
-    {
+    public AjaxResult add(@RequestBody AssetsPropertiesModel assetsPropertiesModel) {
         return toAjax(assetsPropertiesModelService.insertAssetsPropertiesModel(assetsPropertiesModel));
     }
 
-    /**
-     * 修改【请填写功能名称】
-     */
-    @PreAuthorize("@ss.hasPermi('assets:model:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody AssetsPropertiesModel assetsPropertiesModel)
-    {
-        return toAjax(assetsPropertiesModelService.updateAssetsPropertiesModel(assetsPropertiesModel));
-    }
 
-    /**
-     * 删除【请填写功能名称】
-     */
-    @PreAuthorize("@ss.hasPermi('assets:model:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
-        return toAjax(assetsPropertiesModelService.deleteAssetsPropertiesModelByIds(ids));
-    }
+
+
+
 }

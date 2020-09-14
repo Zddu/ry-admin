@@ -24,7 +24,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsPropertiesModelVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectAssetsPropertiesModel" resultType="com.ruoyi.assets.domain.AssetsPropertiesModel">
+        <include refid="selectAssetsPropertiesModelVo"/>
+    </select>
+
     <insert id="insertAssetsPropertiesModel" parameterType="com.ruoyi.assets.domain.AssetsPropertiesModel">
         insert into assets_properties_model
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -36,7 +39,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="propertyName != null and propertyName != ''">#{propertyName},</if>
          </trim>
     </insert>
-
+    <insert id="modifyPropertiesModel">
+        insert into assets_properties_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="propertyName != null and propertyName != ''">property_name,</if>
+        </trim>
+        <foreach collection="assetsPropertiesModels" item="item" separator=",">
+            (#{item.propertyName})
+        </foreach>
+    </insert>
     <update id="updateAssetsPropertiesModel" parameterType="com.ruoyi.assets.domain.AssetsPropertiesModel">
         update assets_properties_model
         <trim prefix="SET" suffixOverrides=",">
@@ -44,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
+
 
     <delete id="deleteAssetsPropertiesModelById" parameterType="Long">
         delete from assets_properties_model where id = #{id}
@@ -55,5 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+    <delete id="deleteAssetsPropertiesModel">
+        delete from assets_properties_model
+    </delete>
+
 </mapper>
