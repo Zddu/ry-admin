@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="creator"    column="creator"    />
         <result property="endTime"    column="end_time"    />
         <result property="hoTime"    column="ho_time"    />
+        <result property="reason"    column="reason"    />
     </resultMap>
 
     <sql id="selectQfCreateFormVo">
@@ -79,6 +80,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
         </where>
         order by qf_create_form.end_time desc
+    </select>
+    <select id="selectQfCreateFormAndUserFormReasonById" resultType="com.ruoyi.survey.domain.QfCreateForm">
+        select qf_create_form.id,qf_create_form.json_data,qf_school_form.state,qf_create_form.create_time,qf_create_form.title,qf_create_form.creator,qf_create_form.ho_time, qf_create_form.end_time,qf_school_form.reject_reason reason from qf_create_form,qf_school_form where qf_school_form.create_id=qf_create_form.id and qf_create_form = #{cid}
     </select>
 
     <insert id="insertQfCreateForm" parameterType="com.ruoyi.survey.domain.QfCreateForm" useGeneratedKeys="true" keyProperty="id">

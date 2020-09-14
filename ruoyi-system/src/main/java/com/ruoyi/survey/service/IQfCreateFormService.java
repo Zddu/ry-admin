@@ -62,4 +62,6 @@ public interface IQfCreateFormService
     List<QfCreateForm> selectQfCreateFormByUsername(String username, QfCreateForm qfCreateForm);
 
     int submitQfCreateForm(QfUserFormVo qfUserFormVo);
+
+    QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid);
 }

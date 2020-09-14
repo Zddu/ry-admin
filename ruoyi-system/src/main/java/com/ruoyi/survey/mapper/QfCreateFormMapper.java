@@ -57,4 +57,6 @@ public interface QfCreateFormMapper
     List<QfCreateForm> selectQfCreateFormByUsername(@Param("username") String username,@Param("qfCreateForm") QfCreateForm qfCreateForm);
 
     List<QfCreateForm> selectQfUserFormListBySId(@Param("qfUserForm") QfCreateForm qfUserForm, @Param("id") Long id);
+
+    QfCreateForm selectQfCreateFormAndUserFormReasonById(@Param("cid") Long cid);
 }

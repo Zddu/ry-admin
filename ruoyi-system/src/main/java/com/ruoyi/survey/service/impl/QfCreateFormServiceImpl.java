@@ -144,4 +144,10 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
         }
         return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),1));
     }
+
+    @Override
+    public QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid) {
+
+        return qfCreateFormMapper.selectQfCreateFormAndUserFormReasonById(cid);
+    }
 }
