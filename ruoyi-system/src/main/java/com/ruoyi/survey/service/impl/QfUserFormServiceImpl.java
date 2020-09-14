@@ -168,7 +168,7 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         List<QfCreateForm> qfCreateForms = qfCreateFormMapper.selectQfUserFormListBySId(qfUserForm, id);
         //将已截止的排序放在最后
         QfUtils.endTime2Last(qfCreateForms);
-        //将
+        //将已驳回的放在最前面
         return  QfUtils.rejected2Head(qfCreateForms);
     }
 }
