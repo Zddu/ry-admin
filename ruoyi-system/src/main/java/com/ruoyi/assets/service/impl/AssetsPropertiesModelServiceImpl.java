@@ -2,6 +2,7 @@ package com.ruoyi.assets.service.impl;
 
 
 import com.ruoyi.assets.domain.AssetsPropertiesModel;
+import com.ruoyi.assets.domain.vo.ModelVo;
 import com.ruoyi.assets.mapper.AssetsPropertiesModelMapper;
 import com.ruoyi.assets.service.IAssetsPropertiesModelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,9 +101,10 @@ public class AssetsPropertiesModelServiceImpl implements IAssetsPropertiesModelS
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int modifyPropertiesModel(List<AssetsPropertiesModel> assetsPropertiesModels) {
-        assetsPropertiesModelMapper.deleteAssetsPropertiesModel();
-        return assetsPropertiesModelMapper.modifyPropertiesModel(assetsPropertiesModels);
+    public int modifyPropertiesModel(ModelVo modelVo) {
+        for (AssetsPropertiesModel model : modelVo.getPropertyName()) {
+            return  assetsPropertiesModelMapper.modifyPropertiesModel(model);
+        }
+        return 0;
     }
 }

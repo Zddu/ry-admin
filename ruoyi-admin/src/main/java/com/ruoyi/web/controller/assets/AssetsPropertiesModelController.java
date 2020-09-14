@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.assets;
 
 
 import com.ruoyi.assets.domain.AssetsPropertiesModel;
+import com.ruoyi.assets.domain.vo.ModelVo;
 import com.ruoyi.assets.service.IAssetsPropertiesModelService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -54,11 +55,10 @@ public class AssetsPropertiesModelController extends BaseController
     /**
      * 修改模板字段(已存在保留，不存在插入)
      */
-    @PreAuthorize("@ss.hasPermi('assets:model:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "添加属性名模板", businessType = BusinessType.INSERT)
     @PostMapping("/modify")
-    public AjaxResult modify(@RequestBody List<AssetsPropertiesModel> assetsPropertiesModels) {
-        return toAjax(assetsPropertiesModelService.modifyPropertiesModel(assetsPropertiesModels));
+    public AjaxResult modify(@RequestBody ModelVo property) {
+        return toAjax(assetsPropertiesModelService.modifyPropertiesModel(property));
     }
 
 

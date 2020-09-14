@@ -2,6 +2,7 @@ package com.ruoyi.assets.service;
 
 
 import com.ruoyi.assets.domain.AssetsPropertiesModel;
+import com.ruoyi.assets.domain.vo.ModelVo;
 
 import java.util.List;
 
@@ -63,5 +64,5 @@ public interface IAssetsPropertiesModelService
 
     List<AssetsPropertiesModel> selectAssetsPropertiesModel();
 
-    int modifyPropertiesModel(List<AssetsPropertiesModel> assetsPropertiesModels);
+    int modifyPropertiesModel(ModelVo assetsPropertiesModels);
 }

@@ -2,6 +2,7 @@ package com.ruoyi.assets.mapper;
 
 
 import com.ruoyi.assets.domain.AssetsPropertiesModel;
+import com.ruoyi.assets.domain.vo.ModelVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -66,5 +67,5 @@ public interface AssetsPropertiesModelMapper
 
     int deleteAssetsPropertiesModel();
 
-    int modifyPropertiesModel(@Param("assetsPropertiesModels") List<AssetsPropertiesModel> assetsPropertiesModels);
+    int modifyPropertiesModel(@Param("assetsPropertiesModels") AssetsPropertiesModel assetsPropertiesModels);
 }
