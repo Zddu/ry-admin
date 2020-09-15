@@ -1,11 +1,9 @@
 package com.ruoyi.survey.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.survey.domain.QfCreateForm;
@@ -135,19 +133,15 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         qfUserForm.setCreateTime(new Date());
         qfUserForm.setState(1);
         int result =qfUserFormMapper.updateQfUserForm(qfUserForm);
-        Map parse = JSON.parseObject(json, Map.class);
+        LinkedHashMap parse = JSON.parseObject(json, LinkedHashMap.class, Feature.OrderedField);
         List<QfSchoolAnswer> keyNames=new ArrayList<>();
         for (Object o : parse.keySet()) {
             keyNames.add(
                     new QfSchoolAnswer(
                             qfUserForm.getId(),
                             String.valueOf(o),
-                            String.valueOf(
-                                    parse.get(o)),
-                            QfUtils.getValueType(
-                                    parse,
-                                    (String) o
-                            )
+                            String.valueOf(parse.get(o)),
+                            QfUtils.getValueType(parse, (String) o)
                     )
             );
         }

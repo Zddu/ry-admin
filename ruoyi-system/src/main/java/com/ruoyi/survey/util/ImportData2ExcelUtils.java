@@ -43,7 +43,6 @@ public class ImportData2ExcelUtils {
         List<CellRangeAddress> cellRangeAddresses=getOriginFirstValueRowMergedRegions();
         removeStyleBehindValueRow();
         List<HSSFCellStyle> list=getOriginHSSFCellStyles();
-
         removeMsgBehindValueRow();
         addData2OriginExcel(datas,list,cellRangeAddresses);
         workbook.write(fos);
@@ -153,15 +152,20 @@ public class ImportData2ExcelUtils {
      * @param cellRangeAddresses
      */
     private void addData2OriginExcel(List<List<String>> datas, List<HSSFCellStyle> list, List<CellRangeAddress> cellRangeAddresses) {
-        for (int i =valueRow;i<datas.size();i++){
-            HSSFRow r = sheetAt.createRow(i);
+        for (int i =0;i<datas.size();i++){
+            HSSFRow r = sheetAt.createRow(i+valueRow);
             List<String> strings = datas.get(i);
             //将数据行的合并单元信息复制
             for (CellRangeAddress cellRangeAddress : cellRangeAddresses) {
-                sheetAt.addMergedRegion(new CellRangeAddress(i,i,cellRangeAddress.getFirstColumn(),cellRangeAddress.getLastColumn()));
+                sheetAt.addMergedRegion(new CellRangeAddress(
+                        i+valueRow,
+                        i+valueRow,
+                        cellRangeAddress.getFirstColumn(),
+                        cellRangeAddress.getLastColumn()));
             }
             for (int j=0;j<csize;j++){
                 HSSFCell cell = r.createCell(j);
+                System.out.println(strings.get(j));
                 cell.setCellValue(strings.get(j));
                 cell.setCellStyle(list.get(j));
             }

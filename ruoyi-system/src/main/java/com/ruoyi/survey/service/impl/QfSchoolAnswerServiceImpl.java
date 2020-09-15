@@ -155,19 +155,23 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
 
     @Override
     public AjaxResult exportQfSchoolAnswerByModel(Long cid) {
-        String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xlsx";
+        String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xls";
         List<QfUserForm> list= qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid));
         List<List<String>> values = new ArrayList<>();
         for (QfUserForm qfUserForm : list) {
             List<String> answers =new ArrayList<>();
             answers.addAll(qfSchoolAnswerMapper.selectAnswerBySFid(qfUserForm.getId()));
-            values.add(answers);
+            if (!answers.isEmpty()){
+                values.add(answers);
+            }
+
         }
 
         try (FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\Administrator\\Desktop\\北杨庄小学多媒体设备统计表.xls"))) {
             ImportData2ExcelUtils importData2ExcelUtils = new ImportData2ExcelUtils(fileInputStream);
             importData2ExcelUtils.fillData2OriginExcel(new FileOutputStream(getAbsoluteFile(fileName)),values);
         }catch (Exception e){
+            e.printStackTrace();
             return AjaxResult.error("文件创建失败");
         }
         return AjaxResult.success(fileName);
