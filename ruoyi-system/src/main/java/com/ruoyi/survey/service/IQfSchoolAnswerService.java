@@ -65,4 +65,6 @@ public interface IQfSchoolAnswerService
     List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid);
 
     AjaxResult exportQfSchoolAnswer(Long cid);
+
+    AjaxResult exportQfSchoolAnswerByModel(Long cid);
 }

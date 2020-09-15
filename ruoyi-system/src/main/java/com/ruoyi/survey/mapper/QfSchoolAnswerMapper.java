@@ -1,5 +1,6 @@
 package com.ruoyi.survey.mapper;
 
+import java.util.Collection;
 import java.util.List;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
 import org.apache.ibatis.annotations.Param;
@@ -65,4 +66,6 @@ public interface QfSchoolAnswerMapper
     List<QfSchoolAnswer> selectAllQfSchoolAnswer();
 
     int updateQfSchoolAnswerByKeyAndSchool(QfSchoolAnswer keyName);
+
+    List<String> selectAnswerBySFid(@Param("id") Long id);
 }

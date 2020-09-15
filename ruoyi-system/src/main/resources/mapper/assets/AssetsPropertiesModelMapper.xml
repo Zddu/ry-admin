@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsPropertiesModelMapper">
+    
+    <resultMap type="com.ruoyi.assets.domain.AssetsPropertiesModel" id="AssetsPropertiesModelResult">
+        <result property="id"    column="id"    />
+        <result property="propertyName"    column="property_name"    />
+    </resultMap>
+
+    <sql id="selectAssetsPropertiesModelVo">
+        select id, property_name from assets_properties_model
+    </sql>
+
+    <select id="selectAssetsPropertiesModelList" parameterType="com.ruoyi.assets.domain.AssetsPropertiesModel" resultMap="AssetsPropertiesModelResult">
+        <include refid="selectAssetsPropertiesModelVo"/>
+        <where>  
+            <if test="propertyName != null  and propertyName != ''"> and property_name like concat('%', #{propertyName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetsPropertiesModelById" parameterType="Long" resultMap="AssetsPropertiesModelResult">
+        <include refid="selectAssetsPropertiesModelVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectAssetsPropertiesModel" resultType="com.ruoyi.assets.domain.AssetsPropertiesModel">
+        <include refid="selectAssetsPropertiesModelVo"/>
+    </select>
+
+    <insert id="insertAssetsPropertiesModel" parameterType="com.ruoyi.assets.domain.AssetsPropertiesModel">
+        insert into assets_properties_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="propertyName != null and propertyName != ''">property_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="propertyName != null and propertyName != ''">#{propertyName},</if>
+         </trim>
+    </insert>
+    <insert id="modifyPropertiesModel">
+        insert into assets_properties_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="propertyName != null and propertyName != ''">property_name,</if>
+        </trim>
+        values
+        <foreach collection="assetsPropertiesModels" item="item" separator=",">
+            (#{item.propertyName})
+        </foreach>
+    </insert>
+    <update id="updateAssetsPropertiesModel" parameterType="com.ruoyi.assets.domain.AssetsPropertiesModel">
+        update assets_properties_model
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="propertyName != null and propertyName != ''">property_name = #{propertyName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteAssetsPropertiesModelById" parameterType="Long">
+        delete from assets_properties_model where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetsPropertiesModelByIds" parameterType="String">
+        delete from assets_properties_model where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteAssetsPropertiesModel">
+        delete from assets_properties_model
+    </delete>
+
+</mapper>

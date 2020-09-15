@@ -1,11 +1,16 @@
 package com.ruoyi.survey.service.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyIndexAnswer;
@@ -13,6 +18,7 @@ import com.ruoyi.survey.mapper.QfCreateFormMapper;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
 import com.ruoyi.survey.util.ExcelUtil;
+import com.ruoyi.survey.util.ImportData2ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfSchoolAnswerMapper;
@@ -145,5 +151,33 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
             values.add(answers);
         }
         return ExcelUtil.emloyeeExcel(titleList,values,qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xlsx");
+    }
+
+    @Override
+    public AjaxResult exportQfSchoolAnswerByModel(Long cid) {
+        String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xlsx";
+        List<QfUserForm> list= qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid));
+        List<List<String>> values = new ArrayList<>();
+        for (QfUserForm qfUserForm : list) {
+            List<String> answers =new ArrayList<>();
+            answers.addAll(qfSchoolAnswerMapper.selectAnswerBySFid(qfUserForm.getId()));
+            values.add(answers);
+        }
+        try (FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\Administrator\\Desktop\\北杨庄小学多媒体设备统计表.xls"))) {
+            ImportData2ExcelUtils importData2ExcelUtils = new ImportData2ExcelUtils(fileInputStream);
+            importData2ExcelUtils.fillData2OriginExcel(new FileOutputStream(getAbsoluteFile(fileName)),values);
+        }catch (Exception e){
+            return AjaxResult.error("文件创建失败");
+        }
+        return AjaxResult.success(fileName);
+    }
+    private static String getAbsoluteFile(String filename) {
+        String downloadPath = RuoYiConfig.getDownloadPath() + filename;
+        File desc = new File(downloadPath);
+        if (!desc.getParentFile().exists())
+        {
+            desc.getParentFile().mkdirs();
+        }
+        return downloadPath;
     }
 }
