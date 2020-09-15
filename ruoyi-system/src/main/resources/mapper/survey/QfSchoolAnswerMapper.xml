@@ -35,6 +35,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectAllQfSchoolAnswer" resultMap="QfSchoolAnswerResult">
         <include refid="selectQfSchoolAnswerVo"/>
     </select>
+    <select id="selectAnswerBySFid" resultType="java.lang.String">
+        select qf_school_answer.value from qf_school_answer where qf_school_id=#{id}
+    </select>
 
     <insert id="insertQfSchoolAnswer" parameterType="com.ruoyi.survey.domain.QfSchoolAnswer" useGeneratedKeys="true" keyProperty="id">
         insert into qf_school_answer

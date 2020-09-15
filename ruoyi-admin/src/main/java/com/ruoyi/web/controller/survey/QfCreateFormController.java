@@ -143,7 +143,8 @@ public class QfCreateFormController extends BaseController {
     @Log(title = "导出已填写的问卷", businessType = BusinessType.EXPORT)
     @GetMapping("/exportAll/{id}")
     public AjaxResult export(@PathVariable("id") Long cid) {
-        return  qfSchoolAnswerService.exportQfSchoolAnswer(cid);
+//        return  qfSchoolAnswerService.exportQfSchoolAnswer(cid);
+        return  qfSchoolAnswerService.exportQfSchoolAnswerByModel(cid);
     }
     /**
      * 返回编辑信息
