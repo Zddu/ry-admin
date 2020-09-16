@@ -157,7 +157,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
 
     @Override
     public AjaxResult exportQfSchoolAnswerByModel(Long cid,Long mid) {
-        String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xlsx";
+        String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xls";
         List<QfUserForm> list= qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid));
         List<List<String>> values = new ArrayList<>();
         for (QfUserForm qfUserForm : list) {

@@ -25,10 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qfModel.modelUrl != null and qfModel.modelUrl != ''">#{qfModel.modelUrl},</if>
         </trim>
     </insert>
-    <select id="selectAllModel" resultType="com.ruoyi.file.domain.QfModel">
+    <select id="selectAllModel" resultMap="AssetsItemsResult">
         <include refid="selectFileVO"/>
     </select>
-    <select id="selectModelByQfModel" resultType="com.ruoyi.file.domain.QfModel">
+    <select id="selectModelByQfModel" resultMap="AssetsItemsResult">
         <include refid="selectFileVO"/>
         <where>
             <if test="qfModel.id !=null and qfModel.id!=''">id = #{qfModel.id}</if>
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qfModel.modelUrl !=null and qfModel.modelUrl!=''">model_url = #{qfModel.modelUrl}</if>
         </where>
     </select>
-    <select id="selectModelByQfModelId" resultType="com.ruoyi.file.domain.QfModel">
+    <select id="selectModelByQfModelId" resultMap="AssetsItemsResult">
         <include refid="selectFileVO"/>
         where id = #{mid}
     </select>
