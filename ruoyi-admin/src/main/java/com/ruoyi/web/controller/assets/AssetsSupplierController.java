@@ -103,8 +103,7 @@ public class AssetsSupplierController extends BaseController {
     @PreAuthorize("@ss.hasPermi('assets:supplier:remove')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsSupplierService.deleteAssetsSupplierByIds(ids));
     }
 }
