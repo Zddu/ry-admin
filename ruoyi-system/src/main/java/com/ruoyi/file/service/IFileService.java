@@ -11,4 +11,6 @@ public interface IFileService {
     int insertFile(QfModel qfModel);
 
     List<QfModel> selectAllModel();
+
+    int deleteModel(Long mid);
 }

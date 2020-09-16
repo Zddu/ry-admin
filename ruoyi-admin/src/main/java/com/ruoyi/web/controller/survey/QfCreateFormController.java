@@ -145,8 +145,8 @@ public class QfCreateFormController extends BaseController {
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @Log(title = "导出已填写的问卷", businessType = BusinessType.EXPORT)
     @GetMapping("/exportAll/{id}/{mid}")
-    public AjaxResult export(@PathVariable("id") Long cid,@PathVariable("mid")Long mid) {
-        if (mid==null){
+    public AjaxResult export(@PathVariable("id") Long cid,@PathVariable(value = "mid",required = false)Long mid) {
+        if (mid==-1){
             return  qfSchoolAnswerService.exportQfSchoolAnswer(cid);
         }
         return  qfSchoolAnswerService.exportQfSchoolAnswerByModel(cid,mid);
