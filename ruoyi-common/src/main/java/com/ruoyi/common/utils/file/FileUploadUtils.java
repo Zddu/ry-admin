@@ -83,6 +83,19 @@ public class FileUploadUtils
             throw new IOException(e.getMessage(), e);
         }
     }
+    /**
+     * 根据文件路径上传
+     *
+     *
+     * @param file 上传的文件
+     * @return 文件名称
+     * @throws IOException
+     */
+    public static final void uploadFile(String filePath,MultipartFile file) throws IOException {
+        File desc = getAbsoluteFile(filePath, file.getOriginalFilename());
+        file.transferTo(desc);
+    }
+
 
     /**
      * 文件上传
