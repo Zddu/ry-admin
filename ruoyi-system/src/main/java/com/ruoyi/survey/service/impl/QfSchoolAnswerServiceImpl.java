@@ -156,8 +156,8 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     }
 
     @Override
-    public AjaxResult exportQfSchoolAnswerByModel(Long cid, Long mid) {
-        String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xls";
+    public AjaxResult exportQfSchoolAnswerByModel(Long cid,Long mid) {
+        String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xlsx";
         List<QfUserForm> list= qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid));
         List<List<String>> values = new ArrayList<>();
         for (QfUserForm qfUserForm : list) {
@@ -172,7 +172,6 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
             ImportData2ExcelUtils importData2ExcelUtils = new ImportData2ExcelUtils(fileInputStream);
             importData2ExcelUtils.fillData2OriginExcel(new FileOutputStream(getAbsoluteFile(fileName)),values);
         }catch (Exception e){
-            e.printStackTrace();
             return AjaxResult.error("文件创建失败");
         }
         return AjaxResult.success(fileName);
