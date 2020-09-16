@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2020/9/15 -- 17:47
  **/
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/file/model")
 public class FileController extends BaseController {
     @Autowired
     private FileServiceImpl fileService;
