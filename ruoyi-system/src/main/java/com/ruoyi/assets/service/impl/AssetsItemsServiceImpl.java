@@ -58,6 +58,9 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
     @Override
     public int insertAssetsItems(AssetsItems assetsItems) {
         AssetsSupplier assetsSupplier = assetsSupplierMapper.selectAssetsSupplierById((long) assetsItems.getSupplierId());
+        if (assetsSupplier==null){
+            return -1;
+        }
         assetsItems.setSupplierName(assetsSupplier.getSupplierName());
         return assetsItemsMapper.insertAssetsItems(assetsItems);
     }

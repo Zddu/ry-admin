@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="warrantyTime != null and warrantyTime != ''">warranty_time,</if>
             <if test="usedTime != null and usedTime != ''">used_time,</if>
             <if test="itemTotal != null and itemTotal != ''">item_total,</if>
-            <if test="createTime != null and createTime != ''">create_time,</if>
+            <if test="createTime != null ">create_time,</if>
             <if test="supplierId != null and supplierId != ''">supplier_id,</if>
             <if test="supplierName != null and supplierName != ''">supplier_name,</if>
          </trim>
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="warrantyTime != null and warrantyTime != ''">#{warrantyTime},</if>
             <if test="usedTime != null and usedTime != ''">#{usedTime},</if>
             <if test="itemTotal != null and itemTotal != ''">#{itemTotal},</if>
-            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="createTime != null ">#{createTime},</if>
             <if test="supplierId != null and supplierId != ''">#{supplierId},</if>
             <if test="supplierName != null and supplierName != ''">#{supplierName},</if>
          </trim>
