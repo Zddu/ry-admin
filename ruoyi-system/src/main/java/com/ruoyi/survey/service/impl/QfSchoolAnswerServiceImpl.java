@@ -124,9 +124,9 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     @Override
     public AjaxResult exportQfSchoolAnswer(Long cid) {
         Map<String,String> titleMap =new HashMap<>();
-        titleMap.put("学校","学校名称");
+//        titleMap.put("学校","学校名称");
         List<String> titleList =new ArrayList<>();
-        titleList.add("学校名称");
+//        titleList.add("学校名称");
         List<QfKeyName> keyNames = qfKeyNameMapper.selectQfKeyNameList(new QfKeyName(cid));
 
         for (QfKeyName keyName : keyNames) {
@@ -138,7 +138,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
             List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue());
             List<QfKeyIndexAnswer> answers = new ArrayList<>();
 
-            answers.add(new QfKeyIndexAnswer(0,qfUserForm.getSchoolName()));
+//            answers.add(new QfKeyIndexAnswer(0,qfUserForm.getSchoolName()));
             for (QfSchoolAnswer qfSchoolAnswer : qfSchoolAnswers) {
                 QfKeyIndexAnswer answer = new QfKeyIndexAnswer();
                 answer.setKeyIndex(
@@ -150,7 +150,10 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
                 answer.setValue(qfSchoolAnswer.getValue());
                 answers.add(answer);
             }
-            values.add(answers);
+            if (!answers.isEmpty()){
+                values.add(answers);
+            }
+
         }
         return ExcelUtil.emloyeeExcel(titleList,values,qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xlsx");
     }
@@ -172,6 +175,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
             ImportData2ExcelUtils importData2ExcelUtils = new ImportData2ExcelUtils(fileInputStream);
             importData2ExcelUtils.fillData2OriginExcel(new FileOutputStream(getAbsoluteFile(fileName)),values);
         }catch (Exception e){
+            e.printStackTrace();
             return AjaxResult.error("文件创建失败");
         }
         return AjaxResult.success(fileName);

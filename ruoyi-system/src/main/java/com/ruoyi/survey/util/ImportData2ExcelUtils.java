@@ -39,7 +39,7 @@ public class ImportData2ExcelUtils {
 
 
     public  void fillData2OriginExcel(FileOutputStream fos, List<List<String>> datas) throws IOException {
-        System.out.println("rsize : "+rsize+"csize : "+csize+" valueRow :"+valueRow);
+
         List<CellRangeAddress> cellRangeAddresses=getOriginFirstValueRowMergedRegions();
         removeStyleBehindValueRow();
         List<HSSFCellStyle> list=getOriginHSSFCellStyles();
@@ -75,6 +75,7 @@ public class ImportData2ExcelUtils {
         if (csize==-1){
             return -1;
         }
+
         label:for (int i = 1; i < rsize; i++) {
             HSSFRow row = sheetAt.getRow(i);
             csize = row.getLastCellNum() - row.getFirstCellNum();
@@ -98,8 +99,10 @@ public class ImportData2ExcelUtils {
         if (rsize!=-1){
             for (int i=0;i<rsize;i++){
                 HSSFRow row = sheetAt.getRow(i);
+                System.out.println("\n\nresult："+(row.getLastCellNum()-row.getFirstCellNum())+"\n\n");
                 if (result<(row.getLastCellNum()-row.getFirstCellNum())){
                     result=row.getLastCellNum()-row.getFirstCellNum();
+
                 }
             }
         }
@@ -165,7 +168,6 @@ public class ImportData2ExcelUtils {
             }
             for (int j=0;j<csize;j++){
                 HSSFCell cell = r.createCell(j);
-                System.out.println(strings.get(j));
                 cell.setCellValue(strings.get(j));
                 cell.setCellStyle(list.get(j));
             }

@@ -85,10 +85,9 @@ public class FileUtils extends org.apache.commons.io.FileUtils
         boolean flag = false;
         File file = new File(filePath);
         // 路径为文件且不为空则进行删除
-        if (file.isFile() && file.exists())
-        {
-            file.delete();
-            flag = true;
+        if (file.isFile() && file.exists()) {
+
+            flag = file.delete();
         }
         return flag;
     }
