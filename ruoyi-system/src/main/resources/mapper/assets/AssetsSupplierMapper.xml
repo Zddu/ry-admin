@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsSupplierMapper">
+    
+    <resultMap type="com.ruoyi.assets.domain.AssetsSupplier" id="AssetsSupplierResult">
+        <result property="id"    column="id"    />
+        <result property="supplierName"    column="supplier_name"    />
+    </resultMap>
+
+    <sql id="selectAssetsSupplierVo">
+        select id, supplier_name from assets_supplier
+    </sql>
+
+    <select id="selectAssetsSupplierList" parameterType="com.ruoyi.assets.domain.AssetsSupplier" resultMap="AssetsSupplierResult">
+        <include refid="selectAssetsSupplierVo"/>
+        <where>  
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetsSupplierById" parameterType="Long" resultMap="AssetsSupplierResult">
+        <include refid="selectAssetsSupplierVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetsSupplier" parameterType="com.ruoyi.assets.domain.AssetsSupplier" useGeneratedKeys="true" keyProperty="id">
+        insert into assets_supplier
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supplierName != null">supplier_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supplierName != null">#{supplierName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetsSupplier" parameterType="com.ruoyi.assets.domain.AssetsSupplier">
+        update assets_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetsSupplierById" parameterType="Long">
+        delete from assets_supplier where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetsSupplierByIds" parameterType="String">
+        delete from assets_supplier where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -7,10 +7,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.assets.domain.AssetsItems" id="AssetsItemsResult">
         <result property="id"    column="id"    />
         <result property="itemName"    column="item_name"    />
+        <result property="itemFormat"    column="item_format"    />
+        <result property="warrantyTime"    column="warranty_time"    />
+        <result property="usedTime"    column="used_time"    />
+        <result property="itemTotal"    column="item_total"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="supplierName"    column="supplier_name"    />
     </resultMap>
 
     <sql id="selectAssetsItemsVo">
-        select id, item_name from assets_items
+       select id, item_name,item_format,warranty_time,used_time,item_total,create_time,supplier_id,supplier_name from assets_items
     </sql>
 
     <select id="selectAssetsItemsList" parameterType="com.ruoyi.assets.domain.AssetsItems" resultMap="AssetsItemsResult">
@@ -29,9 +36,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into assets_items
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name,</if>
+            <if test="itemFormat != null and itemFormat != ''">item_format,</if>
+            <if test="warrantyTime != null and warrantyTime != ''">warranty_time,</if>
+            <if test="usedTime != null and usedTime != ''">used_time,</if>
+            <if test="itemTotal != null and itemTotal != ''">item_total,</if>
+            <if test="createTime != null and createTime != ''">create_time,</if>
+            <if test="supplierId != null and supplierId != ''">supplier_id,</if>
+            <if test="supplierName != null and supplierName != ''">supplier_name,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">#{itemName},</if>
+            <if test="itemFormat != null and itemFormat != ''">#{itemFormat},</if>
+            <if test="warrantyTime != null and warrantyTime != ''">#{warrantyTime},</if>
+            <if test="usedTime != null and usedTime != ''">#{usedTime},</if>
+            <if test="itemTotal != null and itemTotal != ''">#{itemTotal},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="supplierId != null and supplierId != ''">#{supplierId},</if>
+            <if test="supplierName != null and supplierName != ''">#{supplierName},</if>
          </trim>
     </insert>
 
@@ -39,6 +60,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update assets_items
         <trim prefix="SET" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
+            <if test="itemFormat != null and itemFormat != ''">item_format = #{itemFormat},</if>
+            <if test="warrantyTime != null and warrantyTime != ''">warranty_time=#{warrantyTime},</if>
+            <if test="usedTime != null and usedTime != ''">used_time=#{usedTime},</if>
+            <if test="itemTotal != null and itemTotal != ''">item_total=#{itemTotal},</if>
+            <if test="createTime != null and createTime != ''">create_time=#{createTime},</if>
+            <if test="supplierId != null and supplierId != ''">supplier_id=#{supplierId},</if>
+            <if test="supplierName != null and supplierName != ''">supplier_name=#{supplierName},</if>
         </trim>
         where id = #{id}
     </update>
