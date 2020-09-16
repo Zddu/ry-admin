@@ -56,7 +56,7 @@ public class FileController extends BaseController {
      * 删除模板
      */
     @DeleteMapping("delete/{id}")
-    public AjaxResult deleteFile(@PathVariable("id")Long mid){
-        return toAjax(fileService.deleteModel(mid));
+    public AjaxResult deleteFile(@PathVariable("id")Long id){
+        return toAjax(fileService.deleteModel(id));
     }
 }

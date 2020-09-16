@@ -17,5 +17,5 @@ public interface FileMapper {
 
     QfModel selectModelByQfModelId(@Param("mid") Long mid);
 
-    int delteModel(@Param("mid") Long mid);
+    int deleteModel(@Param("mid") Long mid);
 }

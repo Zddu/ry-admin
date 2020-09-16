@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="qfModel.modelUrl != null and qfModel.modelUrl != ''">#{qfModel.modelUrl},</if>
         </trim>
     </insert>
-    <delete id="delteModel">
+    <delete id="deleteModel">
         delete from qf_model where id =#{mid}
     </delete>
     <select id="selectAllModel" resultMap="AssetsItemsResult">
