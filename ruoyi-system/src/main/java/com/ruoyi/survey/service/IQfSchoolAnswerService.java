@@ -1,7 +1,6 @@
 package com.ruoyi.survey.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
@@ -66,5 +65,5 @@ public interface IQfSchoolAnswerService
 
     AjaxResult exportQfSchoolAnswer(Long cid);
 
-    AjaxResult exportQfSchoolAnswerByModel(Long cid);
+    AjaxResult exportQfSchoolAnswerByModel(Long cid, Long mid);
 }

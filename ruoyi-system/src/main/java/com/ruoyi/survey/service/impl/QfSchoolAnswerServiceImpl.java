@@ -10,7 +10,8 @@ import java.util.Map;
 
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.survey.domain.QfCreateForm;
+import com.ruoyi.file.domain.QfModel;
+import com.ruoyi.file.mapper.FileMapper;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyIndexAnswer;
@@ -41,7 +42,8 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     private QfKeyNameMapper qfKeyNameMapper;
     @Autowired
     private QfCreateFormMapper qfCreateFormMapper;
-
+    @Autowired
+    private FileMapper fileMapper;
     /**
      * 查询【请填写功能名称】
      * 
@@ -154,7 +156,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     }
 
     @Override
-    public AjaxResult exportQfSchoolAnswerByModel(Long cid) {
+    public AjaxResult exportQfSchoolAnswerByModel(Long cid, Long mid) {
         String fileName=qfCreateFormMapper.selectQfCreateFormById(cid).getTitle()+".xls";
         List<QfUserForm> list= qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid));
         List<List<String>> values = new ArrayList<>();
@@ -166,8 +168,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
             }
 
         }
-
-        try (FileInputStream fileInputStream = new FileInputStream(new File("C:\\Users\\Administrator\\Desktop\\北杨庄小学多媒体设备统计表.xls"))) {
+        try (FileInputStream fileInputStream = new FileInputStream(new File(fileMapper.selectModelByQfModelId(mid).getModelUrl()))) {
             ImportData2ExcelUtils importData2ExcelUtils = new ImportData2ExcelUtils(fileInputStream);
             importData2ExcelUtils.fillData2OriginExcel(new FileOutputStream(getAbsoluteFile(fileName)),values);
         }catch (Exception e){

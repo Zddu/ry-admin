@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.file.mapper.FileMapper">
+    
+    <resultMap type="com.ruoyi.file.domain.QfModel" id="AssetsItemsResult">
+        <result property="id"    column="id"    />
+        <result property="modelName"    column="model_name"    />
+        <result property="modelUrl"    column="model_url"    />
+    </resultMap>
+
+    <sql id="selectFileVO">
+        select id, model_name,model_url from qf_model
+    </sql>
+    <insert id="insertFile">
+        insert into qf_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="qfModel.modelName != null and qfModel.modelName != ''">model_name,</if>
+            <if test="qfModel.modelUrl != null and qfModel.modelUrl != ''">model_url,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="qfModel.modelName != null and qfModel.modelName != ''">#{qfModel.modelName},</if>
+            <if test="qfModel.modelUrl != null and qfModel.modelUrl != ''">#{qfModel.modelUrl},</if>
+        </trim>
+    </insert>
+    <select id="selectAllModel" resultType="com.ruoyi.file.domain.QfModel">
+        <include refid="selectFileVO"/>
+    </select>
+    <select id="selectModelByQfModel" resultType="com.ruoyi.file.domain.QfModel">
+        <include refid="selectFileVO"/>
+        <where>
+            <if test="qfModel.id !=null and qfModel.id!=''">id = #{qfModel.id}</if>
+            <if test="qfModel.modelName !=null and qfModel.modelName!=''">model_name = #{qfModel.modelName}</if>
+            <if test="qfModel.modelUrl !=null and qfModel.modelUrl!=''">model_url = #{qfModel.modelUrl}</if>
+        </where>
+    </select>
+    <select id="selectModelByQfModelId" resultType="com.ruoyi.file.domain.QfModel">
+        <include refid="selectFileVO"/>
+        where id = #{mid}
+    </select>
+
+</mapper>

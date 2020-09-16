@@ -8,7 +8,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import org.springframework.util.ObjectUtils;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 
 /**

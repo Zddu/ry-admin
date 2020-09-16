@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.file.service.IFileService;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
@@ -48,6 +49,8 @@ public class QfCreateFormController extends BaseController {
     private IQfUserFormService qfUserFormService;
     @Autowired
     private IQfSchoolAnswerService qfSchoolAnswerService;
+    @Autowired
+    private IFileService fileService;
     /**
      * 获取已创建问卷详细信息
      */
@@ -141,10 +144,10 @@ public class QfCreateFormController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('survey:list:export')")
     @Log(title = "导出已填写的问卷", businessType = BusinessType.EXPORT)
-    @GetMapping("/exportAll/{id}")
-    public AjaxResult export(@PathVariable("id") Long cid) {
+    @GetMapping("/exportAll/{id}/{mid}")
+    public AjaxResult export(@PathVariable("id") Long cid,@PathVariable("mid")Long mid) {
 //        return  qfSchoolAnswerService.exportQfSchoolAnswer(cid);
-        return  qfSchoolAnswerService.exportQfSchoolAnswerByModel(cid);
+        return  qfSchoolAnswerService.exportQfSchoolAnswerByModel(cid,mid);
     }
     /**
      * 返回编辑信息
@@ -214,6 +217,15 @@ public class QfCreateFormController extends BaseController {
      public AjaxResult updateQfState(@RequestBody QfUserForm stateVo){
         return toAjax(qfUserFormService.updateQfUserForm(stateVo));
      }
+    /**
+     * 模板列表
+     */
+    @GetMapping("/model/list")
+    public AjaxResult getModelList(){
+        AjaxResult ajaxResult = AjaxResult.success();
+        ajaxResult.put("models",fileService.selectAllModel());
+        return ajaxResult;
+    }
 
 }
 

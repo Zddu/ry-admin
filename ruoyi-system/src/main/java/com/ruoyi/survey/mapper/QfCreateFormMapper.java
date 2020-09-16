@@ -2,7 +2,6 @@ package com.ruoyi.survey.mapper;
 
 import java.util.List;
 import com.ruoyi.survey.domain.QfCreateForm;
-import com.ruoyi.survey.domain.QfUserForm;
 import org.apache.ibatis.annotations.Param;
 
 /**

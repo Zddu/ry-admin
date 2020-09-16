@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.uuid.UUID;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.survey.domain.QfSchoolAnswer;
-import com.sun.javafx.collections.MappingChange;
 
 
 import java.util.*;

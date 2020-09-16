@@ -1,6 +1,5 @@
 package com.ruoyi.survey.domain.vo;
 
-import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.survey.domain.QfKeyName;
 import lombok.Data;
 
