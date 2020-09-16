@@ -2,7 +2,9 @@ package com.ruoyi.assets.service.impl;
 
 
 import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.domain.AssetsSupplier;
 import com.ruoyi.assets.mapper.AssetsItemsMapper;
+import com.ruoyi.assets.mapper.AssetsSupplierMapper;
 import com.ruoyi.assets.service.IAssetsItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
 {
     @Autowired
     private AssetsItemsMapper assetsItemsMapper;
+    @Autowired
+    private AssetsSupplierMapper assetsSupplierMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -52,8 +56,9 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
      * @return 结果
      */
     @Override
-    public int insertAssetsItems(AssetsItems assetsItems)
-    {
+    public int insertAssetsItems(AssetsItems assetsItems) {
+        AssetsSupplier assetsSupplier = assetsSupplierMapper.selectAssetsSupplierById((long) assetsItems.getSupplierId());
+        assetsItems.setSupplierName(assetsSupplier.getSupplierName());
         return assetsItemsMapper.insertAssetsItems(assetsItems);
     }
 
