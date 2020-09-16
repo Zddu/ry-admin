@@ -31,9 +31,9 @@ public class FileServiceImpl implements IFileService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteModel(Long mid) {
+        QfModel qfModel = fileMapper.selectModelByQfModelId(mid);
         int result = fileMapper.deleteModel(mid);
         if (result>0){
-            QfModel qfModel = fileMapper.selectModelByQfModelId(mid);
             if(qfModel==null){
                 throw new CustomException("没有该文件");
             }
