@@ -22,5 +22,7 @@ public class AssetsSupplier extends BaseEntity
     @Excel(name = "供应商名称")
     private String supplierName;
 
+    private Long contractId;
+
 
 }

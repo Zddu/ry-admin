@@ -51,8 +51,7 @@ public class AssetsSupplierServiceImpl implements IAssetsSupplierService
      * @return 结果
      */
     @Override
-    public int insertAssetsSupplier(AssetsSupplier assetsSupplier)
-    {
+    public int insertAssetsSupplier(AssetsSupplier assetsSupplier) {
         return assetsSupplierMapper.insertAssetsSupplier(assetsSupplier);
     }
 

@@ -2,6 +2,7 @@ package com.ruoyi.assets.service;
 
 
 import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.domain.vo.ItemsSupplierContractVo;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface IAssetsItemsService
      * @return 【请填写功能名称】集合
      */
     public List<AssetsItems> selectAssetsItemsList(AssetsItems assetsItems);
-
+    List<ItemsSupplierContractVo> selectItemsSupplierContractVoList(ItemsSupplierContractVo itemsSupplierContractVo);
     /**
      * 新增【请填写功能名称】
      * 
@@ -60,4 +61,6 @@ public interface IAssetsItemsService
      * @return 结果
      */
     public int deleteAssetsItemsById(Long id);
+
+
 }

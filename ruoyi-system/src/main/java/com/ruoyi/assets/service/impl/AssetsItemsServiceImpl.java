@@ -1,8 +1,12 @@
 package com.ruoyi.assets.service.impl;
 
 
+import com.ruoyi.assets.domain.AssetsContract;
 import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.domain.vo.ItemsSupplierContractVo;
+import com.ruoyi.assets.mapper.AssetsContractMapper;
 import com.ruoyi.assets.mapper.AssetsItemsMapper;
+import com.ruoyi.assets.mapper.AssetsSupplierMapper;
 import com.ruoyi.assets.service.IAssetsItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,10 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
 {
     @Autowired
     private AssetsItemsMapper assetsItemsMapper;
+    @Autowired
+    private AssetsSupplierMapper assetsSupplierMapper;
+    @Autowired
+    private AssetsContractMapper assetsContractMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -33,16 +41,21 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
         return assetsItemsMapper.selectAssetsItemsById(id);
     }
 
-    /**
-     * 查询【请填写功能名称】列表
-     * 
-     * @param assetsItems 【请填写功能名称】
-     * @return 【请填写功能名称】
-     */
+
     @Override
     public List<AssetsItems> selectAssetsItemsList(AssetsItems assetsItems)
     {
         return assetsItemsMapper.selectAssetsItemsList(assetsItems);
+    }
+    /**
+     * 查询【请填写功能名称】列表
+     *
+     * @return 【请填写功能名称】
+     */
+    @Override
+    public List<ItemsSupplierContractVo> selectItemsSupplierContractVoList(ItemsSupplierContractVo itemsSupplierContractVo) {
+        List<ItemsSupplierContractVo> itemsSupplierContractVos = assetsItemsMapper.selectItemsSupplierContractVoList(itemsSupplierContractVo);
+        return itemsSupplierContractVos;
     }
 
     /**
@@ -52,8 +65,12 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
      * @return 结果
      */
     @Override
-    public int insertAssetsItems(AssetsItems assetsItems)
-    {
+    public int insertAssetsItems(AssetsItems assetsItems) {
+        AssetsContract assetsContract = assetsContractMapper.selectAssetsContractById((long) assetsItems.getContractId());
+        if (assetsContract==null){
+            return assetsItemsMapper.insertAssetsItems(assetsItems);
+        }
+        assetsItems.setContractName(assetsContract.getName());
         return assetsItemsMapper.insertAssetsItems(assetsItems);
     }
 

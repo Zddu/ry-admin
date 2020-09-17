@@ -2,6 +2,8 @@ package com.ruoyi.assets.mapper;
 
 
 import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.domain.vo.ItemsSupplierContractVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public interface AssetsItemsMapper {
      * @return 【请填写功能名称】集合
      */
     public List<AssetsItems> selectAssetsItemsList(AssetsItems assetsItems);
-
+    List<ItemsSupplierContractVo> selectItemsSupplierContractVoList(ItemsSupplierContractVo itemsSupplierContractVo);
     /**
      * 新增【请填写功能名称】
      * 
@@ -59,4 +61,6 @@ public interface AssetsItemsMapper {
      * @return 结果
      */
     public int deleteAssetsItemsByIds(Long[] ids);
+
+
 }

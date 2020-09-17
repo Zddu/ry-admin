@@ -7,16 +7,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.assets.domain.AssetsSupplier" id="AssetsSupplierResult">
         <result property="id"    column="id"    />
         <result property="supplierName"    column="supplier_name"    />
+        <result property="contractId"    column="contract_id"    />
     </resultMap>
 
     <sql id="selectAssetsSupplierVo">
-        select id, supplier_name from assets_supplier
+        select id, supplier_name,contract_id from assets_supplier
     </sql>
 
     <select id="selectAssetsSupplierList" parameterType="com.ruoyi.assets.domain.AssetsSupplier" resultMap="AssetsSupplierResult">
         <include refid="selectAssetsSupplierVo"/>
         <where>  
             <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+
         </where>
     </select>
     
@@ -24,15 +26,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsSupplierVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectAssetsSupplierByContractId" resultType="com.ruoyi.assets.domain.AssetsSupplier">
+         select id, supplier_name from assets_supplier where contract_id =#{id}
+    </select>
+
     <insert id="insertAssetsSupplier" parameterType="com.ruoyi.assets.domain.AssetsSupplier" useGeneratedKeys="true" keyProperty="id">
-        insert into assets_supplier
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="supplierName != null">supplier_name,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="supplierName != null">#{supplierName},</if>
-         </trim>
+        <if test="id !=null">
+            update assets_supplier
+            <trim prefix="SET" suffixOverrides=",">
+                <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            </trim>
+            where id = #{id}
+        </if>
+        <if test="id==null">
+            insert into assets_supplier
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="supplierName != null">supplier_name,</if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="supplierName != null">#{supplierName},</if>
+            </trim>
+        </if>
+
     </insert>
 
     <update id="updateAssetsSupplier" parameterType="com.ruoyi.assets.domain.AssetsSupplier">

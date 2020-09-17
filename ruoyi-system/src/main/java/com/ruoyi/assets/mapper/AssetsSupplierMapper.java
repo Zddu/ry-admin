@@ -2,6 +2,7 @@ package com.ruoyi.assets.mapper;
 
 
 import com.ruoyi.assets.domain.AssetsSupplier;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,6 +30,12 @@ public interface AssetsSupplierMapper
      */
     public List<AssetsSupplier> selectAssetsSupplierList(AssetsSupplier assetsSupplier);
 
+    /**
+     * 根据合同id查询相应供应商
+     * @param id
+     * @return
+     */
+    AssetsSupplier selectAssetsSupplierByContractId(@Param("id") Long id);
     /**
      * 新增【请填写功能名称】
      * 
