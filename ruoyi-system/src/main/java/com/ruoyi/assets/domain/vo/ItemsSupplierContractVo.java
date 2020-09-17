@@ -1,24 +1,17 @@
-package com.ruoyi.assets.domain;
+package com.ruoyi.assets.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import lombok.Data;
 
 import java.util.Date;
 
 /**
- * 【请填写功能名称】对象 assets_items
- * 
- * @author Zddeä¸¶
- * @date 2020-09-14
- */
+ * @date 2020/9/17 -- 13:10
+ **/
 @Data
-public class AssetsItems extends BaseEntity {
-    private static final long serialVersionUID = 1L;
-
+public class ItemsSupplierContractVo extends BaseEntity {
     /** $column.columnComment */
     private Long id;
 
@@ -40,10 +33,8 @@ public class AssetsItems extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    private Long contractId;
-    @Excel(name = "供应商名称")
+    @Excel(name = "合同名称")
     private String contractName;
-
-
-
+    @Excel(name = "供应商名称")
+    private String supplierName;
 }

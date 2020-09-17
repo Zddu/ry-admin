@@ -7,10 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.assets.domain.AssetsSupplier" id="AssetsSupplierResult">
         <result property="id"    column="id"    />
         <result property="supplierName"    column="supplier_name"    />
+        <result property="contractId"    column="contract_id"    />
     </resultMap>
 
     <sql id="selectAssetsSupplierVo">
-        select id, supplier_name from assets_supplier
+        select id, supplier_name,contract_id from assets_supplier
     </sql>
 
     <select id="selectAssetsSupplierList" parameterType="com.ruoyi.assets.domain.AssetsSupplier" resultMap="AssetsSupplierResult">
@@ -25,7 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsSupplierVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectAssetsSupplierByContractId" resultType="com.ruoyi.assets.domain.AssetsSupplier">
+         select id, supplier_name from assets_supplier where contract_id =#{id}
+    </select>
+
     <insert id="insertAssetsSupplier" parameterType="com.ruoyi.assets.domain.AssetsSupplier" useGeneratedKeys="true" keyProperty="id">
         <if test="id !=null">
             update assets_supplier

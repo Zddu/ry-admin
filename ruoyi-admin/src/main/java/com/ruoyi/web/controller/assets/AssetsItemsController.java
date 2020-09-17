@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.assets;
 
 
 import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.domain.vo.ItemsSupplierContractVo;
 import com.ruoyi.assets.service.IAssetsItemsService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -33,11 +34,20 @@ public class AssetsItemsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:items:list')")
     @GetMapping("/list")
-    public TableDataInfo list(AssetsItems assetsItems)
-    {
+    public TableDataInfo list(ItemsSupplierContractVo  itemsSupplierContractVo) {
         startPage();
-        List<AssetsItems> list = assetsItemsService.selectAssetsItemsList(assetsItems);
+        List<ItemsSupplierContractVo> list = assetsItemsService.selectItemsSupplierContractVoList(itemsSupplierContractVo);
         return getDataTable(list);
+    }
+    /**
+     * 导出所有商品
+     */
+    @PreAuthorize("@ss.hasPermi('assets:items:list')")
+    @GetMapping("/all")
+    public AjaxResult getAll(AssetsItems assetsItems) {
+        AjaxResult success = AjaxResult.success();
+        success.put("items", assetsItemsService.selectAssetsItemsList(assetsItems));
+        return success;
     }
 
     /**
@@ -52,6 +62,7 @@ public class AssetsItemsController extends BaseController
         ExcelUtil<AssetsItems> util = new ExcelUtil<AssetsItems>(AssetsItems.class);
         return util.exportExcel(list, "items");
     }
+
 
     /**
      * 获取【请填写功能名称】详细信息

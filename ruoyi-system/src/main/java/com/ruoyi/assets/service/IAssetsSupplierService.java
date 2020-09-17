@@ -1,5 +1,6 @@
 package com.ruoyi.assets.service;
 import com.ruoyi.assets.domain.AssetsSupplier;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,6 +26,9 @@ public interface IAssetsSupplierService {
      * @return 【请填写功能名称】集合
      */
     public List<AssetsSupplier> selectAssetsSupplierList(AssetsSupplier assetsSupplier);
+/**
+ * 通过合同查询相应供应商
+ */
 
     /**
      * 新增【请填写功能名称】
@@ -57,4 +61,6 @@ public interface IAssetsSupplierService {
      * @return 结果
      */
     public int deleteAssetsSupplierById(Long id);
+
+
 }

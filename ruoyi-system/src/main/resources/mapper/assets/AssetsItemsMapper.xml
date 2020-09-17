@@ -12,32 +12,65 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="usedTime"    column="used_time"    />
         <result property="itemTotal"    column="item_total"    />
         <result property="createTime"    column="create_time"    />
-        <result property="supplierId"    column="supplier_id"    />
-        <result property="supplierName"    column="supplier_name"    />
+        <result property="contractId"    column="contract_id"    />
+        <result property="contractName"    column="contract_name"    />
     </resultMap>
-
+    <resultMap id="ItemsSupplierContractVoResult" type="com.ruoyi.assets.domain.vo.ItemsSupplierContractVo">
+        <result property="id"    column="id"    />
+        <result property="itemName"    column="item_name"    />
+        <result property="itemFormat"    column="item_format"    />
+        <result property="warrantyTime"    column="warranty_time"    />
+        <result property="usedTime"    column="used_time"    />
+        <result property="itemTotal"    column="item_total"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="contractName"    column="contract_name"    />
+        <result property="supplierName" column="supplier_name"/>
+    </resultMap>
     <sql id="selectAssetsItemsVo">
-       select id, item_name,item_format,warranty_time,used_time,item_total,create_time,supplier_id,supplier_name from assets_items
+       select id, item_name,item_format,warranty_time,used_time,item_total,create_time,contract_id,contract_name from assets_items
     </sql>
 
-    <select id="selectAssetsItemsList" parameterType="com.ruoyi.assets.domain.AssetsItems" resultMap="AssetsItemsResult">
-        <include refid="selectAssetsItemsVo"/>
-        <where>  
+    <select id="selectAssetsItemsList"
+            parameterType="com.ruoyi.assets.domain.AssetsItems"
+            resultMap="AssetsItemsResult">
+          <include refid="selectAssetsItemsVo"></include>
+        <where>
             <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
-            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            <if test="beginTime != null "><!-- 开始时间检索 -->
                 AND date_format(assets_items.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
             </if>
-            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            <if test="endTime != null "><!-- 结束时间检索 -->
                 AND date_format(assets_items.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
             </if>
         </where>
     </select>
-    
+
+    <select id="selectItemsSupplierContractVoList"
+            parameterType="com.ruoyi.assets.domain.vo.ItemsSupplierContractVo"
+            resultMap="ItemsSupplierContractVoResult">
+        select assets_items.id ,item_name,item_format,warranty_time,used_time,item_total,create_time,assets_contract.name contract_name,assets_supplier.supplier_name from assets_items,assets_supplier,assets_contract
+        <where>
+            assets_items.contract_id =assets_contract.id and assets_supplier.contract_id = assets_contract.id
+            <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="contractName != null  and contractName != ''"> and contract_name like concat('%', #{contractName}, '%')</if>
+            <if test="beginTime != null "><!-- 开始时间检索 -->
+                AND date_format(assets_items.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+            </if>
+            <if test="endTime != null"><!-- 结束时间检索 -->
+                AND date_format(assets_items.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+
+
     <select id="selectAssetsItemsById" parameterType="Long" resultMap="AssetsItemsResult">
         <include refid="selectAssetsItemsVo"/>
         where id = #{id}
     </select>
-        
+
+
     <insert id="insertAssetsItems" parameterType="com.ruoyi.assets.domain.AssetsItems" useGeneratedKeys="true" keyProperty="id">
         <if test="id !=null and id !=''" >
             update assets_items
@@ -48,8 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="usedTime != null and usedTime != ''">used_time=#{usedTime},</if>
                 <if test="itemTotal != null and itemTotal != ''">item_total=#{itemTotal},</if>
                 <if test="createTime != null ">create_time=#{createTime},</if>
-                <if test="supplierId != null and supplierId != ''">supplier_id=#{supplierId},</if>
-                <if test="supplierName != null and supplierName != ''">supplier_name=#{supplierName},</if>
+                <if test="supplierId != null and supplierId != ''">contract_id=#{supplierId},</if>
+                <if test="supplierName != null and supplierName != ''">contract_name=#{supplierName},</if>
             </trim>
             where id = #{id}
         </if>
@@ -62,8 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 <if test="usedTime != null and usedTime != ''">used_time,</if>
                 <if test="itemTotal != null and itemTotal != ''">item_total,</if>
                 <if test="createTime != null ">create_time,</if>
-                <if test="supplierId != null and supplierId != ''">supplier_id,</if>
-                <if test="supplierName != null and supplierName != ''">supplier_name,</if>
+                <if test="supplierId != null and supplierId != ''">contract_id,</if>
+                <if test="supplierName != null and supplierName != ''">contract_name,</if>
             </trim>
             <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="itemName != null and itemName != ''">#{itemName},</if>
@@ -88,8 +121,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="usedTime != null and usedTime != ''">used_time=#{usedTime},</if>
             <if test="itemTotal != null and itemTotal != ''">item_total=#{itemTotal},</if>
             <if test="createTime != null">create_time=#{createTime},</if>
-            <if test="supplierId != null and supplierId != ''">supplier_id=#{supplierId},</if>
-            <if test="supplierName != null and supplierName != ''">supplier_name=#{supplierName},</if>
+            <if test="supplierId != null and supplierId != ''">contract_id=#{supplierId},</if>
+            <if test="supplierName != null and supplierName != ''">contract_name=#{supplierName},</if>
         </trim>
         where id = #{id}
     </update>

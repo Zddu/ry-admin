@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsContractMapper">
+    
+    <resultMap type="com.ruoyi.assets.domain.AssetsContract" id="AssetsContractResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="path"    column="path"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAssetsContractVo">
+        select id, name, path, update_time from assets_contract
+    </sql>
+
+    <select id="selectAssetsContractList" parameterType="com.ruoyi.assets.domain.AssetsContract" resultMap="AssetsContractResult">
+        <include refid="selectAssetsContractVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetsContractById" parameterType="Long" resultMap="AssetsContractResult">
+        <include refid="selectAssetsContractVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetsContract" parameterType="com.ruoyi.assets.domain.AssetsContract" useGeneratedKeys="true" keyProperty="id">
+        insert into assets_contract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="path != null">path,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="path != null">#{path},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetsContract" parameterType="com.ruoyi.assets.domain.AssetsContract">
+        update assets_contract
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="path != null">path = #{path},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetsContractById" parameterType="Long">
+        delete from assets_contract where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetsContractByIds" parameterType="String">
+        delete from assets_contract where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
