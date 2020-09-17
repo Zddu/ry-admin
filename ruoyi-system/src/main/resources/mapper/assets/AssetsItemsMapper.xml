@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             resultMap="ItemsSupplierContractVoResult">
         select assets_items.id ,item_name,item_format,warranty_time,used_time,item_total,create_time,assets_contract.name contract_name,assets_supplier.supplier_name from assets_items,assets_supplier,assets_contract
         <where>
-            assets_items.contract_id =assets_contract.id and assets_supplier.contract_id = assets_contract.id
+            and assets_items.contract_id =assets_contract.id and assets_supplier.contract_id = assets_contract.id
             <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
             <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
             <if test="contractName != null  and contractName != ''"> and contract_name like concat('%', #{contractName}, '%')</if>
