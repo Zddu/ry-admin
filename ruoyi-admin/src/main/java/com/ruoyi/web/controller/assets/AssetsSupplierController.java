@@ -58,8 +58,7 @@ public class AssetsSupplierController extends BaseController {
     @PreAuthorize("@ss.hasPermi('assets:supplier:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(AssetsSupplier assetsSupplier)
-    {
+    public AjaxResult export(AssetsSupplier assetsSupplier) {
         List<AssetsSupplier> list = assetsSupplierService.selectAssetsSupplierList(assetsSupplier);
         ExcelUtil<AssetsSupplier> util = new ExcelUtil<AssetsSupplier>(AssetsSupplier.class);
         return util.exportExcel(list, "supplier");
@@ -76,13 +75,12 @@ public class AssetsSupplierController extends BaseController {
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增或者修改供应商
      */
     @PreAuthorize("@ss.hasPermi('assets:supplier:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody AssetsSupplier assetsSupplier)
-    {
+    public AjaxResult add(@RequestBody AssetsSupplier assetsSupplier) {
         return toAjax(assetsSupplierService.insertAssetsSupplier(assetsSupplier));
     }
 

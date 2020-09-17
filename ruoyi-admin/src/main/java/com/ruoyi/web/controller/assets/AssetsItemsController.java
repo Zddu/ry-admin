@@ -73,6 +73,7 @@ public class AssetsItemsController extends BaseController
         return toAjax(assetsItemsService.insertAssetsItems(assetsItems));
     }
 
+
     /**
      * 修改商品
      */
