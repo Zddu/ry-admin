@@ -27,7 +27,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2020-09-17
  */
 @RestController
-@RequestMapping("/assets/warehouse")
+@RequestMapping("/assets/school")
 public class AssetsSchoolWarehouseController extends BaseController
 {
     @Autowired
