@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsAdminWarehouseMapper">
+    
+    <resultMap type="com.ruoyi.assets.domain.AssetsSchoolWarehouse" id="AssetsAdminWarehouseResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="itemName"    column="item_name"    />
+        <result property="itemNum"    column="item_num"    />
+    </resultMap>
+
+    <sql id="selectAssetsAdminWarehouseVo">
+        select id, item_id, item_name, item_num from assets_admin_warehouse
+    </sql>
+
+    <select id="selectAssetsAdminWarehouseList" parameterType="com.ruoyi.assets.domain.AssetsAdminWarehouse" resultMap="AssetsAdminWarehouseResult">
+        <include refid="selectAssetsAdminWarehouseVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="itemNum != null "> and item_num = #{itemNum}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetsAdminWarehouseById" parameterType="Long" resultMap="AssetsAdminWarehouseResult">
+        <include refid="selectAssetsAdminWarehouseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetsAdminWarehouse" parameterType="com.ruoyi.assets.domain.AssetsAdminWarehouse" useGeneratedKeys="true" keyProperty="id">
+        insert into assets_admin_warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="itemName != null">item_name,</if>
+            <if test="itemNum != null">item_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="itemName != null">#{itemName},</if>
+            <if test="itemNum != null">#{itemNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetsAdminWarehouse" parameterType="com.ruoyi.assets.domain.AssetsAdminWarehouse">
+        update assets_admin_warehouse
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="itemName != null">item_name = #{itemName},</if>
+            <if test="itemNum != null">item_num = #{itemNum},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetsAdminWarehouseById" parameterType="Long">
+        delete from assets_admin_warehouse where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetsAdminWarehouseByIds" parameterType="String">
+        delete from assets_admin_warehouse where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
