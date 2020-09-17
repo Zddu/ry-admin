@@ -9,7 +9,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="supplierName"    column="supplier_name"    />
         <result property="contractId"    column="contract_id"    />
     </resultMap>
-
+    <resultMap type="com.ruoyi.assets.domain.AssetsSupplier" id="AssetsSupplierAndContractResult">
+        <result property="id"    column="id"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="contractId"    column="contract_id"    />
+        <result property="contractName"    column="contract_name"    />
+    </resultMap>
     <sql id="selectAssetsSupplierVo">
         select id, supplier_name,contract_id from assets_supplier
     </sql>
@@ -28,6 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectAssetsSupplierByContractId" resultType="com.ruoyi.assets.domain.AssetsSupplier">
          select id, supplier_name from assets_supplier where contract_id =#{id}
+    </select>
+    <select id="selectAssetsSupplierAndContractList" resultMap="AssetsSupplierAndContractResult">
+        select id, supplier_name,contract_id,assets_contract.name contract_name from assets_supplier,assets_contract
+        <where>
+            assets_contract.id = assets_supplier.contract_id
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+        </where>
     </select>
 
     <insert id="insertAssetsSupplier" parameterType="com.ruoyi.assets.domain.AssetsSupplier" useGeneratedKeys="true" keyProperty="id">

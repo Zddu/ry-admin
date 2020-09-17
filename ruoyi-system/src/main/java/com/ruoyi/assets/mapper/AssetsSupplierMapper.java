@@ -67,4 +67,6 @@ public interface AssetsSupplierMapper
      * @return 结果
      */
     public int deleteAssetsSupplierByIds(Long[] ids);
+
+    List<AssetsSupplier> selectAssetsSupplierAndContractList(AssetsSupplier assetsSupplier);
 }

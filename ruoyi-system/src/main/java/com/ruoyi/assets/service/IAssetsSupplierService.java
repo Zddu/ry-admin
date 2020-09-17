@@ -63,4 +63,5 @@ public interface IAssetsSupplierService {
     public int deleteAssetsSupplierById(Long id);
 
 
+    List<AssetsSupplier> selectAssetsSupplierAndContractList(AssetsSupplier assetsSupplier);
 }
