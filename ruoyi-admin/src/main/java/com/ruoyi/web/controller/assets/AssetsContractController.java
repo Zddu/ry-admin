@@ -46,6 +46,16 @@ public class AssetsContractController extends BaseController
     }
 
     /**
+     * 查询所有合同
+     */
+    @GetMapping("/all")
+    public AjaxResult all(AssetsContract assetsContract) {
+        AjaxResult success = AjaxResult.success();
+        success.put("contract",assetsContractService.selectAssetsContractList(assetsContract));
+        return success;
+    }
+
+    /**
      * 导出合同列表
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:export')")

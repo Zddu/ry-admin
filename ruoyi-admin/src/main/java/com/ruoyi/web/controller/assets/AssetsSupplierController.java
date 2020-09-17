@@ -39,9 +39,10 @@ public class AssetsSupplierController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(AssetsSupplier assetsSupplier) {
         startPage();
-        List<AssetsSupplier> list = assetsSupplierService.selectAssetsSupplierList(assetsSupplier);
+        List<AssetsSupplier> list = assetsSupplierService.selectAssetsSupplierAndContractList(assetsSupplier);
         return getDataTable(list);
     }
+
     /**
      * 查询所有供应商列表
      */
@@ -90,8 +91,7 @@ public class AssetsSupplierController extends BaseController {
     @PreAuthorize("@ss.hasPermi('assets:supplier:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody AssetsSupplier assetsSupplier)
-    {
+    public AjaxResult edit(@RequestBody AssetsSupplier assetsSupplier) {
         return toAjax(assetsSupplierService.updateAssetsSupplier(assetsSupplier));
     }
 

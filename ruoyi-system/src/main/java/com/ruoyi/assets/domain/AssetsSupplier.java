@@ -24,5 +24,5 @@ public class AssetsSupplier extends BaseEntity
 
     private Long contractId;
 
-
+    private String contractName;
 }

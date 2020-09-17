@@ -15,8 +15,7 @@ import java.util.List;
  * @date 2020-09-16
  */
 @Service
-public class AssetsSupplierServiceImpl implements IAssetsSupplierService
-{
+public class AssetsSupplierServiceImpl implements IAssetsSupplierService {
     @Autowired
     private AssetsSupplierMapper assetsSupplierMapper;
 
@@ -89,5 +88,10 @@ public class AssetsSupplierServiceImpl implements IAssetsSupplierService
     public int deleteAssetsSupplierById(Long id)
     {
         return assetsSupplierMapper.deleteAssetsSupplierById(id);
+    }
+
+    @Override
+    public List<AssetsSupplier> selectAssetsSupplierAndContractList(AssetsSupplier assetsSupplier) {
+        return assetsSupplierMapper.selectAssetsSupplierAndContractList(assetsSupplier);
     }
 }
