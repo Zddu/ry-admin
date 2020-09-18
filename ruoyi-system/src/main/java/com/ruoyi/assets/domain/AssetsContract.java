@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Date;
+
 /**
  * 合同对象 assets_contract
  * 
@@ -29,6 +31,8 @@ public class AssetsContract extends BaseEntity
     private Long[] itemsId;
 
     private Long supplierId;
+
+
 
 
     public Long[] getItemsId() {
