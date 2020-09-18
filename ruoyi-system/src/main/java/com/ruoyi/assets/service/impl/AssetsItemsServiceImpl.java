@@ -66,7 +66,7 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
      */
     @Override
     public int insertAssetsItems(AssetsItems assetsItems) {
-        AssetsContract assetsContract = assetsContractMapper.selectAssetsContractById((long) assetsItems.getContractId());
+        AssetsContract assetsContract = assetsContractMapper.selectAssetsContractById( assetsItems.getContractId());
         if (assetsContract==null){
             return assetsItemsMapper.insertAssetsItems(assetsItems);
         }
