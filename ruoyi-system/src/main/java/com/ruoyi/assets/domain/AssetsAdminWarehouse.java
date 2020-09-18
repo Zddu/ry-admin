@@ -67,6 +67,13 @@ public class AssetsAdminWarehouse extends BaseEntity
         return itemNum;
     }
 
+    public AssetsAdminWarehouse(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public AssetsAdminWarehouse() {
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsAdminWarehouseMapper;
 import com.ruoyi.assets.domain.AssetsAdminWarehouse;
 import com.ruoyi.assets.service.IAssetsAdminWarehouseService;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 管理员仓库Service业务层处理
@@ -57,14 +58,20 @@ public class AssetsAdminWarehouseServiceImpl implements IAssetsAdminWarehouseSer
      */
     @Override
     public int insertAssetsAdminWarehouse(AssetsAdminWarehouse assetsAdminWarehouse) {
+        Long depositedWarehouseNum =assetsAdminWarehouse.getItemNum();
         AssetsItems assetsItems = assetsItemsMapper.selectAssetsItemsById(assetsAdminWarehouse.getItemId());
         if (assetsItems==null){
             throw new CustomException("选择的商品不存在");
         }
-        if (assetsItems.getItemTotal()<assetsAdminWarehouse.getItemNum()){
-
+        AssetsAdminWarehouse adminWarehouse = assetsAdminWarehouseMapper.selectAssetsAdminWarehouseByItemId(assetsAdminWarehouse.getItemId());
+        if (adminWarehouse!=null){
+            depositedWarehouseNum+=adminWarehouse.getItemNum();
+            adminWarehouse.setItemNum(depositedWarehouseNum);
+            assetsAdminWarehouse=adminWarehouse;
         }
-        assetsAdminWarehouse.setItemName(assetsItems.getItemName());
+        if (assetsItems.getItemTotal()<depositedWarehouseNum||depositedWarehouseNum<0){
+            throw new CustomException("存入商品数量不符实际");
+        }
         return assetsAdminWarehouseMapper.insertAssetsAdminWarehouse(assetsAdminWarehouse);
     }
 
@@ -75,8 +82,7 @@ public class AssetsAdminWarehouseServiceImpl implements IAssetsAdminWarehouseSer
      * @return 结果
      */
     @Override
-    public int updateAssetsAdminWarehouse(AssetsAdminWarehouse assetsAdminWarehouse)
-    {
+    public int updateAssetsAdminWarehouse(AssetsAdminWarehouse assetsAdminWarehouse) {
         return assetsAdminWarehouseMapper.updateAssetsAdminWarehouse(assetsAdminWarehouse);
     }
 

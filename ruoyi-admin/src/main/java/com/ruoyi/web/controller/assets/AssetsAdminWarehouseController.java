@@ -38,8 +38,7 @@ public class AssetsAdminWarehouseController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:warehouse:list')")
     @GetMapping("/list")
-    public TableDataInfo list(AssetsAdminWarehouse assetsAdminWarehouse)
-    {
+    public TableDataInfo list(AssetsAdminWarehouse assetsAdminWarehouse) {
         startPage();
         List<AssetsAdminWarehouse> list = assetsAdminWarehouseService.selectAssetsAdminWarehouseList(assetsAdminWarehouse);
         return getDataTable(list);
@@ -51,8 +50,7 @@ public class AssetsAdminWarehouseController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:warehouse:export')")
     @Log(title = "管理员仓库", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(AssetsAdminWarehouse assetsAdminWarehouse)
-    {
+    public AjaxResult export(AssetsAdminWarehouse assetsAdminWarehouse) {
         List<AssetsAdminWarehouse> list = assetsAdminWarehouseService.selectAssetsAdminWarehouseList(assetsAdminWarehouse);
         ExcelUtil<AssetsAdminWarehouse> util = new ExcelUtil<AssetsAdminWarehouse>(AssetsAdminWarehouse.class);
         return util.exportExcel(list, "warehouse");
@@ -83,8 +81,7 @@ public class AssetsAdminWarehouseController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:warehouse:edit')")
     @Log(title = "管理员仓库", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody AssetsAdminWarehouse assetsAdminWarehouse)
-    {
+    public AjaxResult edit(@RequestBody AssetsAdminWarehouse assetsAdminWarehouse) {
         return toAjax(assetsAdminWarehouseService.updateAssetsAdminWarehouse(assetsAdminWarehouse));
     }
 

@@ -58,4 +58,6 @@ public interface AssetsAdminWarehouseMapper
      * @return 结果
      */
     public int deleteAssetsAdminWarehouseByIds(Long[] ids);
+
+    AssetsAdminWarehouse selectAssetsAdminWarehouseByItemId(Long itemId);
 }

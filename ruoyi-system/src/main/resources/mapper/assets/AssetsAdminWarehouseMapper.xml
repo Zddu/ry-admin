@@ -28,19 +28,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsAdminWarehouseVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectAssetsAdminWarehouseByItemId" parameterType="Long" resultMap="AssetsAdminWarehouseResult">
+        <include refid="selectAssetsAdminWarehouseVo"/>
+        where item_id = #{itemId}
+    </select>
+
     <insert id="insertAssetsAdminWarehouse" parameterType="com.ruoyi.assets.domain.AssetsAdminWarehouse" useGeneratedKeys="true" keyProperty="id">
-        insert into assets_admin_warehouse
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="itemId != null">item_id,</if>
-            <if test="itemName != null">item_name,</if>
-            <if test="itemNum != null">item_num,</if>
-         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="itemId != null">#{itemId},</if>
-            <if test="itemName != null">#{itemName},</if>
-            <if test="itemNum != null">#{itemNum},</if>
-         </trim>
+       <choose>
+           <when test="id==null">
+               insert into assets_admin_warehouse
+               <trim prefix="(" suffix=")" suffixOverrides=",">
+                   <if test="itemId != null">item_id,</if>
+                   <if test="itemName != null">item_name,</if>
+                   <if test="itemNum != null">item_num,</if>
+               </trim>
+               <trim prefix="values (" suffix=")" suffixOverrides=",">
+                   <if test="itemId != null">#{itemId},</if>
+                   <if test="itemName != null">#{itemName},</if>
+                   <if test="itemNum != null">#{itemNum},</if>
+               </trim>
+           </when>
+           <otherwise>
+               update assets_admin_warehouse
+               <trim prefix="SET" suffixOverrides=",">
+                   <if test="itemId != null">item_id = #{itemId},</if>
+                   <if test="itemName != null">item_name = #{itemName},</if>
+                   <if test="itemNum != null">item_num = #{itemNum},</if>
+               </trim>
+               where id = #{id}
+           </otherwise>
+       </choose>
+
+
     </insert>
 
     <update id="updateAssetsAdminWarehouse" parameterType="com.ruoyi.assets.domain.AssetsAdminWarehouse">
