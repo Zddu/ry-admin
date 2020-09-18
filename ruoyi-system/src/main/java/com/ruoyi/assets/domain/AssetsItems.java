@@ -41,7 +41,7 @@ public class AssetsItems extends BaseEntity {
     private Date createTime;
 
     private Long contractId;
-    @Excel(name = "供应商名称")
+    @Excel(name = "合同名称")
     private String contractName;
 
 
