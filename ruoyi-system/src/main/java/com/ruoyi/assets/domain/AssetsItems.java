@@ -34,7 +34,7 @@ public class AssetsItems extends BaseEntity {
     @Excel(name = "使用时长")
     private String usedTime;
     @Excel(name = "商品总数")
-    private String itemTotal;
+    private Long itemTotal;
 
     @Excel(name = "购买时间",dateFormat = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

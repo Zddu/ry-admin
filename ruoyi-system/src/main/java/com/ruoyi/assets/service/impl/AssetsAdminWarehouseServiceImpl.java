@@ -1,6 +1,10 @@
 package com.ruoyi.assets.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.mapper.AssetsItemsMapper;
+import com.ruoyi.common.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsAdminWarehouseMapper;
@@ -18,6 +22,8 @@ public class AssetsAdminWarehouseServiceImpl implements IAssetsAdminWarehouseSer
 {
     @Autowired
     private AssetsAdminWarehouseMapper assetsAdminWarehouseMapper;
+    @Autowired
+    private AssetsItemsMapper assetsItemsMapper;
 
     /**
      * 查询管理员仓库
@@ -50,8 +56,15 @@ public class AssetsAdminWarehouseServiceImpl implements IAssetsAdminWarehouseSer
      * @return 结果
      */
     @Override
-    public int insertAssetsAdminWarehouse(AssetsAdminWarehouse assetsAdminWarehouse)
-    {
+    public int insertAssetsAdminWarehouse(AssetsAdminWarehouse assetsAdminWarehouse) {
+        AssetsItems assetsItems = assetsItemsMapper.selectAssetsItemsById(assetsAdminWarehouse.getItemId());
+        if (assetsItems==null){
+            throw new CustomException("选择的商品不存在");
+        }
+        if (assetsItems.getItemTotal()<assetsAdminWarehouse.getItemNum()){
+
+        }
+        assetsAdminWarehouse.setItemName(assetsItems.getItemName());
         return assetsAdminWarehouseMapper.insertAssetsAdminWarehouse(assetsAdminWarehouse);
     }
 

@@ -9,8 +9,7 @@ import com.ruoyi.assets.domain.AssetsSchoolWarehouse;
  * @author Zddeä¸¶
  * @date 2020-09-17
  */
-public interface AssetsSchoolWarehouseMapper 
-{
+public interface AssetsSchoolWarehouseMapper {
     /**
      * 查询学校仓库
      * 

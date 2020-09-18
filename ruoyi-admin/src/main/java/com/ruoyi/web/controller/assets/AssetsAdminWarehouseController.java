@@ -63,8 +63,7 @@ public class AssetsAdminWarehouseController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:warehouse:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(assetsAdminWarehouseService.selectAssetsAdminWarehouseById(id));
     }
 
