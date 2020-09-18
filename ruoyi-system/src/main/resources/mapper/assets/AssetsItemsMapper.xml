@@ -55,10 +55,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
             <if test="contractName != null  and contractName != ''"> and contract_name like concat('%', #{contractName}, '%')</if>
             <if test="beginTime != null "><!-- 开始时间检索 -->
-                AND date_format(assets_items.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+                and date_format(assets_items.create_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
             </if>
             <if test="endTime != null"><!-- 结束时间检索 -->
-                AND date_format(assets_items.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+                and date_format(assets_items.create_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
             </if>
         </where>
     </select>

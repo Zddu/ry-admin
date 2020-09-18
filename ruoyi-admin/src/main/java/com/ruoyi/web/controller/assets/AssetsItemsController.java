@@ -32,7 +32,6 @@ public class AssetsItemsController extends BaseController
     /**
      * 展示所有商品列表
      */
-    @PreAuthorize("@ss.hasPermi('assets:items:list')")
     @GetMapping("/list")
     public TableDataInfo list(ItemsSupplierContractVo  itemsSupplierContractVo) {
         startPage();
@@ -53,7 +52,6 @@ public class AssetsItemsController extends BaseController
     /**
      * 导出所有列表
      */
-    @PreAuthorize("@ss.hasPermi('assets:items:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(AssetsItems assetsItems)
@@ -67,7 +65,6 @@ public class AssetsItemsController extends BaseController
     /**
      * 获取【请填写功能名称】详细信息
      */
-    @PreAuthorize("@ss.hasPermi('assets:items:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -77,7 +74,6 @@ public class AssetsItemsController extends BaseController
     /**
      * 新增商品
      */
-    @PreAuthorize("@ss.hasPermi('assets:items:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody AssetsItems assetsItems) {
@@ -88,7 +84,6 @@ public class AssetsItemsController extends BaseController
     /**
      * 修改商品
      */
-    @PreAuthorize("@ss.hasPermi('assets:items:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AssetsItems assetsItems)
@@ -99,7 +94,6 @@ public class AssetsItemsController extends BaseController
     /**
      * 删除商品
      */
-    @PreAuthorize("@ss.hasPermi('assets:items:remove')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
