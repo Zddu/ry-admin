@@ -58,4 +58,6 @@ public interface IAssetsItemRecordService
      * @return 结果
      */
     public int deleteAssetsItemRecordById(Long id);
+
+    List<AssetsItemRecord> selectAssetsItemRecordByRecordId(String recordId);
 }

@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.assets.mapper.AssetsItemRecordMapper">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsOrdersMapper">
     
-    <resultMap type="com.ruoyi.assets.domain.AssetsItemRecord" id="AssetsItemRecordResult">
+    <resultMap type="com.ruoyi.assets.domain.AssetsOrders" id="AssetsOrdersResult">
         <result property="id"    column="id"    />
-        <result property="itemId"    column="item_id"    />
         <result property="recordId"    column="record_id"    />
+        <result property="itemId"    column="item_id"    />
         <result property="itemName"    column="item_name"    />
         <result property="itemNum"    column="item_num"    />
         <result property="senderId"    column="sender_id"    />
@@ -18,37 +18,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="state"    column="state"    />
     </resultMap>
 
-    <sql id="selectAssetsItemRecordVo">
-        select id, record_id,item_id, item_name, item_num, sender_id,sender_name, receiver_name,receiver_id, create_time, state from assets_item_record
+    <sql id="selectAssetsOrdersVo">
+        select id, record_id, item_id, item_name, item_num, sender_id,sender_name, receiver_id, receiver_name, create_time, state from assets_orders
     </sql>
 
-    <select id="selectAssetsItemRecordList" parameterType="com.ruoyi.assets.domain.AssetsItemRecord" resultMap="AssetsItemRecordResult">
-        <include refid="selectAssetsItemRecordVo"/>
+    <select id="selectAssetsOrdersList" parameterType="com.ruoyi.assets.domain.AssetsOrders" resultMap="AssetsOrdersResult">
+        <include refid="selectAssetsOrdersVo"/>
         <where>  
+            <if test="recordId != null  and recordId != ''"> and record_id = #{recordId}</if>
             <if test="itemId != null "> and item_id = #{itemId}</if>
-            <if test="recordId != null "> and record_id = #{recordId}</if>
             <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
             <if test="itemNum != null "> and item_num = #{itemNum}</if>
             <if test="senderId != null "> and sender_id = #{senderId}</if>
             <if test="senderName != null "> and sender_name = #{senderName}</if>
             <if test="receiverId != null "> and receiver_id = #{receiverId}</if>
+            <if test="receiverName != null  and receiverName != ''"> and receiver_name like concat('%', #{receiverName}, '%')</if>
             <if test="state != null "> and state = #{state}</if>
         </where>
-        order by record_id
     </select>
     
-    <select id="selectAssetsItemRecordById" parameterType="Long" resultMap="AssetsItemRecordResult">
-        <include refid="selectAssetsItemRecordVo"/>
+    <select id="selectAssetsOrdersById" parameterType="Long" resultMap="AssetsOrdersResult">
+        <include refid="selectAssetsOrdersVo"/>
         where id = #{id}
     </select>
-    <select id="selectAssetsItemRecordByRecordId" parameterType="string"  resultMap="AssetsItemRecordResult">
-        <include refid="selectAssetsItemRecordVo"/>
-        where record_id = #{recordId}
-    </select>
-
-
-    <insert id="insertAssetsItemRecord" parameterType="com.ruoyi.assets.domain.AssetsItemRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into assets_item_record
+        
+    <insert id="insertAssetsOrders" parameterType="com.ruoyi.assets.domain.AssetsOrders" useGeneratedKeys="true" keyProperty="id">
+        insert into assets_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="recordId != null">record_id,</if>
             <if test="itemId != null">item_id,</if>
@@ -75,9 +70,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateAssetsItemRecord" parameterType="com.ruoyi.assets.domain.AssetsItemRecord">
-        update assets_item_record
+    <update id="updateAssetsOrders" parameterType="com.ruoyi.assets.domain.AssetsOrders">
+        update assets_orders
         <trim prefix="SET" suffixOverrides=",">
+            <if test="recordId != null">record_id = #{recordId},</if>
             <if test="itemId != null">item_id = #{itemId},</if>
             <if test="itemName != null">item_name = #{itemName},</if>
             <if test="itemNum != null">item_num = #{itemNum},</if>
@@ -90,12 +86,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteAssetsItemRecordById" parameterType="Long">
-        delete from assets_item_record where id = #{id}
+    <delete id="deleteAssetsOrdersById" parameterType="Long">
+        delete from assets_orders where id = #{id}
     </delete>
 
-    <delete id="deleteAssetsItemRecordByIds" parameterType="String">
-        delete from assets_item_record where id in 
+    <delete id="deleteAssetsOrdersByIds" parameterType="String">
+        delete from assets_orders where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

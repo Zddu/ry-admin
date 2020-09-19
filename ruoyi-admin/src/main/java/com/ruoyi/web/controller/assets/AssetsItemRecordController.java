@@ -1,6 +1,11 @@
 package com.ruoyi.web.controller.assets;
 
 import java.util.List;
+
+import com.ruoyi.assets.domain.AssetsAdminWarehouse;
+import com.ruoyi.assets.service.IAssetsAdminWarehouseService;
+import com.ruoyi.assets.service.IAssetsItemsService;
+import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +25,8 @@ import com.ruoyi.assets.service.IAssetsItemRecordService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
+import javax.naming.ldap.PagedResultsControl;
+
 /**
  * 记录表Controller
  * 
@@ -32,16 +39,20 @@ public class AssetsItemRecordController extends BaseController
 {
     @Autowired
     private IAssetsItemRecordService assetsItemRecordService;
+    @Autowired
+    private IAssetsAdminWarehouseService assetsAdminWarehouseService;
 
+    @Autowired
+    private ISysDeptService sysDeptService;
     /**
      * 查询记录表列表
      */
     @PreAuthorize("@ss.hasPermi('assets:record:list')")
     @GetMapping("/list")
-    public TableDataInfo list(AssetsItemRecord assetsItemRecord)
-    {
+    public TableDataInfo list(AssetsItemRecord assetsItemRecord) {
         startPage();
         List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord);
+
         return getDataTable(list);
     }
 
@@ -51,8 +62,7 @@ public class AssetsItemRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:record:export')")
     @Log(title = "记录表", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(AssetsItemRecord assetsItemRecord)
-    {
+    public AjaxResult export(AssetsItemRecord assetsItemRecord) {
         List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord);
         ExcelUtil<AssetsItemRecord> util = new ExcelUtil<AssetsItemRecord>(AssetsItemRecord.class);
         return util.exportExcel(list, "record");
@@ -62,10 +72,9 @@ public class AssetsItemRecordController extends BaseController
      * 获取记录表详细信息
      */
     @PreAuthorize("@ss.hasPermi('assets:record:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
-        return AjaxResult.success(assetsItemRecordService.selectAssetsItemRecordById(id));
+    @GetMapping(value = "/{recordId}")
+    public AjaxResult getInfo(@PathVariable("recordId") String recordId) {
+        return AjaxResult.success(assetsItemRecordService.selectAssetsItemRecordByRecordId(recordId));
     }
 
     /**
@@ -74,8 +83,7 @@ public class AssetsItemRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:record:add')")
     @Log(title = "记录表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody AssetsItemRecord assetsItemRecord)
-    {
+    public AjaxResult add(@RequestBody AssetsItemRecord assetsItemRecord) {
         return toAjax(assetsItemRecordService.insertAssetsItemRecord(assetsItemRecord));
     }
 
@@ -85,8 +93,7 @@ public class AssetsItemRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:record:edit')")
     @Log(title = "记录表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody AssetsItemRecord assetsItemRecord)
-    {
+    public AjaxResult edit(@RequestBody AssetsItemRecord assetsItemRecord) {
         return toAjax(assetsItemRecordService.updateAssetsItemRecord(assetsItemRecord));
     }
 
@@ -96,8 +103,10 @@ public class AssetsItemRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:record:remove')")
     @Log(title = "记录表", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsItemRecordService.deleteAssetsItemRecordByIds(ids));
     }
+
+
+
 }

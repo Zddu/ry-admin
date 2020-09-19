@@ -9,10 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="itemId"    column="item_id"    />
         <result property="itemName"    column="item_name"    />
         <result property="itemNum"    column="item_num"    />
+        <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectAssetsSchoolWarehouseVo">
-        select id, item_id, item_name, item_num from assets_school_warehouse
+        select id, item_id, item_name, item_num,create_time from assets_school_warehouse
     </sql>
 
     <select id="selectAssetsSchoolWarehouseList" parameterType="com.ruoyi.assets.domain.AssetsSchoolWarehouse" resultMap="AssetsSchoolWarehouseResult">

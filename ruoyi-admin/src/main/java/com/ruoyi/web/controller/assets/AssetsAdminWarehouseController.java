@@ -1,6 +1,12 @@
 package com.ruoyi.web.controller.assets;
 
 import java.util.List;
+
+import com.ruoyi.assets.domain.AssetsOrders;
+import com.ruoyi.assets.service.IAssetsOrdersService;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.web.service.TokenService;
+import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +34,15 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/assets/admin")
-public class AssetsAdminWarehouseController extends BaseController
-{
+public class AssetsAdminWarehouseController extends BaseController {
     @Autowired
     private IAssetsAdminWarehouseService assetsAdminWarehouseService;
+    @Autowired
+    private ISysDeptService sysDeptService;
+    @Autowired
+    private IAssetsOrdersService assetsOrdersService;
+    @Autowired
+   private TokenService tokenService;
 
     /**
      * 查询管理员仓库列表
@@ -91,8 +102,45 @@ public class AssetsAdminWarehouseController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:warehouse:remove')")
     @Log(title = "管理员仓库", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsAdminWarehouseService.deleteAssetsAdminWarehouseByIds(ids));
+    }
+
+    /**
+     * 出库管理
+     */
+    @PostMapping("/out")
+    public AjaxResult outwarehouse(@RequestBody List<AssetsOrders> assetsOrders) {
+        return toAjax(assetsOrdersService.insertAssetsOrders(
+                assetsOrders,
+                sysDeptService.selectDeptById(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
+                )
+        );
+    }
+
+    /**
+     * 撤回订单
+     */
+    @PostMapping("/withdrawal")
+    public AjaxResult withdrawalorders(@RequestBody List<Long> assetsOrdersIds) {
+        return toAjax(assetsOrdersService.withdrawalOrders(assetsOrdersIds)
+        );
+    }
+    /**
+     * 展示订单
+     */
+    @GetMapping("/show-order")
+    public AjaxResult showOrder(Long id){
+        AssetsOrders assetsOrders =new AssetsOrders();
+        assetsOrders.setItemId(id);
+        return AjaxResult.success("orders",assetsOrdersService.selectAssetsOrdersList(assetsOrders));
+    }
+
+    /**
+     * 订单商品列表和接收方对象
+     */
+    @GetMapping(value = "/show-list")
+    public AjaxResult showList() {
+        return AjaxResult.success(sysDeptService.showSchoolList());
     }
 }

@@ -58,4 +58,8 @@ public interface AssetsItemRecordMapper
      * @return 结果
      */
     public int deleteAssetsItemRecordByIds(Long[] ids);
+
+    List<AssetsItemRecord> selectAssetsItemRecordByRecordId(String recordId);
+
+
 }

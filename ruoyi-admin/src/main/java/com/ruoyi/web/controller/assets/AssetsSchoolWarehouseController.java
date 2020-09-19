@@ -1,6 +1,12 @@
 package com.ruoyi.web.controller.assets;
 
 import java.util.List;
+
+import com.ruoyi.assets.domain.AssetsOrders;
+import com.ruoyi.assets.service.IAssetsOrdersService;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.web.service.TokenService;
+import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +38,12 @@ public class AssetsSchoolWarehouseController extends BaseController
 {
     @Autowired
     private IAssetsSchoolWarehouseService assetsSchoolWarehouseService;
-
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private ISysDeptService sysDeptService;
+    @Autowired
+    private IAssetsOrdersService assetsOrdersService;
     /**
      * 查询学校仓库列表
      */
@@ -96,8 +107,25 @@ public class AssetsSchoolWarehouseController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:warehouse:remove')")
     @Log(title = "学校仓库", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsSchoolWarehouseService.deleteAssetsSchoolWarehouseByIds(ids));
+    }
+    /**
+     * 展示订单
+     */
+    @GetMapping("/show-order")
+    public AjaxResult showOrder(Long id){
+        AssetsOrders assetsOrders =new AssetsOrders();
+        Long schoolId = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
+        assetsOrders.setItemId(id);
+        assetsOrders.setReceiverId(schoolId);
+        return AjaxResult.success("orders",assetsOrdersService.selectAssetsOrdersList(assetsOrders));
+    }
+    /**
+     * 确认订单
+     */
+    @PostMapping("/confirm")
+    public AjaxResult withdrawalorders(@RequestBody List<Long> assetsOrdersIds) {
+        return toAjax(assetsOrdersService.confirmOrders(assetsOrdersIds));
     }
 }

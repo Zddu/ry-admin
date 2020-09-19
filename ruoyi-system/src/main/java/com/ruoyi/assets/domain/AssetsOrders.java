@@ -6,19 +6,22 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 记录表对象 assets_item_record
+ * 【请填写功能名称】对象 assets_orders
  * 
  * @author Zddeä¸¶
- * @date 2020-09-17
+ * @date 2020-09-18
  */
-public class AssetsItemRecord extends BaseEntity
+public class AssetsOrders extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 记录id */
+    /** $column.columnComment */
     private Long id;
 
+    /** 订单号 */
+    @Excel(name = "订单号")
     private String recordId;
+
     /** 商品id */
     @Excel(name = "商品id")
     private Long itemId;
@@ -33,19 +36,20 @@ public class AssetsItemRecord extends BaseEntity
 
     /** 发送方id */
     @Excel(name = "发送方id")
-    private Long senderId ;
+    private Long senderId=0L;
+    private String senderName;
 
-    private String senderName="教体局";
-
-    /** 接收方id(学校id) */
-    @Excel(name = "接收方id(学校id)")
+    /** 接收方id */
+    @Excel(name = "接收方id")
     private Long receiverId;
 
+    /** 接收方名称 */
+    @Excel(name = "接收方名称")
     private String receiverName;
-    /** 0-已出库 1-已确收 */
-    @Excel(name = "0-已出库 1-已确收")
-    private Long state;
 
+    /** 状态 */
+    @Excel(name = "状态")
+    private Long state;
 
     public String getSenderName() {
         return senderName;
@@ -53,22 +57,6 @@ public class AssetsItemRecord extends BaseEntity
 
     public void setSenderName(String senderName) {
         this.senderName = senderName;
-    }
-
-    public String getReceiverName() {
-        return receiverName;
-    }
-
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
-    public String getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
     }
 
     public void setId(Long id)
@@ -79,6 +67,15 @@ public class AssetsItemRecord extends BaseEntity
     public Long getId() 
     {
         return id;
+    }
+    public void setRecordId(String recordId) 
+    {
+        this.recordId = recordId;
+    }
+
+    public String getRecordId() 
+    {
+        return recordId;
     }
     public void setItemId(Long itemId) 
     {
@@ -125,6 +122,15 @@ public class AssetsItemRecord extends BaseEntity
     {
         return receiverId;
     }
+    public void setReceiverName(String receiverName) 
+    {
+        this.receiverName = receiverName;
+    }
+
+    public String getReceiverName() 
+    {
+        return receiverName;
+    }
     public void setState(Long state) 
     {
         this.state = state;
@@ -139,11 +145,13 @@ public class AssetsItemRecord extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
+            .append("recordId", getRecordId())
             .append("itemId", getItemId())
             .append("itemName", getItemName())
             .append("itemNum", getItemNum())
             .append("senderId", getSenderId())
             .append("receiverId", getReceiverId())
+            .append("receiverName", getReceiverName())
             .append("createTime", getCreateTime())
             .append("state", getState())
             .toString();

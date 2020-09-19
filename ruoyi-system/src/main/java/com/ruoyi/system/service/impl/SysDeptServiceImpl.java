@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.ruoyi.assets.domain.AssetsOrders;
+import com.ruoyi.assets.domain.vo.ReceiverVo;
+import com.ruoyi.survey.domain.vo.SchoolVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.annotation.DataScope;
@@ -14,6 +19,7 @@ import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.service.ISysDeptService;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 部门管理 服务实现
@@ -263,6 +269,23 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public Long selectParentDepByChildId(Long deptId) {
 
         return deptMapper.selectParentDepByChildId(deptId);
+    }
+
+    @Override
+    public List<AssetsOrders> showSchoolList() {
+        List<SysDept> sysDepts = deptMapper.selectSchoolList();
+        List<AssetsOrders> result =new ArrayList<>();
+        if (ObjectUtils.isEmpty(sysDepts)){
+            return result;
+        }
+        for (SysDept sysDept : sysDepts) {
+            AssetsOrders receiverVo = new AssetsOrders();
+            receiverVo.setReceiverId(sysDept.getDeptId());
+            receiverVo.setReceiverName(sysDept.getDeptName());
+            result.add(receiverVo);
+        }
+
+        return result;
     }
 
 

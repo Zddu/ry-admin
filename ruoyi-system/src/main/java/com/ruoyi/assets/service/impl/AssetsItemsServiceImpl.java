@@ -1,12 +1,11 @@
 package com.ruoyi.assets.service.impl;
 
 
+import com.ruoyi.assets.domain.AssetsAdminWarehouse;
 import com.ruoyi.assets.domain.AssetsContract;
 import com.ruoyi.assets.domain.AssetsItems;
 import com.ruoyi.assets.domain.vo.ItemsSupplierContractVo;
-import com.ruoyi.assets.mapper.AssetsContractMapper;
-import com.ruoyi.assets.mapper.AssetsItemsMapper;
-import com.ruoyi.assets.mapper.AssetsSupplierMapper;
+import com.ruoyi.assets.mapper.*;
 import com.ruoyi.assets.service.IAssetsItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,8 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
     private AssetsSupplierMapper assetsSupplierMapper;
     @Autowired
     private AssetsContractMapper assetsContractMapper;
+    @Autowired
+    private AssetsAdminWarehouseMapper assetsAdminWarehouseMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -109,4 +110,5 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
     {
         return assetsItemsMapper.deleteAssetsItemsById(id);
     }
+
 }

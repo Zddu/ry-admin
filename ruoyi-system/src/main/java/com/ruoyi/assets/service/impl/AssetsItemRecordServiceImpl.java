@@ -2,6 +2,7 @@ package com.ruoyi.assets.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.uuid.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsItemRecordMapper;
@@ -15,8 +16,7 @@ import com.ruoyi.assets.service.IAssetsItemRecordService;
  * @date 2020-09-17
  */
 @Service
-public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService 
-{
+public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
     @Autowired
     private AssetsItemRecordMapper assetsItemRecordMapper;
 
@@ -27,8 +27,7 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService
      * @return 记录表
      */
     @Override
-    public AssetsItemRecord selectAssetsItemRecordById(Long id)
-    {
+    public AssetsItemRecord selectAssetsItemRecordById(Long id) {
         return assetsItemRecordMapper.selectAssetsItemRecordById(id);
     }
 
@@ -39,9 +38,9 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService
      * @return 记录表
      */
     @Override
-    public List<AssetsItemRecord> selectAssetsItemRecordList(AssetsItemRecord assetsItemRecord)
-    {
-        return assetsItemRecordMapper.selectAssetsItemRecordList(assetsItemRecord);
+    public List<AssetsItemRecord> selectAssetsItemRecordList(AssetsItemRecord assetsItemRecord) {
+        List<AssetsItemRecord> assetsItemRecords = assetsItemRecordMapper.selectAssetsItemRecordList(assetsItemRecord);
+        return assetsItemRecords;
     }
 
     /**
@@ -51,9 +50,7 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService
      * @return 结果
      */
     @Override
-    public int insertAssetsItemRecord(AssetsItemRecord assetsItemRecord)
-    {
-        assetsItemRecord.setCreateTime(DateUtils.getNowDate());
+    public int insertAssetsItemRecord(AssetsItemRecord assetsItemRecord) {
         return assetsItemRecordMapper.insertAssetsItemRecord(assetsItemRecord);
     }
 
@@ -91,5 +88,10 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService
     public int deleteAssetsItemRecordById(Long id)
     {
         return assetsItemRecordMapper.deleteAssetsItemRecordById(id);
+    }
+
+    @Override
+    public List<AssetsItemRecord> selectAssetsItemRecordByRecordId(String recordId) {
+        return assetsItemRecordMapper.selectAssetsItemRecordByRecordId(recordId);
     }
 }

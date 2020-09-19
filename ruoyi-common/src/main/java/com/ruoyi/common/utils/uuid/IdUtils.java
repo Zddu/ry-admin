@@ -2,6 +2,8 @@ package com.ruoyi.common.utils.uuid;
 
 import com.ruoyi.common.utils.uuid.UUID;
 
+import java.util.Random;
+
 /**
  * ID生成器工具类
  * 
@@ -47,5 +49,17 @@ public class IdUtils
     public static String fastSimpleUUID()
     {
         return UUID.fastUUID().toString(true);
+    }
+    public static String getOrderIdByUUId() {
+        int first = new Random(10).nextInt(8) + 1;
+
+        int hashCodeV = UUID.randomUUID().toString().hashCode();
+        if (hashCodeV < 0) {//有可能是负数
+            hashCodeV = -hashCodeV;
+        }
+        // 0 代表前面补充0
+        // 4 代表长度为4
+        // d 代表参数为正数型
+        return first + String.format("%015d", hashCodeV);
     }
 }

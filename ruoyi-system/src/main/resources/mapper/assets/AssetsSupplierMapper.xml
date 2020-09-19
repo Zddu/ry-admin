@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          select id, supplier_name from assets_supplier where contract_id =#{id}
     </select>
     <select id="selectAssetsSupplierAndContractList" resultMap="AssetsSupplierAndContractResult">
-        select id, supplier_name,contract_id,assets_contract.name contract_name from assets_supplier,assets_contract
+        select assets_supplier.id, supplier_name,contract_id,assets_contract.name contract_name from assets_supplier,assets_contract
         <where>
             assets_contract.id = assets_supplier.contract_id
             <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
