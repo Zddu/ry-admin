@@ -19,8 +19,7 @@ import org.springframework.util.ObjectUtils;
  * @date 2020-09-17
  */
 @Service
-public class AssetsAdminWarehouseServiceImpl implements IAssetsAdminWarehouseService 
-{
+public class AssetsAdminWarehouseServiceImpl implements IAssetsAdminWarehouseService {
     @Autowired
     private AssetsAdminWarehouseMapper assetsAdminWarehouseMapper;
     @Autowired
@@ -108,5 +107,10 @@ public class AssetsAdminWarehouseServiceImpl implements IAssetsAdminWarehouseSer
     public int deleteAssetsAdminWarehouseById(Long id)
     {
         return assetsAdminWarehouseMapper.deleteAssetsAdminWarehouseById(id);
+    }
+
+    @Override
+    public AssetsAdminWarehouse selectAssetsAdminWarehouseByItemId(Long id) {
+        return assetsAdminWarehouseMapper.selectAssetsAdminWarehouseByItemId(id);
     }
 }

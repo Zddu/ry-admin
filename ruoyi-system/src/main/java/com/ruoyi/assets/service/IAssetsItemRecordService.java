@@ -2,6 +2,8 @@ package com.ruoyi.assets.service;
 
 import java.util.List;
 import com.ruoyi.assets.domain.AssetsItemRecord;
+import com.ruoyi.assets.domain.AssetsOrders;
+import com.ruoyi.common.core.domain.entity.SysDept;
 
 /**
  * 记录表Service接口
@@ -23,9 +25,10 @@ public interface IAssetsItemRecordService
      * 查询记录表列表
      * 
      * @param assetsItemRecord 记录表
+     * @param sysDept
      * @return 记录表集合
      */
-    public List<AssetsItemRecord> selectAssetsItemRecordList(AssetsItemRecord assetsItemRecord);
+    public List<AssetsItemRecord> selectAssetsItemRecordList(AssetsItemRecord assetsItemRecord, SysDept sysDept);
 
     /**
      * 新增记录表
@@ -60,4 +63,6 @@ public interface IAssetsItemRecordService
     public int deleteAssetsItemRecordById(Long id);
 
     List<AssetsItemRecord> selectAssetsItemRecordByRecordId(String recordId);
+
+    int insertAssetsItemRecordOperation(AssetsOrders assetsOrders, SysDept sysDept);
 }

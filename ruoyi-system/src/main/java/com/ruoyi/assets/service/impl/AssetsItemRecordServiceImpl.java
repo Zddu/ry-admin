@@ -1,8 +1,11 @@
 package com.ruoyi.assets.service.impl;
 
 import java.util.List;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.uuid.IdUtils;
+
+import com.ruoyi.assets.domain.AssetsOrders;
+import com.ruoyi.common.core.domain.entity.SysDept;
+import com.ruoyi.system.mapper.SysDeptMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsItemRecordMapper;
@@ -19,7 +22,8 @@ import com.ruoyi.assets.service.IAssetsItemRecordService;
 public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
     @Autowired
     private AssetsItemRecordMapper assetsItemRecordMapper;
-
+    @Autowired
+    private SysDeptMapper sysDeptMapper;
     /**
      * 查询记录表
      * 
@@ -35,10 +39,18 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
      * 查询记录表列表
      * 
      * @param assetsItemRecord 记录表
+     * @param sysDept
      * @return 记录表
      */
     @Override
-    public List<AssetsItemRecord> selectAssetsItemRecordList(AssetsItemRecord assetsItemRecord) {
+    public List<AssetsItemRecord> selectAssetsItemRecordList(AssetsItemRecord assetsItemRecord, SysDept sysDept) {
+
+        Long pid = sysDeptMapper.selectParentDepByChildId(sysDept.getDeptId());
+        if (pid==0){
+            assetsItemRecord.setOperatorId(sysDept.getDeptId());
+        }else{
+            assetsItemRecord.setOperatorId(pid);
+        }
         List<AssetsItemRecord> assetsItemRecords = assetsItemRecordMapper.selectAssetsItemRecordList(assetsItemRecord);
         return assetsItemRecords;
     }
@@ -93,5 +105,18 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
     @Override
     public List<AssetsItemRecord> selectAssetsItemRecordByRecordId(String recordId) {
         return assetsItemRecordMapper.selectAssetsItemRecordByRecordId(recordId);
+    }
+
+    @Override
+    public int insertAssetsItemRecordOperation(AssetsOrders assetsOrders, SysDept sysDept) {
+        AssetsItemRecord assetsItemRecord = new AssetsItemRecord();
+        BeanUtils.copyProperties(assetsOrders,assetsItemRecord);
+        Long pid = sysDeptMapper.selectParentDepByChildId(sysDept.getDeptId());
+        if (pid==0){
+            assetsItemRecord.setOperatorId(sysDept.getDeptId());
+        }else{
+            assetsItemRecord.setOperatorId(pid);
+        }
+        return assetsItemRecordMapper.insertAssetsItemRecord(assetsItemRecord);
     }
 }

@@ -46,6 +46,16 @@ public class AssetsItemRecord extends BaseEntity
     @Excel(name = "0-已出库 1-已确收")
     private Long state;
 
+    private Long operatorId;
+
+
+    public Long getOperatorId() {
+        return operatorId;
+    }
+
+    public void setOperatorId(Long operatorId) {
+        this.operatorId = operatorId;
+    }
 
     public String getSenderName() {
         return senderName;

@@ -36,7 +36,7 @@ public class AssetsOrders extends BaseEntity
 
     /** 发送方id */
     @Excel(name = "发送方id")
-    private Long senderId=0L;
+    private Long senderId;
     private String senderName;
 
     /** 接收方id */

@@ -2,9 +2,9 @@ package com.ruoyi.web.controller.assets;
 
 import java.util.List;
 
-import com.ruoyi.assets.domain.AssetsAdminWarehouse;
 import com.ruoyi.assets.service.IAssetsAdminWarehouseService;
-import com.ruoyi.assets.service.IAssetsItemsService;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.system.service.ISysDeptService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,6 @@ import com.ruoyi.assets.service.IAssetsItemRecordService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
-import javax.naming.ldap.PagedResultsControl;
-
 /**
  * 记录表Controller
  * 
@@ -41,7 +39,8 @@ public class AssetsItemRecordController extends BaseController
     private IAssetsItemRecordService assetsItemRecordService;
     @Autowired
     private IAssetsAdminWarehouseService assetsAdminWarehouseService;
-
+    @Autowired
+    private TokenService tokenService;
     @Autowired
     private ISysDeptService sysDeptService;
     /**
@@ -51,7 +50,13 @@ public class AssetsItemRecordController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(AssetsItemRecord assetsItemRecord) {
         startPage();
-        List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord);
+        List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord,
+                sysDeptService.selectDeptById(
+                        tokenService.getLoginUser(
+                                ServletUtils.getRequest()
+                        ).getUser().getDeptId()
+                )
+        );
 
         return getDataTable(list);
     }
@@ -63,7 +68,7 @@ public class AssetsItemRecordController extends BaseController
     @Log(title = "记录表", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(AssetsItemRecord assetsItemRecord) {
-        List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord);
+        List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord, sysDeptService.selectDeptById(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()));
         ExcelUtil<AssetsItemRecord> util = new ExcelUtil<AssetsItemRecord>(AssetsItemRecord.class);
         return util.exportExcel(list, "record");
     }

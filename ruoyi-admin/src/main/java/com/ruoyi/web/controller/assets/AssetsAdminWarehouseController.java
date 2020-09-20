@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.assets;
 import java.util.List;
 
 import com.ruoyi.assets.domain.AssetsOrders;
+import com.ruoyi.assets.service.IAssetsItemsService;
 import com.ruoyi.assets.service.IAssetsOrdersService;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
@@ -41,6 +42,8 @@ public class AssetsAdminWarehouseController extends BaseController {
     private ISysDeptService sysDeptService;
     @Autowired
     private IAssetsOrdersService assetsOrdersService;
+    @Autowired
+    private IAssetsItemsService assetsItemsService;
     @Autowired
    private TokenService tokenService;
 
@@ -123,17 +126,26 @@ public class AssetsAdminWarehouseController extends BaseController {
      */
     @PostMapping("/withdrawal")
     public AjaxResult withdrawalorders(@RequestBody List<Long> assetsOrdersIds) {
-        return toAjax(assetsOrdersService.withdrawalOrders(assetsOrdersIds)
+        return toAjax(assetsOrdersService.withdrawalOrders(
+                assetsOrdersIds,
+                sysDeptService.selectDeptById(
+                        tokenService.getLoginUser(ServletUtils.getRequest()
+                        ).getUser().getDeptId()
+                )
+                )
         );
     }
     /**
      * 展示订单
      */
-    @GetMapping("/show-order")
-    public AjaxResult showOrder(Long id){
+    @GetMapping("/show-order/{id}")
+    public AjaxResult showOrder(@PathVariable("id") Long id){
         AssetsOrders assetsOrders =new AssetsOrders();
         assetsOrders.setItemId(id);
-        return AjaxResult.success("orders",assetsOrdersService.selectAssetsOrdersList(assetsOrders));
+        AjaxResult orders = AjaxResult.success();
+        orders.put("orders", assetsOrdersService.selectAssetsOrdersList(assetsOrders));
+        orders.put("item",assetsAdminWarehouseService.selectAssetsAdminWarehouseByItemId(id));
+        return orders;
     }
 
     /**

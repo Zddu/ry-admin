@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.assets.domain.AssetsOrders;
 import com.ruoyi.assets.service.IAssetsOrdersService;
+import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.system.service.ISysDeptService;
@@ -119,13 +120,20 @@ public class AssetsSchoolWarehouseController extends BaseController
         Long schoolId = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
         assetsOrders.setItemId(id);
         assetsOrders.setReceiverId(schoolId);
-        return AjaxResult.success("orders",assetsOrdersService.selectAssetsOrdersList(assetsOrders));
+        AjaxResult orders = AjaxResult.success();
+        orders.put("orders", assetsOrdersService.selectAssetsOrdersList(assetsOrders));
+        return orders;
     }
     /**
      * 确认订单
      */
     @PostMapping("/confirm")
     public AjaxResult withdrawalorders(@RequestBody List<Long> assetsOrdersIds) {
-        return toAjax(assetsOrdersService.confirmOrders(assetsOrdersIds));
+        SysDept sysDept =   sysDeptService.selectDeptById(
+                tokenService.getLoginUser(
+                        ServletUtils.getRequest()
+                ).getUser().getDeptId()
+        );
+        return toAjax(assetsOrdersService.confirmOrders(assetsOrdersIds,sysDept));
     }
 }

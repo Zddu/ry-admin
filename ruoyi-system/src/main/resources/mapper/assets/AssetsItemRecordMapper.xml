@@ -16,10 +16,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="receiverName"    column="receiver_name"    />
         <result property="createTime"    column="create_time"    />
         <result property="state"    column="state"    />
+        <result property="operatorId"    column="operator_id"    />
     </resultMap>
 
     <sql id="selectAssetsItemRecordVo">
-        select id, record_id,item_id, item_name, item_num, sender_id,sender_name, receiver_name,receiver_id, create_time, state from assets_item_record
+        select id, record_id,item_id, item_name, item_num, sender_id,sender_name, receiver_name,receiver_id, create_time, state,operator_id from assets_item_record
     </sql>
 
     <select id="selectAssetsItemRecordList" parameterType="com.ruoyi.assets.domain.AssetsItemRecord" resultMap="AssetsItemRecordResult">
@@ -33,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="senderName != null "> and sender_name = #{senderName}</if>
             <if test="receiverId != null "> and receiver_id = #{receiverId}</if>
             <if test="state != null "> and state = #{state}</if>
+            <if test="operatorId != null "> and operator_id = #{operatorId}</if>
         </where>
         order by record_id
     </select>
@@ -60,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="receiverName != null">receiver_name,</if>
             <if test="createTime != null">create_time,</if>
             <if test="state != null">state,</if>
+            <if test="operatorId != null">operator_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="recordId != null">#{recordId},</if>
@@ -72,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="receiverName != null">#{receiverName},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="state != null">#{state},</if>
+            <if test="operatorId != null">#{operatorId},</if>
          </trim>
     </insert>
 

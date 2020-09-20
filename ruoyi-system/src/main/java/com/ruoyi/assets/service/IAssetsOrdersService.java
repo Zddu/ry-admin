@@ -60,9 +60,9 @@ public interface IAssetsOrdersService
      */
     public int deleteAssetsOrdersById(Long id);
 
-    int withdrawalOrders(List<Long> assetsOrdersIds);
+    int withdrawalOrders(List<Long> assetsOrdersIds, SysDept sysDept);
 
-    int confirmOrders(List<Long> assetsOrdersIds);
+    int confirmOrders(List<Long> assetsOrdersIds,SysDept sysDept);
 
-    void initAssetsOrders(List<AssetsOrders> list, Long state, SysDept dept);
+
 }

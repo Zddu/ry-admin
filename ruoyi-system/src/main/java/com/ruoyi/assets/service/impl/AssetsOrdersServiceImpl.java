@@ -9,10 +9,8 @@ import com.ruoyi.assets.mapper.AssetsAdminWarehouseMapper;
 import com.ruoyi.assets.mapper.AssetsSchoolWarehouseMapper;
 import com.ruoyi.assets.service.IAssetsItemRecordService;
 import com.ruoyi.common.core.domain.entity.SysDept;
-import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.uuid.IdUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,22 +68,19 @@ public class AssetsOrdersServiceImpl implements IAssetsOrdersService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertAssetsOrders(List<AssetsOrders> assetsOrdersList,SysDept sysDept) {
-        initAssetsOrders(assetsOrdersList,0L,sysDept);
         for (AssetsOrders assetsOrders : assetsOrdersList) {
             if (assetsOrders.getItemNum()==null){
                 continue;
             }
             AssetsItemRecord record = new AssetsItemRecord();
             BeanUtils.copyProperties(assetsOrders,record);
-            assetsItemRecordService.insertAssetsItemRecord(record);
-
+            assetsItemRecordService.insertAssetsItemRecordOperation(assetsOrders,sysDept);
             AssetsAdminWarehouse assetsAdminWarehouse = assetsAdminWarehouseMapper.selectAssetsAdminWarehouseByItemId(assetsOrders.getItemId());
             if (assetsAdminWarehouse.getItemNum()-assetsOrders.getItemNum()<0||assetsOrders.getItemNum()<0){
                 throw new CustomException("商品数量异常");
             }
             assetsAdminWarehouse.setItemNum(assetsAdminWarehouse.getItemNum()-assetsOrders.getItemNum());
             assetsAdminWarehouseMapper.updateAssetsAdminWarehouse(assetsAdminWarehouse);
-
             assetsOrdersMapper.insertAssetsOrders(assetsOrders);
         }
         return 1;
@@ -130,52 +125,38 @@ public class AssetsOrdersServiceImpl implements IAssetsOrdersService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int confirmOrders(List<Long> assetsOrdersIds) {
+    public int confirmOrders(List<Long> assetsOrdersIds,SysDept sysDept) {
         for (Long id : assetsOrdersIds) {
             AssetsOrders assetsOrders = assetsOrdersMapper.selectAssetsOrdersById(id);
             assetsOrders.setState(2L);
-            AssetsItemRecord record = new AssetsItemRecord();
-            BeanUtils.copyProperties(assetsOrders,record);
-            assetsItemRecordService.insertAssetsItemRecord(record);
+            assetsOrders.setCreateTime(DateUtils.getNowDate());
+            assetsItemRecordService.insertAssetsItemRecordOperation(assetsOrders,sysDept);
+
             AssetsSchoolWarehouse assetsSchoolWarehouse = new AssetsSchoolWarehouse();
             BeanUtils.copyProperties(
                     assetsAdminWarehouseMapper.selectAssetsAdminWarehouseByItemId(assetsOrders.getItemId()),
                     assetsSchoolWarehouse);
             assetsSchoolWarehouse.setItemNum(assetsOrders.getItemNum());
             assetsSchoolWarehouseMapper.insertAssetsSchoolWarehouse(assetsSchoolWarehouse);
-            assetsOrdersMapper.deleteAssetsOrdersById(assetsOrders.getId());
         }
         return 1;
     }
 
-    @Override
-    public void initAssetsOrders(List<AssetsOrders> list, Long state, SysDept dept) {
-        for (AssetsOrders assetsOrders : list) {
-            assetsOrders.setCreateTime(DateUtils.getNowDate());
-            assetsOrders.setState(state);
-            assetsOrders.setSenderId(dept.getDeptId());
-            assetsOrders.setSenderName(dept.getDeptName());
-            assetsOrders.setRecordId(IdUtils.getOrderIdByUUId());
-        }
 
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int withdrawalOrders(List<Long> assetsOrdersIds) {
+    public int withdrawalOrders(List<Long> assetsOrdersIds, SysDept sysDept) {
         for (Long id : assetsOrdersIds) {
             AssetsOrders assetsOrders = assetsOrdersMapper.selectAssetsOrdersById(id);
             assetsOrders.setState(1L);
-            AssetsItemRecord record=new AssetsItemRecord();
-            BeanUtils.copyProperties(assetsOrders,record);
-            assetsItemRecordService.insertAssetsItemRecord(record);
-
+            assetsOrders.setCreateTime(DateUtils.getNowDate());
+            assetsItemRecordService.insertAssetsItemRecordOperation(assetsOrders,sysDept);
             AssetsAdminWarehouse assetsAdminWarehouse = assetsAdminWarehouseMapper.selectAssetsAdminWarehouseByItemId(assetsOrders.getItemId());
             assetsAdminWarehouse.setItemNum(assetsAdminWarehouse.getItemNum()+assetsOrders.getItemNum());
             assetsAdminWarehouseMapper.updateAssetsAdminWarehouse(assetsAdminWarehouse);
             assetsOrdersMapper.deleteAssetsOrdersById(assetsOrders.getId());
         }
-
         return 1;
     }
 }
