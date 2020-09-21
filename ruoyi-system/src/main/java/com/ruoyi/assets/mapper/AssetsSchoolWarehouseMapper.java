@@ -57,4 +57,8 @@ public interface AssetsSchoolWarehouseMapper {
      * @return 结果
      */
     public int deleteAssetsSchoolWarehouseByIds(Long[] ids);
+
+    AssetsSchoolWarehouse selectAssetsSchoolWarehouseByItemId(Long itemId);
+
+    AssetsSchoolWarehouse selectAssetsSchoolWarehouseByItemIdAndSid(Long itemId, Long parentId);
 }

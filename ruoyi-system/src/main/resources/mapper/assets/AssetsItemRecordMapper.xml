@@ -35,6 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="receiverId != null "> and receiver_id = #{receiverId}</if>
             <if test="state != null "> and state = #{state}</if>
             <if test="operatorId != null "> and operator_id = #{operatorId}</if>
+            <if test="adminDelete != null "> and admin_delete = #{adminDelete}</if>
+            <if test="schoolDelete != null "> and school_delete = #{schoolDelete}</if>
         </where>
         order by record_id
     </select>

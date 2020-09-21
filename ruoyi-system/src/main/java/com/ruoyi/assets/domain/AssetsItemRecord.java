@@ -35,7 +35,7 @@ public class AssetsItemRecord extends BaseEntity
     @Excel(name = "发送方id")
     private Long senderId ;
 
-    private String senderName="教体局";
+    private String senderName;
 
     /** 接收方id(学校id) */
     @Excel(name = "接收方id(学校id)")
@@ -48,6 +48,26 @@ public class AssetsItemRecord extends BaseEntity
 
     private Long operatorId;
 
+    private Integer adminDelete;
+
+    private Integer schoolDelete;
+
+
+    public Integer getAdminDelete() {
+        return adminDelete;
+    }
+
+    public void setAdminDelete(Integer adminDelete) {
+        this.adminDelete = adminDelete;
+    }
+
+    public Integer getSchoolDelete() {
+        return schoolDelete;
+    }
+
+    public void setSchoolDelete(Integer schoolDelete) {
+        this.schoolDelete = schoolDelete;
+    }
 
     public Long getOperatorId() {
         return operatorId;
@@ -147,15 +167,18 @@ public class AssetsItemRecord extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("itemId", getItemId())
-            .append("itemName", getItemName())
-            .append("itemNum", getItemNum())
-            .append("senderId", getSenderId())
-            .append("receiverId", getReceiverId())
-            .append("createTime", getCreateTime())
-            .append("state", getState())
-            .toString();
+        return "AssetsItemRecord{" +
+                "id=" + id +
+                ", recordId='" + recordId + '\'' +
+                ", itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
+                ", itemNum=" + itemNum +
+                ", senderId=" + senderId +
+                ", senderName='" + senderName + '\'' +
+                ", receiverId=" + receiverId +
+                ", receiverName='" + receiverName + '\'' +
+                ", state=" + state +
+                ", operatorId=" + operatorId +
+                '}';
     }
 }

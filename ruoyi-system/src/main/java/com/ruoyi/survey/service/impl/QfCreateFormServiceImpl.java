@@ -139,12 +139,21 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
         for (SchoolVO school:qfUserFormVo.getSchools()) {
             qfUserFormMapper.insertQfUserForm(new QfUserForm(qfUserFormVo.getCreateId(),school.getSchoolName(),school.getSchoolId()));
         }
-        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),1));
+        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(qfUserFormVo.getCreateId(),1,new Date(),qfUserFormVo.getEndTime()));
     }
 
     @Override
     public QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid,Long sid) {
 
         return qfCreateFormMapper.selectQfCreateFormAndUserFormReasonById(cid,sid);
+    }
+
+    @Override
+    public int withdrawQfCreateForm(QfUserFormVo qfUserFormVo) {
+        for (SchoolVO school:qfUserFormVo.getSchools()) {
+            QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(school.getSchoolId().longValue(), qfUserFormVo.getCreateId());
+            qfUserFormMapper.deleteQfUserFormById(qfUserForm.getId());
+        }
+        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),0));
     }
 }

@@ -1,7 +1,9 @@
 package com.ruoyi.survey.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,5 +16,7 @@ import java.util.List;
 public class QfUserFormVo {
     private Long createId;
     private List<SchoolVO> schools;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date endTime;
 
 }

@@ -30,7 +30,17 @@ public class AssetsSchoolWarehouse extends BaseEntity
     @Excel(name = "货物数量")
     private Long itemNum;
 
-    public void setId(Long id) 
+    private Long schoolId;
+
+    public Long getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(Long schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

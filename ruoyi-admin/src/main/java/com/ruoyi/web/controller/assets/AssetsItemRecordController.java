@@ -50,6 +50,7 @@ public class AssetsItemRecordController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(AssetsItemRecord assetsItemRecord) {
         startPage();
+
         List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord,
                 sysDeptService.selectDeptById(
                         tokenService.getLoginUser(

@@ -68,8 +68,8 @@ public class QfCreateFormController extends BaseController {
     @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "上传问卷", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    public AjaxResult add(@RequestParam String endTime, @RequestParam String title, @RequestBody String strData) throws ParseException {
-        if (endTime == null || title == null || strData == null) {
+    public AjaxResult add( @RequestParam String title, @RequestBody String strData) throws ParseException {
+        if ( title == null || strData == null) {
             return AjaxResult.error("请填写必填数据");
         }
         QfCreateForm qfCreateForm = new QfCreateForm();
@@ -77,7 +77,6 @@ public class QfCreateFormController extends BaseController {
         qfCreateForm.setTitle(title);
         qfCreateForm.setCreateTime(new Date());
         qfCreateForm.setCreator(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
-        qfCreateForm.setEndTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime));
 
         return toAjax(qfCreateFormService.insertQuestionnaire(qfCreateForm));
     }
@@ -91,7 +90,13 @@ public class QfCreateFormController extends BaseController {
     public AjaxResult edit(@RequestBody QfUserFormVo qfUserFormVo) {
         return toAjax(qfCreateFormService.submitQfCreateForm(qfUserFormVo));
     }
-
+    /**
+     * 撤回问卷
+     */
+     @PostMapping
+     public AjaxResult withdraw(@RequestBody QfUserFormVo qfUserFormVo){
+         return toAjax(qfCreateFormService.withdrawQfCreateForm(qfUserFormVo));
+     }
     /**
      * 返回学校列表
      */
@@ -167,20 +172,14 @@ public class QfCreateFormController extends BaseController {
     @PutMapping("/edit")
     public AjaxResult edit(
             @RequestParam Long id,
-            @RequestParam String endTime,
             @RequestParam String title,
             @RequestBody String strData) throws ParseException {
         QfCreateForm qfCreateForm = new QfCreateForm();
         qfCreateForm.setId(id);
         qfCreateForm.setStrData(strData);
         qfCreateForm.setTitle(title);
-        Date parse = null;
-        try {
-            parse=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime);
-        }finally {
-            qfCreateForm.setEndTime(parse);
-            return toAjax(qfCreateFormService.updateQfCreateForm(qfCreateForm));
-        }
+        return toAjax(qfCreateFormService.updateQfCreateForm(qfCreateForm));
+
 
     }
     /**

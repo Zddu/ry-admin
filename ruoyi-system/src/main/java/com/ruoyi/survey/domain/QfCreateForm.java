@@ -125,4 +125,11 @@ public class QfCreateForm implements Serializable
         this.state = state;
         this.hoTime = hoTime;
     }
+
+    public QfCreateForm(Long id, Integer state, Date endTime, Date hoTime) {
+        this.id = id;
+        this.state = state;
+        this.endTime = endTime;
+        this.hoTime = hoTime;
+    }
 }

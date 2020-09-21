@@ -48,8 +48,10 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
         Long pid = sysDeptMapper.selectParentDepByChildId(sysDept.getDeptId());
         if (pid==0){
             assetsItemRecord.setOperatorId(sysDept.getDeptId());
+            assetsItemRecord.setAdminDelete(0);
         }else{
             assetsItemRecord.setOperatorId(pid);
+            assetsItemRecord.setSchoolDelete(0);
         }
         List<AssetsItemRecord> assetsItemRecords = assetsItemRecordMapper.selectAssetsItemRecordList(assetsItemRecord);
         return assetsItemRecords;

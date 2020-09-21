@@ -53,6 +53,8 @@ public class AssetsSchoolWarehouseController extends BaseController
     public TableDataInfo list(AssetsSchoolWarehouse assetsSchoolWarehouse)
     {
         startPage();
+        Long sid = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
+        assetsSchoolWarehouse.setSchoolId(sid);
         List<AssetsSchoolWarehouse> list = assetsSchoolWarehouseService.selectAssetsSchoolWarehouseList(assetsSchoolWarehouse);
         return getDataTable(list);
     }
@@ -115,14 +117,14 @@ public class AssetsSchoolWarehouseController extends BaseController
      * 展示订单
      */
     @GetMapping("/show-order")
-    public AjaxResult showOrder(Long id){
+    public TableDataInfo showOrder(){
+        startPage();
         AssetsOrders assetsOrders =new AssetsOrders();
         Long schoolId = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
-        assetsOrders.setItemId(id);
         assetsOrders.setReceiverId(schoolId);
-        AjaxResult orders = AjaxResult.success();
-        orders.put("orders", assetsOrdersService.selectAssetsOrdersList(assetsOrders));
-        return orders;
+
+        List<AssetsOrders> assetsOrdersList = assetsOrdersService.selectAssetsOrdersList(assetsOrders);
+        return getDataTable(assetsOrdersList);
     }
     /**
      * 确认订单
@@ -134,6 +136,7 @@ public class AssetsSchoolWarehouseController extends BaseController
                         ServletUtils.getRequest()
                 ).getUser().getDeptId()
         );
+
         return toAjax(assetsOrdersService.confirmOrders(assetsOrdersIds,sysDept));
     }
 }
