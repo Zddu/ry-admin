@@ -47,9 +47,9 @@ public class AssetsItemRecord extends BaseEntity
     private Long state;
 
     private Long operatorId;
-
+    //教体局端删除标志符
     private Integer adminDelete;
-
+    //学校端删除标志符
     private Integer schoolDelete;
 
 

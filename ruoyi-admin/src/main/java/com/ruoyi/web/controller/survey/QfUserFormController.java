@@ -45,12 +45,9 @@ public class QfUserFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:form:list')")
     @GetMapping("/list")
     public TableDataInfo list(QfCreateForm qfUserForm) {
+        Long aLong = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
         startPage();
-        List<QfCreateForm> list = qfUserFormService.
-                selectQfUserFormListBySId(
-                        qfUserForm,
-                        sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
-                );
+        List<QfCreateForm> list = qfUserFormService.selectQfUserFormListBySId(qfUserForm,aLong);
         return getDataTable(list);
     }
     /**

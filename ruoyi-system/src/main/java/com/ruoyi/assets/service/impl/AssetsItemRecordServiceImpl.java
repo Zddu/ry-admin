@@ -45,17 +45,13 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
     @Override
     public List<AssetsItemRecord> selectAssetsItemRecordList(AssetsItemRecord assetsItemRecord, SysDept sysDept) {
 
-        Long pid = sysDeptMapper.selectParentDepByChildId(sysDept.getDeptId());
-        if (pid==0){
-            assetsItemRecord.setOperatorId(sysDept.getDeptId());
-            assetsItemRecord.setAdminDelete(0);
-        }else{
-            assetsItemRecord.setOperatorId(pid);
-            assetsItemRecord.setSchoolDelete(0);
-        }
+        initAssetsItemRecordByDeptId(assetsItemRecord,sysDept);
+
         List<AssetsItemRecord> assetsItemRecords = assetsItemRecordMapper.selectAssetsItemRecordList(assetsItemRecord);
         return assetsItemRecords;
     }
+
+
 
     /**
      * 新增记录表
@@ -111,6 +107,7 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
 
     @Override
     public int insertAssetsItemRecordOperation(AssetsOrders assetsOrders, SysDept sysDept) {
+//        initRecordByDeptId(assetsOrders,sysDept);
         AssetsItemRecord assetsItemRecord = new AssetsItemRecord();
         BeanUtils.copyProperties(assetsOrders,assetsItemRecord);
         Long pid = sysDeptMapper.selectParentDepByChildId(sysDept.getDeptId());
@@ -120,5 +117,21 @@ public class AssetsItemRecordServiceImpl implements IAssetsItemRecordService {
             assetsItemRecord.setOperatorId(pid);
         }
         return assetsItemRecordMapper.insertAssetsItemRecord(assetsItemRecord);
+    }
+
+
+    /**
+     * 根据登录用户所属单位初始化查询条件类
+     * @param assetsItemRecord 查询条件类
+     * @param sysDept 登录用户的单位信息类
+     */
+
+    private void initAssetsItemRecordByDeptId(AssetsItemRecord assetsItemRecord, SysDept sysDept) {
+        if (sysDept.getParentId()==0){
+            assetsItemRecord.setAdminDelete(0);
+        }else{
+            assetsItemRecord.setOperatorId(sysDept.getParentId());
+            assetsItemRecord.setSchoolDelete(0);
+        }
     }
 }

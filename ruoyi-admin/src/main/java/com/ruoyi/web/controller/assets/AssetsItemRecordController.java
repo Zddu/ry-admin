@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.assets;
 import java.util.List;
 
 import com.ruoyi.assets.service.IAssetsAdminWarehouseService;
+import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.system.service.ISysDeptService;
@@ -46,18 +47,12 @@ public class AssetsItemRecordController extends BaseController
     /**
      * 查询记录表列表
      */
-    @PreAuthorize("@ss.hasPermi('assets:record:list')")
+//    @PreAuthorize("@ss.hasPermi('assets:record:list')")
     @GetMapping("/list")
     public TableDataInfo list(AssetsItemRecord assetsItemRecord) {
+        SysDept sysDept = sysDeptService.selectDeptById(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
         startPage();
-
-        List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord,
-                sysDeptService.selectDeptById(
-                        tokenService.getLoginUser(
-                                ServletUtils.getRequest()
-                        ).getUser().getDeptId()
-                )
-        );
+        List<AssetsItemRecord> list = assetsItemRecordService.selectAssetsItemRecordList(assetsItemRecord,sysDept);
 
         return getDataTable(list);
     }

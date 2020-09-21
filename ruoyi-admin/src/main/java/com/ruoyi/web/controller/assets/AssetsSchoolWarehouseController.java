@@ -52,9 +52,10 @@ public class AssetsSchoolWarehouseController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(AssetsSchoolWarehouse assetsSchoolWarehouse)
     {
-        startPage();
+
         Long sid = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
         assetsSchoolWarehouse.setSchoolId(sid);
+        startPage();
         List<AssetsSchoolWarehouse> list = assetsSchoolWarehouseService.selectAssetsSchoolWarehouseList(assetsSchoolWarehouse);
         return getDataTable(list);
     }
