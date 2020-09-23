@@ -21,10 +21,10 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 合同Controller
+ * 合同管理Controller
  * 
  * @author Zddeä¸¶
- * @date 2020-09-17
+ * @date 2020-09-23
  */
 @RestController
 @RequestMapping("/assets/contract")
@@ -34,7 +34,7 @@ public class AssetsContractController extends BaseController
     private IAssetsContractService assetsContractService;
 
     /**
-     * 查询合同列表
+     * 查询合同管理列表
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:list')")
     @GetMapping("/list")
@@ -46,20 +46,10 @@ public class AssetsContractController extends BaseController
     }
 
     /**
-     * 查询所有合同
-     */
-    @GetMapping("/all")
-    public AjaxResult all(AssetsContract assetsContract) {
-        AjaxResult success = AjaxResult.success();
-        success.put("contract",assetsContractService.selectAssetsContractList(assetsContract));
-        return success;
-    }
-
-    /**
-     * 导出合同列表
+     * 导出合同管理列表
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:export')")
-    @Log(title = "合同", businessType = BusinessType.EXPORT)
+    @Log(title = "合同管理", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(AssetsContract assetsContract)
     {
@@ -69,7 +59,7 @@ public class AssetsContractController extends BaseController
     }
 
     /**
-     * 获取合同详细信息
+     * 获取合同管理详细信息
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:query')")
     @GetMapping(value = "/{id}")
@@ -79,22 +69,21 @@ public class AssetsContractController extends BaseController
     }
 
     /**
-     * 新增合同
+     * 新增合同管理
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:add')")
-    @Log(title = "合同", businessType = BusinessType.INSERT)
+    @Log(title = "合同管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody AssetsContract assetsContract) {
+    public AjaxResult add(@RequestBody AssetsContract assetsContract)
+    {
         return toAjax(assetsContractService.insertAssetsContract(assetsContract));
     }
 
-
-
     /**
-     * 修改合同
+     * 修改合同管理
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:edit')")
-    @Log(title = "合同", businessType = BusinessType.UPDATE)
+    @Log(title = "合同管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AssetsContract assetsContract)
     {
@@ -102,10 +91,10 @@ public class AssetsContractController extends BaseController
     }
 
     /**
-     * 删除合同
+     * 删除合同管理
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:remove')")
-    @Log(title = "合同", businessType = BusinessType.DELETE)
+    @Log(title = "合同管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

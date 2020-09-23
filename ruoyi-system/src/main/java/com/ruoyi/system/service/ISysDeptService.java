@@ -2,8 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
-import com.ruoyi.assets.domain.AssetsOrders;
-import com.ruoyi.assets.domain.vo.ReceiverVo;
+
 import com.ruoyi.common.core.domain.TreeSelect;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.survey.domain.vo.SchoolVO;
@@ -115,5 +114,5 @@ public interface ISysDeptService
 
     Long selectParentDepByChildId(Long deptId);
 
-    List<AssetsOrders> showSchoolList();
+
 }

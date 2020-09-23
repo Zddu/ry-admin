@@ -8,19 +8,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="path"    column="path"    />
+        <result property="batchNum"    column="batch_num"    />
         <result property="updateTime"    column="update_time"    />
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectAssetsContractVo">
-        select id, name, path, update_time,create_time from assets_contract
+        select id, name, path, batch_num, update_time, create_time from assets_contract
     </sql>
 
     <select id="selectAssetsContractList" parameterType="com.ruoyi.assets.domain.AssetsContract" resultMap="AssetsContractResult">
         <include refid="selectAssetsContractVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="path != null  and path != ''"> and path = #{path}</if>
+            <if test="batchNum != null "> and batch_num = #{batchNum}</if>
         </where>
     </select>
     
@@ -34,12 +35,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>
             <if test="path != null">path,</if>
+            <if test="batchNum != null">batch_num,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="createTime != null">create_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
             <if test="path != null">#{path},</if>
+            <if test="batchNum != null">#{batchNum},</if>
+            <if test="updateTime != null">#{updateTime},</if>
             <if test="createTime != null">#{createTime},</if>
          </trim>
     </insert>
@@ -49,7 +53,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
             <if test="path != null">path = #{path},</if>
-            update_time = now(),
+            <if test="batchNum != null">batch_num = #{batchNum},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where id = #{id}
     </update>

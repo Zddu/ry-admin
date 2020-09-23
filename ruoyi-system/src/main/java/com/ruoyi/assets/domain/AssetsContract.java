@@ -5,13 +5,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
-import java.util.Date;
-
 /**
- * 合同对象 assets_contract
+ * 合同管理对象 assets_contract
  * 
  * @author Zddeä¸¶
- * @date 2020-09-17
+ * @date 2020-09-23
  */
 public class AssetsContract extends BaseEntity
 {
@@ -28,30 +26,11 @@ public class AssetsContract extends BaseEntity
     @Excel(name = "合同本地存放地址")
     private String path;
 
-    private Long[] itemsId;
+    /** 批次号 */
+    @Excel(name = "批次号")
+    private Long batchNum;
 
-    private Long supplierId;
-
-
-
-
-    public Long[] getItemsId() {
-        return itemsId;
-    }
-
-    public void setItemsId(Long[] itemsId) {
-        this.itemsId = itemsId;
-    }
-
-    public Long getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public void setId(Long id)
+    public void setId(Long id) 
     {
         this.id = id;
     }
@@ -78,6 +57,15 @@ public class AssetsContract extends BaseEntity
     {
         return path;
     }
+    public void setBatchNum(Long batchNum) 
+    {
+        this.batchNum = batchNum;
+    }
+
+    public Long getBatchNum() 
+    {
+        return batchNum;
+    }
 
     @Override
     public String toString() {
@@ -85,7 +73,9 @@ public class AssetsContract extends BaseEntity
             .append("id", getId())
             .append("name", getName())
             .append("path", getPath())
+            .append("batchNum", getBatchNum())
             .append("updateTime", getUpdateTime())
+            .append("createTime", getCreateTime())
             .toString();
     }
 }

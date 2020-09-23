@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ruoyi.assets.domain.AssetsOrders;
-import com.ruoyi.assets.domain.vo.ReceiverVo;
+
 import com.ruoyi.survey.domain.vo.SchoolVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -271,22 +270,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         return deptMapper.selectParentDepByChildId(deptId);
     }
 
-    @Override
-    public List<AssetsOrders> showSchoolList() {
-        List<SysDept> sysDepts = deptMapper.selectSchoolList();
-        List<AssetsOrders> result =new ArrayList<>();
-        if (ObjectUtils.isEmpty(sysDepts)){
-            return result;
-        }
-        for (SysDept sysDept : sysDepts) {
-            AssetsOrders receiverVo = new AssetsOrders();
-            receiverVo.setReceiverId(sysDept.getDeptId());
-            receiverVo.setReceiverName(sysDept.getDeptName());
-            result.add(receiverVo);
-        }
 
-        return result;
-    }
 
 
     /**
