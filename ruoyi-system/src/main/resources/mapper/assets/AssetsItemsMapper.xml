@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.assets.mapper.AssetsItemsSchoolMapper">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsItemsMapper">
     
-    <resultMap type="com.ruoyi.assets.domain.AssetsItemsSchool" id="AssetsItemsSchoolResult">
+    <resultMap type="com.ruoyi.assets.domain.AssetsItems" id="AssetsItemsSchoolResult">
         <result property="id"    column="id"    />
         <result property="itemName"    column="item_name"    />
         <result property="itemType"    column="item_type"    />
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, item_name, item_type, item_format, batch_num, supplier_name, post_sale_phone, installed_time, warranty_time, item_location, item_ip, item_admin, maintenance_records, item_state, remarks, item_belonger, create_time from assets_items_school
     </sql>
 
-    <select id="selectAssetsItemsSchoolList" parameterType="com.ruoyi.assets.domain.AssetsItemsSchool" resultMap="AssetsItemsSchoolResult">
+    <select id="selectAssetsItemsSchoolList" parameterType="com.ruoyi.assets.domain.AssetsItems" resultMap="AssetsItemsSchoolResult">
         <include refid="selectAssetsItemsSchoolVo"/>
         <where>  
             <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="warrantyTime != null "> and warranty_time = #{warrantyTime}</if>
             <if test="itemLocation != null  and itemLocation != ''"> and item_location = #{itemLocation}</if>
             <if test="itemState != null "> and item_state = #{itemState}</if>
+            <if test="itemBelonger != null and itemBelonger !=0"> and item_belonger = #{itemBelonger}</if>
         </where>
     </select>
     
@@ -44,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItemsSchool" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItems" useGeneratedKeys="true" keyProperty="id">
         insert into assets_items_school
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name,</if>
@@ -84,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItemsSchool">
+    <update id="updateAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItems">
         update assets_items_school
         <trim prefix="SET" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>

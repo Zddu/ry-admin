@@ -1,6 +1,9 @@
 package com.ruoyi.web.controller.assets;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.framework.web.service.TokenService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +41,9 @@ public class AssetsContractController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:list')")
     @GetMapping("/list")
-    public TableDataInfo list(AssetsContract assetsContract)
-    {
+    public TableDataInfo list(AssetsContract assetsContract) {
+
+
         startPage();
         List<AssetsContract> list = assetsContractService.selectAssetsContractList(assetsContract);
         return getDataTable(list);

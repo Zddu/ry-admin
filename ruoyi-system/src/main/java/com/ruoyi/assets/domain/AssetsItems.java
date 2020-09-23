@@ -13,7 +13,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author Zddeä¸¶
  * @date 2020-09-23
  */
-public class AssetsItemsSchool extends BaseEntity
+public class AssetsItems extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 

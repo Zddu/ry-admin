@@ -1,16 +1,19 @@
 package com.ruoyi.web.controller.assets;
 
 
-import com.ruoyi.assets.domain.AssetsItemsSchool;
-import com.ruoyi.assets.service.IAssetsItemsSchoolService;
+import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.service.IAssetsItemsService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.web.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,21 +25,24 @@ import java.util.List;
  * @date 2020-09-23
  */
 @RestController
-@RequestMapping("/assets/school")
-public class AssetsItemsSchoolController extends BaseController
+@RequestMapping("/assets/item")
+public class AssetsItemsController extends BaseController
 {
     @Autowired
-    private IAssetsItemsSchoolService assetsItemsSchoolService;
-
+    private IAssetsItemsService assetsItemsSchoolService;
+    @Autowired
+    private TokenService tokenService;
     /**
      * 查询资产管理列表
      */
     @PreAuthorize("@ss.hasPermi('assets:school:list')")
     @GetMapping("/list")
-    public TableDataInfo list(AssetsItemsSchool assetsItemsSchool)
-    {
+    public TableDataInfo list(AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
+        if (ObjectUtils.isEmpty(assetsItems))
+        assetsItems.setItemBelonger(deptId);
         startPage();
-        List<AssetsItemsSchool> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItemsSchool);
+        List<AssetsItems> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItems);
         return getDataTable(list);
     }
 
@@ -46,10 +52,9 @@ public class AssetsItemsSchoolController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:school:export')")
     @Log(title = "资产管理", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(AssetsItemsSchool assetsItemsSchool)
-    {
-        List<AssetsItemsSchool> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItemsSchool);
-        ExcelUtil<AssetsItemsSchool> util = new ExcelUtil<AssetsItemsSchool>(AssetsItemsSchool.class);
+    public AjaxResult export(AssetsItems assetsItems) {
+        List<AssetsItems> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItems);
+        ExcelUtil<AssetsItems> util = new ExcelUtil<AssetsItems>(AssetsItems.class);
         return util.exportExcel(list, "school");
     }
 
@@ -58,8 +63,7 @@ public class AssetsItemsSchoolController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:school:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(assetsItemsSchoolService.selectAssetsItemsSchoolById(id));
     }
 
@@ -69,9 +73,10 @@ public class AssetsItemsSchoolController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:school:add')")
     @Log(title = "资产管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody AssetsItemsSchool assetsItemsSchool)
-    {
-        return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItemsSchool));
+    public AjaxResult add(@RequestBody AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
+        assetsItems.setItemBelonger(deptId);
+        return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItems));
     }
 
     /**
@@ -80,9 +85,9 @@ public class AssetsItemsSchoolController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:school:edit')")
     @Log(title = "资产管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody AssetsItemsSchool assetsItemsSchool)
+    public AjaxResult edit(@RequestBody AssetsItems assetsItems)
     {
-        return toAjax(assetsItemsSchoolService.updateAssetsItemsSchool(assetsItemsSchool));
+        return toAjax(assetsItemsSchoolService.updateAssetsItemsSchool(assetsItems));
     }
 
     /**
