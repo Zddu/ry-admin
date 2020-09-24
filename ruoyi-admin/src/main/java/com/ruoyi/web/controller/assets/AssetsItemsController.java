@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020-09-23
  */
 @RestController
-@RequestMapping("/assets/item")
+@RequestMapping("/assets/items")
 public class AssetsItemsController extends BaseController
 {
     @Autowired
