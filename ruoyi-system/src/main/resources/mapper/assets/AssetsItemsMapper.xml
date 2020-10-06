@@ -17,15 +17,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="itemLocation"    column="item_location"    />
         <result property="itemIp"    column="item_ip"    />
         <result property="itemAdmin"    column="item_admin"    />
-        <result property="maintenanceRecords"    column="maintenance_records"    />
+
         <result property="itemState"    column="item_state"    />
         <result property="remarks"    column="remarks"    />
         <result property="itemBelonger"    column="item_belonger"    />
         <result property="createTime"    column="create_time"    />
+        <collection property="maintenanceRecords" column="id"  select="com.ruoyi.assets.mapper.AssetsItemsMaintenanceMapper.selectAssetsItemsMaintenanceByItemId">
+        </collection>
     </resultMap>
 
     <sql id="selectAssetsItemsSchoolVo">
-        select id, item_name, item_type, item_format, batch_num, supplier_name, post_sale_phone, installed_time, warranty_time, item_location, item_ip, item_admin, maintenance_records, item_state, remarks, item_belonger, create_time from assets_items_school
+        select id, item_name, item_type, item_format, batch_num, supplier_name, post_sale_phone, installed_time, warranty_time, item_location, item_ip, item_admin, item_state, remarks, item_belonger, create_time from assets_items
     </sql>
 
     <select id="selectAssetsItemsSchoolList" parameterType="com.ruoyi.assets.domain.AssetsItems" resultMap="AssetsItemsSchoolResult">
@@ -46,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
         
     <insert id="insertAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItems" useGeneratedKeys="true" keyProperty="id">
-        insert into assets_items_school
+        insert into assets_items
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name,</if>
             <if test="itemType != null">item_type,</if>
@@ -59,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="itemLocation != null">item_location,</if>
             <if test="itemIp != null">item_ip,</if>
             <if test="itemAdmin != null">item_admin,</if>
-            <if test="maintenanceRecords != null">maintenance_records,</if>
+
             <if test="itemState != null">item_state,</if>
             <if test="remarks != null">remarks,</if>
             <if test="itemBelonger != null">item_belonger,</if>
@@ -77,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="itemLocation != null">#{itemLocation},</if>
             <if test="itemIp != null">#{itemIp},</if>
             <if test="itemAdmin != null">#{itemAdmin},</if>
-            <if test="maintenanceRecords != null">#{maintenanceRecords},</if>
+
             <if test="itemState != null">#{itemState},</if>
             <if test="remarks != null">#{remarks},</if>
             <if test="itemBelonger != null">#{itemBelonger},</if>
@@ -86,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <update id="updateAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItems">
-        update assets_items_school
+        update assets_items
         <trim prefix="SET" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
             <if test="itemType != null">item_type = #{itemType},</if>
@@ -99,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="itemLocation != null">item_location = #{itemLocation},</if>
             <if test="itemIp != null">item_ip = #{itemIp},</if>
             <if test="itemAdmin != null">item_admin = #{itemAdmin},</if>
-            <if test="maintenanceRecords != null">maintenance_records = #{maintenanceRecords},</if>
+
             <if test="itemState != null">item_state = #{itemState},</if>
             <if test="remarks != null">remarks = #{remarks},</if>
             <if test="itemBelonger != null">item_belonger = #{itemBelonger},</if>
@@ -109,11 +111,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteAssetsItemsSchoolById" parameterType="Long">
-        delete from assets_items_school where id = #{id}
+        delete from assets_items where id = #{id}
     </delete>
 
     <delete id="deleteAssetsItemsSchoolByIds" parameterType="String">
-        delete from assets_items_school where id in 
+        delete from assets_items where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

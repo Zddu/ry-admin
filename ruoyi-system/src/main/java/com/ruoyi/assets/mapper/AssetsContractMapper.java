@@ -9,6 +9,7 @@ import com.ruoyi.assets.domain.AssetsContract;
  * @author Zddeä¸¶
  * @date 2020-09-23
  */
+
 public interface AssetsContractMapper 
 {
     /**

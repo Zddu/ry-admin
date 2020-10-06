@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -35,21 +36,21 @@ public class AssetsItemsController extends BaseController
     /**
      * 查询资产管理列表
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:list')")
     @GetMapping("/list")
     public TableDataInfo list(AssetsItems assetsItems) {
         Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
-        if (ObjectUtils.isEmpty(assetsItems))
+        if (!ObjectUtils.isEmpty(assetsItems)&&assetsItems.getItemBelonger()==null)
         assetsItems.setItemBelonger(deptId);
         startPage();
         List<AssetsItems> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItems);
+
         return getDataTable(list);
     }
 
     /**
      * 导出资产管理列表
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:export')")
+    @PreAuthorize("@ss.hasPermi('assets:admin:export')")
     @Log(title = "资产管理", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(AssetsItems assetsItems) {
@@ -61,7 +62,6 @@ public class AssetsItemsController extends BaseController
     /**
      * 获取资产管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(assetsItemsSchoolService.selectAssetsItemsSchoolById(id));
@@ -73,31 +73,41 @@ public class AssetsItemsController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:school:add')")
     @Log(title = "资产管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody AssetsItems assetsItems) {
+    public AjaxResult add(@RequestBody @Valid AssetsItems assetsItems) {
         Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
         assetsItems.setItemBelonger(deptId);
         return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItems));
     }
-
+    /**
+     * 新增维修记录
+     */
+    @PreAuthorize("@ss.hasPermi('assets:school:maintenance')")
+    @Log(title = "资产管理", businessType = BusinessType.INSERT)
+    @PostMapping("/add-maintenance")
+    public AjaxResult addMaintenance(@RequestBody AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
+        assetsItems.setItemBelonger(deptId);
+        return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItems));
+    }
     /**
      * 修改资产管理
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:edit')")
+    @PreAuthorize("@ss.hasPermi('assets:admin:edit')")
     @Log(title = "资产管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody AssetsItems assetsItems)
-    {
+    public AjaxResult edit(@RequestBody AssetsItems assetsItems) {
         return toAjax(assetsItemsSchoolService.updateAssetsItemsSchool(assetsItems));
     }
 
     /**
      * 删除资产管理
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:remove')")
+    @PreAuthorize("@ss.hasPermi('assets:admin:remove')")
     @Log(title = "资产管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(assetsItemsSchoolService.deleteAssetsItemsSchoolByIds(ids));
     }
+
 }

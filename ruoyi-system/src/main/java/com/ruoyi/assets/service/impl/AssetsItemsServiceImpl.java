@@ -1,7 +1,10 @@
 package com.ruoyi.assets.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.mapper.SysDeptMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsItemsMapper;
@@ -19,7 +22,8 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
 {
     @Autowired
     private AssetsItemsMapper assetsItemsMapper;
-
+    @Autowired
+    private SysDeptMapper sysDeptMapper;
     /**
      * 查询资产管理
      * 
@@ -39,9 +43,16 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService
      * @return 资产管理
      */
     @Override
-    public List<AssetsItems> selectAssetsItemsSchoolList(AssetsItems assetsItems)
-    {
-        return assetsItemsMapper.selectAssetsItemsSchoolList(assetsItems);
+    public List<AssetsItems> selectAssetsItemsSchoolList(AssetsItems assetsItems) {
+        List<AssetsItems> result = assetsItemsMapper.selectAssetsItemsSchoolList(assetsItems);
+        for (AssetsItems item : result) {
+            SysDept sysDept = sysDeptMapper.selectDeptById(item.getItemBelonger());
+            if (sysDept==null){
+                throw new RuntimeException("单位id无法查询到具体单位");
+            }
+            item.setItemBelongerName(sysDept.getDeptName());
+        }
+        return result;
     }
 
     /**

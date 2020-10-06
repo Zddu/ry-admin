@@ -1,11 +1,15 @@
 package com.ruoyi.assets.domain;
 
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 资产管理对象 assets_items_school
@@ -22,6 +26,7 @@ public class AssetsItems extends BaseEntity
 
     /** 物品名称 */
     @Excel(name = "物品名称")
+    @NotNull
     private String itemName;
 
     /** 物品类型0:多媒体设备、1:计算机设备（教师）、2:计算机设备（学生）、3:录播教室设备、4:网络设备 */
@@ -34,6 +39,7 @@ public class AssetsItems extends BaseEntity
 
     /** 批次号 */
     @Excel(name = "批次号")
+    @NotNull
     private Long batchNum;
 
     /** 供应商名称 */
@@ -45,7 +51,7 @@ public class AssetsItems extends BaseEntity
     private String postSalePhone;
 
     /** 安装时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "安装时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date installedTime;
 
@@ -67,7 +73,7 @@ public class AssetsItems extends BaseEntity
 
     /** 维修记录 */
     @Excel(name = "维修记录")
-    private String maintenanceRecords;
+    private List<AssetsItemsMaintenance> maintenanceRecords;
 
     /** 商品状态 0:正常、1:正常（效果不好）、2:无法使用、3:已报废 */
     @Excel(name = "商品状态 0:正常、1:正常", readConverterExp = "效=果不好")
@@ -78,10 +84,22 @@ public class AssetsItems extends BaseEntity
     private String remarks;
 
     /** 商品所属单位id */
-    @Excel(name = "商品所属单位id")
+
     private Long itemBelonger;
 
-    public void setId(Long id) 
+    @Excel(name = "商品所属单位")
+    private String itemBelongerName;
+
+
+    public String getItemBelongerName() {
+        return itemBelongerName;
+    }
+
+    public void setItemBelongerName(String itemBelongerName) {
+        this.itemBelongerName = itemBelongerName;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -189,16 +207,16 @@ public class AssetsItems extends BaseEntity
     {
         return itemAdmin;
     }
-    public void setMaintenanceRecords(String maintenanceRecords) 
-    {
+
+    public List<AssetsItemsMaintenance> getMaintenanceRecords() {
+        return maintenanceRecords;
+    }
+
+    public void setMaintenanceRecords(List<AssetsItemsMaintenance> maintenanceRecords) {
         this.maintenanceRecords = maintenanceRecords;
     }
 
-    public String getMaintenanceRecords() 
-    {
-        return maintenanceRecords;
-    }
-    public void setItemState(Long itemState) 
+    public void setItemState(Long itemState)
     {
         this.itemState = itemState;
     }

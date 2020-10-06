@@ -7,6 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="com.ruoyi.assets.domain.AssetsContract" id="AssetsContractResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
+        <result property="originalName"    column="original_name"    />
+        <result property="mappingName"    column="mapping_name"    />
         <result property="path"    column="path"    />
         <result property="batchNum"    column="batch_num"    />
         <result property="updateTime"    column="update_time"    />
@@ -14,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectAssetsContractVo">
-        select id, name, path, batch_num, update_time, create_time from assets_contract
+        select id, name, path, batch_num,mapping_name,original_name,update_time, create_time from assets_contract
     </sql>
 
     <select id="selectAssetsContractList" parameterType="com.ruoyi.assets.domain.AssetsContract" resultMap="AssetsContractResult">
@@ -35,6 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>
             <if test="path != null">path,</if>
+            <if test="originalName != null">original_name,</if>
+            <if test="mappingName != null">mapping_name,</if>
             <if test="batchNum != null">batch_num,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="createTime != null">create_time,</if>
@@ -42,6 +46,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
             <if test="path != null">#{path},</if>
+            <if test="originalName != null">#{originalName},</if>
+            <if test="mappingName != null">#{mappingName},</if>
             <if test="batchNum != null">#{batchNum},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="createTime != null">#{createTime},</if>

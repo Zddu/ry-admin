@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsItemsMaintenanceMapper">
+    
+    <resultMap type="com.ruoyi.assets.domain.AssetsItemsMaintenance" id="AssetsItemsMaintenanceResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="content"    column="content"    />
+        <result property="maintenanceTime"    column="maintenance_time"    />
+        <result property="submitTime"    column="submit_time"    />
+    </resultMap>
+
+    <sql id="selectAssetsItemsMaintenanceVo">
+        select id, item_id, content, maintenance_time, submit_time from assets_items_maintenance
+    </sql>
+
+    <select id="selectAssetsItemsMaintenanceList" parameterType="com.ruoyi.assets.domain.AssetsItemsMaintenance" resultMap="AssetsItemsMaintenanceResult">
+        <include refid="selectAssetsItemsMaintenanceVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="maintenanceTime != null "> and maintenance_time = #{maintenanceTime}</if>
+            <if test="submitTime != null "> and submit_time = #{submitTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetsItemsMaintenanceById" parameterType="Long" resultMap="AssetsItemsMaintenanceResult">
+        <include refid="selectAssetsItemsMaintenanceVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectAssetsItemsMaintenanceByItemId" parameterType="Long" resultMap="AssetsItemsMaintenanceResult">
+        <include refid="selectAssetsItemsMaintenanceVo"/>
+        where item_id = #{id}
+    </select>
+    <insert id="insertAssetsItemsMaintenance" parameterType="com.ruoyi.assets.domain.AssetsItemsMaintenance" useGeneratedKeys="true" keyProperty="id">
+        insert into assets_items_maintenance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="content != null">content,</if>
+            <if test="maintenanceTime != null">maintenance_time,</if>
+            <if test="submitTime != null">submit_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="maintenanceTime != null">#{maintenanceTime},</if>
+            <if test="submitTime != null">#{submitTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetsItemsMaintenance" parameterType="com.ruoyi.assets.domain.AssetsItemsMaintenance">
+        update assets_items_maintenance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="maintenanceTime != null">maintenance_time = #{maintenanceTime},</if>
+            <if test="submitTime != null">submit_time = #{submitTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetsItemsMaintenanceById" parameterType="Long">
+        delete from assets_items_maintenance where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetsItemsMaintenanceByIds" parameterType="String">
+        delete from assets_items_maintenance where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

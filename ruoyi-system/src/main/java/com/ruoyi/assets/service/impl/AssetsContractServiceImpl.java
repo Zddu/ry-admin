@@ -54,6 +54,7 @@ public class AssetsContractServiceImpl implements IAssetsContractService
     public int insertAssetsContract(AssetsContract assetsContract)
     {
         assetsContract.setCreateTime(DateUtils.getNowDate());
+        assetsContract.setUpdateTime(DateUtils.getNowDate());
         return assetsContractMapper.insertAssetsContract(assetsContract);
     }
 

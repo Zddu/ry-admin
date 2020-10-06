@@ -79,6 +79,7 @@ public class CommonController
             AjaxResult ajax = AjaxResult.success();
             ajax.put("fileName", fileName);
             ajax.put("url", url);
+            System.out.println("fileName："+fileName+"url："+url);
             return ajax;
         }
         catch (Exception e)
@@ -105,4 +106,5 @@ public class CommonController
                 "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, downloadName));
         FileUtils.writeBytes(downloadPath, response.getOutputStream());
     }
+
 }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.repair.mapper.RepairMaintenanceMapper">
+    
+    <resultMap type="com.ruoyi.repair.domain.RepairMaintenance" id="RepairMaintenanceResult">
+        <result property="id"    column="id"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="department"    column="department"    />
+        <result property="room"    column="room"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="contactNumber"    column="contact_number"    />
+        <result property="describe"    column="describe"    />
+        <result property="weixinNum"    column="weixin_num"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectRepairMaintenanceVo">
+        select id, order_num, department, room, contacts, contact_number, describe, weixin_num, create_time from repair_maintenance
+    </sql>
+
+    <select id="selectRepairMaintenanceList" parameterType="com.ruoyi.repair.domain.RepairMaintenance" resultMap="RepairMaintenanceResult">
+        <include refid="selectRepairMaintenanceVo"/>
+        <where>  
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="room != null  and room != ''"> and room = #{room}</if>
+            <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
+        </where>
+    </select>
+    
+    <select id="selectRepairMaintenanceById" parameterType="Long" resultMap="RepairMaintenanceResult">
+        <include refid="selectRepairMaintenanceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertRepairMaintenance" parameterType="com.ruoyi.repair.domain.RepairMaintenance" useGeneratedKeys="true" keyProperty="id">
+        insert into repair_maintenance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNum != null">order_num,</if>
+            <if test="department != null">department,</if>
+            <if test="room != null">room,</if>
+            <if test="contacts != null">contacts,</if>
+            <if test="contactNumber != null">contact_number,</if>
+            <if test="describe != null">describe,</if>
+            <if test="weixinNum != null">weixin_num,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="department != null">#{department},</if>
+            <if test="room != null">#{room},</if>
+            <if test="contacts != null">#{contacts},</if>
+            <if test="contactNumber != null">#{contactNumber},</if>
+            <if test="describe != null">#{describe},</if>
+            <if test="weixinNum != null">#{weixinNum},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRepairMaintenance" parameterType="com.ruoyi.repair.domain.RepairMaintenance">
+        update repair_maintenance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="room != null">room = #{room},</if>
+            <if test="contacts != null">contacts = #{contacts},</if>
+            <if test="contactNumber != null">contact_number = #{contactNumber},</if>
+            <if test="describe != null">describe = #{describe},</if>
+            <if test="weixinNum != null">weixin_num = #{weixinNum},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRepairMaintenanceById" parameterType="Long">
+        delete from repair_maintenance where id = #{id}
+    </delete>
+
+    <delete id="deleteRepairMaintenanceByIds" parameterType="String">
+        delete from repair_maintenance where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
