@@ -2,6 +2,7 @@ package com.ruoyi.repair.mapper;
 
 import java.util.List;
 import com.ruoyi.repair.domain.RepairRecord;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 保修记录Mapper接口
@@ -59,5 +60,7 @@ public interface RepairRecordMapper
      */
     public int deleteRepairRecordByIds(Long[] ids);
 
-    List<RepairRecord> selectRepairRecordListTop10();
+    List<RepairRecord> selectRepairRecordListByLimit(@Param("num") Integer num);
+
+    List<RepairRecord> selectRepairRecordListByCondition(@Param("str") String str);
 }

@@ -61,9 +61,11 @@ public interface IQfSchoolAnswerService
      */
     public int deleteQfSchoolAnswerById(Long id);
 
-    List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid);
+    List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid, Long sid, Integer isSchool);
 
     AjaxResult exportQfSchoolAnswer(Long cid);
 
     AjaxResult exportQfSchoolAnswerByModel(Long cid, Long mid);
+
+
 }

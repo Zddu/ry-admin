@@ -113,24 +113,32 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
 
     @Override
     @Transactional
-    public int insertAnswer(String json, Long sid, Long cid) {
+    public int insertAnswer(String json, Long sid, Long cid,Integer state) {
         QfCreateForm qfCreateForm = qfCreateFormMapper.selectQfCreateFormById(cid);
         QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
         if(qfUserForm.getState()!=2){
             if (qfCreateForm.getEndTime().getTime()<new Date().getTime()){
                 throw new CustomException("已截止");
             }
+            if (qfUserForm.getState()==1){
+                throw new CustomException("您已提交，如需修改请联系问卷发布人");
+            }
         }
-
-        //插入表单必填项
+        //校验表单必填项
         QfUtils.verificationRequired(qfCreateForm.getStrData());
-
-
         if (ObjectUtils.isEmpty(qfUserForm)){
             throw new CustomException("该角色没有表单提交权限");
         }
-        qfUserForm.setCreateTime(new Date());
-        qfUserForm.setState(1);
+        if (state==1){
+            qfUserForm.setCreateTime(new Date());
+        }
+        if (qfUserForm.getState()==2){
+            qfUserForm.setState(3);
+        }else {
+            qfUserForm.setState(state);
+        }
+
+
         int result =qfUserFormMapper.updateQfUserForm(qfUserForm);
         LinkedHashMap parse = JSON.parseObject(json, LinkedHashMap.class, Feature.OrderedField);
         List<QfSchoolAnswer> keyNames=new ArrayList<>();
@@ -166,5 +174,25 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
         QfUtils.endTime2Last(qfCreateForms);
         //将已驳回的放在最前面
         return  QfUtils.rejected2Head(qfCreateForms);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int unpublishQfUserForm(Long id) {
+        int result=0;
+        QfCreateForm qfCreateForm = qfCreateFormMapper.selectQfCreateFormById(id);
+        if (qfCreateForm==null){
+            throw new CustomException("问卷id有误");
+        }
+        List<QfUserForm> qfUserForms = qfUserFormMapper.selectQfUserFormList(new QfUserForm(qfCreateForm.getId()));
+        for (QfUserForm qfUserForm : qfUserForms) {
+            result+=qfSchoolAnswerMapper.deleteQfSchoolAnswerByQfSchoolId(qfUserForm.getId());
+            result+=qfUserFormMapper.deleteQfUserFormById(qfUserForm.getId());
+        }
+        qfCreateForm.setState(0);
+        qfCreateForm.setHoTime(null);
+        qfCreateForm.setEndTime(null);
+        result+=qfCreateFormMapper.updateQfCreateForm(qfCreateForm);
+        return result;
     }
 }

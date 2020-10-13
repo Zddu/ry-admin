@@ -13,18 +13,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contactNumber"    column="contact_number"    />
         <result property="describe"    column="describe"    />
         <result property="createTime"    column="create_time"    />
+        <result property="type"    column="type"    />
         <result property="isSatisfied"    column="is_satisfied"    />
         <result property="weixinNum"    column="weixin_num"    />
     </resultMap>
 
     <sql id="selectRepairRecordVo">
-        select id, order_num, department, room, contacts, contact_number, describe, create_time, is_satisfied, weixin_num from repair_record
+        select id, order_num, department, room, repair_record.type,contacts, contact_number, repair_record.describe,create_time, is_satisfied, weixin_num from repair_record
     </sql>
 
     <select id="selectRepairRecordList" parameterType="com.ruoyi.repair.domain.RepairRecord" resultMap="RepairRecordResult">
         <include refid="selectRepairRecordVo"/>
         <where>  
             <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="orderNum != null">and order_num = #{orderNum}</if>
             <if test="room != null  and room != ''"> and room = #{room}</if>
             <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
             <if test="contactNumber != null "> and contact_number = #{contactNumber}</if>
@@ -36,9 +38,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectRepairRecordVo"/>
         where id = #{id}
     </select>
-    <select id="selectRepairRecordListTop10" resultType="com.ruoyi.repair.domain.RepairRecord">
+
+    <select id="selectRepairRecordListByLimit" resultMap="RepairRecordResult">
         <include refid="selectRepairRecordVo"/>
-      order by create_time desc limit 10
+        order by create_time desc
+        <if test="num !=null ">limit #{num}</if>
+    </select>
+    <select id="selectRepairRecordListByCondition" resultMap="RepairRecordResult">
+        <include refid="selectRepairRecordVo"/> where
+        repair_record.type like '%${str}%'
+           or department like '%${str}%'
+             or room  like '%${str}%'
+            or contacts like '%${str}%'
+            or contact_number like '%${str}%'
+        or order_num like '%${str}%'
     </select>
 
     <insert id="insertRepairRecord" parameterType="com.ruoyi.repair.domain.RepairRecord" useGeneratedKeys="true" keyProperty="id">
@@ -47,9 +60,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderNum != null">order_num,</if>
             <if test="department != null">department,</if>
             <if test="room != null">room,</if>
+            <if test="type != null">repair_record.type,</if>
             <if test="contacts != null">contacts,</if>
             <if test="contactNumber != null">contact_number,</if>
-            <if test="describe != null">describe,</if>
+            <if test="describe != null">repair_record.describe,</if>
             <if test="createTime != null">create_time,</if>
             <if test="isSatisfied != null">is_satisfied,</if>
             <if test="weixinNum != null">weixin_num,</if>
@@ -58,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderNum != null">#{orderNum},</if>
             <if test="department != null">#{department},</if>
             <if test="room != null">#{room},</if>
+            <if test="type != null">#{type},</if>
             <if test="contacts != null">#{contacts},</if>
             <if test="contactNumber != null">#{contactNumber},</if>
             <if test="describe != null">#{describe},</if>
@@ -75,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="room != null">room = #{room},</if>
             <if test="contacts != null">contacts = #{contacts},</if>
             <if test="contactNumber != null">contact_number = #{contactNumber},</if>
-            <if test="describe != null">describe = #{describe},</if>
+            <if test="describe != null">repair_record.describe = #{describe},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="isSatisfied != null">is_satisfied = #{isSatisfied},</if>
             <if test="weixinNum != null">weixin_num = #{weixinNum},</if>

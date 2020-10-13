@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.common.utils.PasswordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -407,15 +409,20 @@ public class SysUserServiceImpl implements ISysUserService
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
-        String password = configService.selectConfigByKey("sys.user.initPassword");
+//        String password = configService.selectConfigByKey("sys.user.initPassword");
+
         for (SysUser user : userList)
         {
             try
             {
                 // 验证是否存在这个用户
+                String password = user.getUserName()+"@Admin";
                 SysUser u = userMapper.selectUserByUserName(user.getUserName());
                 if (StringUtils.isNull(u))
                 {
+                    if (!PasswordUtils.checkPassword(password,3)){
+                        throw new CustomException("失败，用户密码必须包含大小写字母，数字，特殊字符中的任意三种");
+                    }
                     user.setPassword(SecurityUtils.encryptPassword(password));
                     user.setCreateBy(operName);
                     this.insertUser(user);

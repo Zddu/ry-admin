@@ -10,10 +10,9 @@ import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfUserFormVo;
-import com.ruoyi.survey.service.IQfKeyNameService;
-import com.ruoyi.survey.service.IQfSchoolAnswerService;
-import com.ruoyi.survey.service.IQfUserFormService;
+import com.ruoyi.survey.service.*;
 import com.ruoyi.system.service.ISysDeptService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,7 +22,6 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.survey.domain.QfCreateForm;
-import com.ruoyi.survey.service.IQfCreateFormService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -51,6 +49,8 @@ public class QfCreateFormController extends BaseController {
     private IQfSchoolAnswerService qfSchoolAnswerService;
     @Autowired
     private IFileService fileService;
+    @Autowired
+    private IQfCreateModelService qfCreateModelService;
     /**
      * 获取已创建问卷详细信息
      */
@@ -69,7 +69,7 @@ public class QfCreateFormController extends BaseController {
     @PreAuthorize("@ss.hasPermi('survey:create:add')")
     @Log(title = "上传问卷", businessType = BusinessType.INSERT)
     @PostMapping("/add")
-    public AjaxResult add( @RequestParam String title, @RequestBody String strData) throws ParseException {
+    public AjaxResult add( @RequestParam String title, @RequestBody String strData, @RequestParam Boolean isModel)  {
         if ( title == null || strData == null) {
             return AjaxResult.error("请填写必填数据");
         }
@@ -79,7 +79,7 @@ public class QfCreateFormController extends BaseController {
         qfCreateForm.setCreateTime(new Date());
         qfCreateForm.setCreator(tokenService.getLoginUser(ServletUtils.getRequest()).getUsername());
 
-        return toAjax(qfCreateFormService.insertQuestionnaire(qfCreateForm));
+        return toAjax(qfCreateFormService.insertQuestionnaireCustom(qfCreateForm,isModel));
     }
 
     /**
@@ -204,8 +204,11 @@ public class QfCreateFormController extends BaseController {
         ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormById(cid));
         //sid为发布学校问卷表的id
         ajaxResult.put("answer",qfSchoolAnswerService
-                .selectQfSchoolAnswerListBySId(cid,qfUserFormService.
-                        selectQfUserFormById(sid).getSchoolId().longValue()
+                .selectQfSchoolAnswerListBySId(
+                        cid,
+                        qfUserFormService.
+                            selectQfUserFormById(sid).getSchoolId().longValue(),
+                        0
                 )
         );
         return ajaxResult;
@@ -220,7 +223,7 @@ public class QfCreateFormController extends BaseController {
         return toAjax(qfUserFormService.updateQfUserForm(stateVo));
      }
     /**
-     * 模板列表
+     * 下载模板列表
      */
     @GetMapping("/model/list")
     public AjaxResult getModelList(){
@@ -229,5 +232,22 @@ public class QfCreateFormController extends BaseController {
         return ajaxResult;
     }
 
+    /**
+     * 选择发布问卷模板
+     */
+    @GetMapping("/create/model")
+    public AjaxResult getCreateModelList(){
+        AjaxResult ajaxResult = AjaxResult.success();
+        ajaxResult.put("models",qfCreateModelService.selectQfCreateModelList(null));
+        return ajaxResult;
+    }
+
+    /**
+     * 取消发布
+     */
+    @PutMapping("/unpublish")
+    public AjaxResult unpublish(@RequestParam("id") Long id){
+        return toAjax(qfUserFormService.unpublishQfUserForm(id));
+    }
 }
 

@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.file.domain.QfModel;
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.file.mapper.FileMapper;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
@@ -75,8 +75,14 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
      * @return 结果
      */
     @Override
-    public int insertQfSchoolAnswer(QfSchoolAnswer qfSchoolAnswer)
-    {
+    public int insertQfSchoolAnswer(QfSchoolAnswer qfSchoolAnswer) {
+
+        if(qfSchoolAnswer!=null&&qfSchoolAnswer.getId()!=null){
+            if (qfSchoolAnswer.getIsTemporary()==1){
+                throw new CustomException("您不能重复提交，如需修改请联系问卷发布者");
+            }
+            return qfSchoolAnswerMapper.updateQfSchoolAnswer(qfSchoolAnswer);
+        }
         return qfSchoolAnswerMapper.insertQfSchoolAnswer(qfSchoolAnswer);
     }
 
@@ -117,9 +123,10 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
     }
 
     @Override
-    public List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid,Long sid) {
-        return qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid,sid);
+    public List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(Long cid, Long sid, Integer isSchool) {
+        return qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid,sid,isSchool);
     }
+
 
     @Override
     public AjaxResult exportQfSchoolAnswer(Long cid) {
@@ -135,7 +142,7 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
         }
         List<List<QfKeyIndexAnswer>> values =new ArrayList<>();
         for (QfUserForm qfUserForm:qfUserFormMapper.selectQfUserFormList(new QfUserForm(cid))){
-            List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue());
+            List<QfSchoolAnswer> qfSchoolAnswers = qfSchoolAnswerMapper.selectQfSchoolAnswerListBySId(cid, qfUserForm.getSchoolId().longValue(), 0);
             List<QfKeyIndexAnswer> answers = new ArrayList<>();
 
 //            answers.add(new QfKeyIndexAnswer(0,qfUserForm.getSchoolName()));
@@ -180,6 +187,9 @@ public class QfSchoolAnswerServiceImpl implements IQfSchoolAnswerService{
         }
         return AjaxResult.success(fileName);
     }
+
+
+
     private static String getAbsoluteFile(String filename) {
         String downloadPath = RuoYiConfig.getDownloadPath() + filename;
         File desc = new File(downloadPath);

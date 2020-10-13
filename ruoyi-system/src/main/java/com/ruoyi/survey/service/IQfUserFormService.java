@@ -63,7 +63,9 @@ public interface IQfUserFormService
 
     List<QfUserForm> selectQfSchoolFormList(Long id);
 
-    int insertAnswer(String json, Long sid, Long cid);
+    int insertAnswer(String json, Long sid, Long cid,Integer state);
 
     List<QfCreateForm> selectQfUserFormListBySId(QfCreateForm qfUserForm, Long id);
+
+    int unpublishQfUserForm(Long id);
 }

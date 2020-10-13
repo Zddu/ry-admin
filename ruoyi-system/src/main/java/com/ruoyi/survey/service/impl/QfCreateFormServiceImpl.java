@@ -7,16 +7,19 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.survey.domain.QfCreateModel;
 import com.ruoyi.survey.domain.QfKeyName;
 import com.ruoyi.survey.domain.QfUserForm;
 import com.ruoyi.survey.domain.vo.QfKeyNameVo;
 import com.ruoyi.survey.domain.vo.QfUserFormVo;
 import com.ruoyi.survey.domain.vo.SchoolVO;
+import com.ruoyi.survey.mapper.QfCreateModelMapper;
 import com.ruoyi.survey.mapper.QfKeyNameMapper;
 import com.ruoyi.survey.mapper.QfUserFormMapper;
 import com.ruoyi.survey.util.QfUtils;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.survey.mapper.QfCreateFormMapper;
@@ -42,6 +45,8 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     private SysDeptMapper sysDeptMapper;
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private QfCreateModelMapper qfCreateModelMapper;
     /**
      * 查询【请填写功能名称】
      * 
@@ -139,7 +144,7 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
         for (SchoolVO school:qfUserFormVo.getSchools()) {
             qfUserFormMapper.insertQfUserForm(new QfUserForm(qfUserFormVo.getCreateId(),school.getSchoolName(),school.getSchoolId()));
         }
-        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(qfUserFormVo.getCreateId(),1,new Date(),qfUserFormVo.getEndTime()));
+        return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(qfUserFormVo.getCreateId(),1,qfUserFormVo.getEndTime(),new Date()));
     }
 
     @Override
@@ -155,5 +160,29 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
             qfUserFormMapper.deleteQfUserFormById(qfUserForm.getId());
         }
         return qfCreateFormMapper.updateQfCreateForm(new QfCreateForm(new Date(),qfUserFormVo.getCreateId(),0));
+    }
+
+    @Override
+    public int insertQuestionnaireCustom(QfCreateForm qfCreateForm, Boolean isMould) {
+        qfCreateForm.setStrData(QfUtils.restructureJson(qfCreateForm.getStrData()));
+        QfKeyNameVo qfKeyNames = JSONObject.parseObject(qfCreateForm.getStrData(), QfKeyNameVo.class);
+        int size =-1;
+        size += qfCreateFormMapper.insertQfCreateForm(qfCreateForm);
+        QfCreateModel qfCreateModel = new QfCreateModel();
+        BeanUtils.copyProperties(qfCreateForm,qfCreateModel);
+        HashSet<String> set =new HashSet<>();
+        for (QfKeyName qfKeyName : qfKeyNames.getList()) {
+            set.add(qfKeyName.getName());
+        }
+        if (set.size()!=qfKeyNames.getList().size()){
+            throw new CustomException("有重复标题的数据");
+        }
+        for (QfKeyName qfKeyName : qfKeyNames.getList()) {
+            size += qfKeyNameMapper.insertQfKeyName(qfKeyName.setCreateId(qfCreateForm.getId()));
+        }
+        if (isMould){
+            size+=qfCreateModelMapper.insertQfCreateModel(qfCreateModel);
+        }
+        return size;
     }
 }

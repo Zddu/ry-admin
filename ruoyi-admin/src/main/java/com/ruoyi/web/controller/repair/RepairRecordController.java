@@ -36,7 +36,6 @@ public class RepairRecordController extends BaseController
     /**
      * 查询保修记录列表
      */
-    @PreAuthorize("@ss.hasPermi('repair:record:list')")
     @GetMapping("/list")
     public TableDataInfo list(RepairRecord repairRecord)
     {
@@ -48,7 +47,6 @@ public class RepairRecordController extends BaseController
     /**
      * 导出保修记录列表
      */
-    @PreAuthorize("@ss.hasPermi('repair:record:export')")
     @Log(title = "保修记录", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(RepairRecord repairRecord)
@@ -79,6 +77,8 @@ public class RepairRecordController extends BaseController
         return toAjax(repairRecordService.insertRepairRecord(repairRecord));
     }
 
+
+
     /**
      * 修改保修记录
      */
@@ -93,7 +93,6 @@ public class RepairRecordController extends BaseController
     /**
      * 删除保修记录
      */
-    @PreAuthorize("@ss.hasPermi('repair:record:remove')")
     @Log(title = "保修记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

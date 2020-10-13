@@ -59,5 +59,7 @@ public interface IRepairRecordService
      */
     public int deleteRepairRecordById(Long id);
 
-    List<RepairRecord> selectRepairRecordListTop10();
+    List<RepairRecord> selectRepairRecordListByLimit(Integer num);
+
+    List<RepairRecord> selectRepairRecordListByCondition(String str);
 }

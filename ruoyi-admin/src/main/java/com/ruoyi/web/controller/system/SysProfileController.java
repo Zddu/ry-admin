@@ -1,6 +1,9 @@
 package com.ruoyi.web.controller.system;
 
 import java.io.IOException;
+
+import com.ruoyi.common.exception.CustomException;
+import com.ruoyi.common.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,6 +93,9 @@ public class SysProfileController extends BaseController
         if (SecurityUtils.matchesPassword(newPassword, password))
         {
             return AjaxResult.error("新密码不能与旧密码相同");
+        }
+        if (!PasswordUtils.checkPassword(newPassword,3)){
+            throw new CustomException("失败，用户密码必须包含大小写字母，数字，特殊字符中的任意三种");
         }
         if (userService.resetUserPwd(userName, SecurityUtils.encryptPassword(newPassword)) > 0)
         {

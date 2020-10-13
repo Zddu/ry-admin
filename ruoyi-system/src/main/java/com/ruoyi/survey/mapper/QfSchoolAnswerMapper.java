@@ -60,11 +60,16 @@ public interface QfSchoolAnswerMapper
      */
     public int deleteQfSchoolAnswerByIds(Long[] ids);
 
-    List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(@Param("cid") Long cid,@Param("sid") Long sid);
+    List<QfSchoolAnswer> selectQfSchoolAnswerListBySId(@Param("cid") Long cid, @Param("sid") Long sid,@Param("isSchool") Integer isSchool);
+
+
 
     List<QfSchoolAnswer> selectAllQfSchoolAnswer();
 
     int updateQfSchoolAnswerByKeyAndSchool(QfSchoolAnswer keyName);
 
     List<String> selectAnswerBySFid(@Param("id") Long id);
+
+
+    int deleteQfSchoolAnswerByQfSchoolId(@Param("id")Long id);
 }

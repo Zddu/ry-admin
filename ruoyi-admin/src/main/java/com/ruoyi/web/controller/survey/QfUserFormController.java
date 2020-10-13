@@ -50,15 +50,20 @@ public class QfUserFormController extends BaseController
         List<QfCreateForm> list = qfUserFormService.selectQfUserFormListBySId(qfUserForm,aLong);
         return getDataTable(list);
     }
+
     /**
      * 上传答案
+     * @param json 答案json
+     * @param cid 表单id
+     * @param state 暂存状态：6 提交状态：1
+     * @return
      */
     @Log(title = "上传问卷内容", businessType = BusinessType.INSERT)
     @PostMapping("/commit")
-    public AjaxResult add(@RequestBody String json,@RequestParam Long cid) {
+    public AjaxResult add(@RequestBody String json,@RequestParam Long cid,@RequestParam Integer state) {
         return toAjax(qfUserFormService.insertAnswer(json,
                 sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
-                ,cid));
+                ,cid,state));
     }
     /**
      * 修改【请填写功能名称】
@@ -95,8 +100,8 @@ public class QfUserFormController extends BaseController
         );
 
         ajaxResult.put("answer",qfSchoolAnswerService.selectQfSchoolAnswerListBySId(cid,
-                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
-                )
+                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()),
+                1)
         );
         return ajaxResult;
     }

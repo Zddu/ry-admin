@@ -65,4 +65,6 @@ public interface IQfCreateFormService
     QfCreateForm selectQfCreateFormAndUserFormReasonById(Long cid,Long sid);
 
     int withdrawQfCreateForm(QfUserFormVo qfUserFormVo);
+
+    int insertQuestionnaireCustom(QfCreateForm qfCreateForm, Boolean isMould);
 }

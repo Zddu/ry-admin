@@ -41,6 +41,9 @@ public class RepairRecord extends BaseEntity
     /** 故障描述 */
     @Excel(name = "故障描述")
     private String describe;
+    /** 故障类型 */
+    @Excel(name = "故障描述")
+    private String type;
 
     /** 是否满意(0-不满意 1-满意) */
     @Excel(name = "是否满意(0-不满意 1-满意)")
@@ -50,7 +53,16 @@ public class RepairRecord extends BaseEntity
     @Excel(name = "微信号")
     private String weixinNum;
 
-    public void setId(Long id) 
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -134,17 +146,16 @@ public class RepairRecord extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("orderNum", getOrderNum())
-            .append("department", getDepartment())
-            .append("room", getRoom())
-            .append("contacts", getContacts())
-            .append("contactNumber", getContactNumber())
-            .append("describe", getDescribe())
-            .append("createTime", getCreateTime())
-            .append("isSatisfied", getIsSatisfied())
-            .append("weixinNum", getWeixinNum())
-            .toString();
+        return "RepairRecord{" +
+                "orderNum='" + orderNum + '\'' +
+                ", department='" + department + '\'' +
+                ", room='" + room + '\'' +
+                ", contacts='" + contacts + '\'' +
+                ", contactNumber=" + contactNumber +
+                ", describe='" + describe + '\'' +
+                ", type='" + type + '\'' +
+                ", isSatisfied=" + isSatisfied +
+                ", weixinNum='" + weixinNum + '\'' +
+                '}';
     }
 }

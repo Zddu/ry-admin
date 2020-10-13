@@ -93,7 +93,12 @@ public class RepairRecordServiceImpl implements IRepairRecordService {
     }
 
     @Override
-    public List<RepairRecord> selectRepairRecordListTop10() {
-        return repairRecordMapper.selectRepairRecordListTop10();
+    public List<RepairRecord> selectRepairRecordListByLimit(Integer num) {
+        return repairRecordMapper.selectRepairRecordListByLimit(num);
+    }
+
+    @Override
+    public List<RepairRecord> selectRepairRecordListByCondition(String str) {
+        return repairRecordMapper.selectRepairRecordListByCondition(str);
     }
 }

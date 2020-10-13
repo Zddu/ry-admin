@@ -2,6 +2,9 @@ package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.ruoyi.common.exception.CustomException;
+import com.ruoyi.common.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -127,15 +130,18 @@ public class SysUserController extends BaseController
         {
             return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
         }
-        else if (UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
-        {
-            return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
-        }
-        else if (UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
-        {
-            return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
-        }
+//        else if (UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
+//        {
+//            return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
+//        }
+//        else if (UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
+//        {
+//            return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+//        }
         user.setCreateBy(SecurityUtils.getUsername());
+        if (!PasswordUtils.checkPassword(user.getPassword(),3)){
+            throw new CustomException("失败，用户密码必须包含大小写字母，数字，特殊字符中的任意三种");
+        }
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         return toAjax(userService.insertUser(user));
     }
@@ -149,14 +155,14 @@ public class SysUserController extends BaseController
     public AjaxResult edit(@Validated @RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
-        {
-            return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
-        }
-        else if (UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
-        {
-            return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
-        }
+//        if (UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
+//        {
+//            return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+//        }
+//        else if (UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
+//        {
+//            return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+//        }
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.updateUser(user));
     }
@@ -181,6 +187,9 @@ public class SysUserController extends BaseController
     public AjaxResult resetPwd(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
+        if (!PasswordUtils.checkPassword(user.getPassword(),3)){
+            throw new CustomException("失败，用户密码必须包含大小写字母，数字，特殊字符中的任意三种");
+        }
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.resetPwd(user));

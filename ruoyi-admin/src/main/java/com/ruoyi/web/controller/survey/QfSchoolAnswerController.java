@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.survey;
 
 import java.util.List;
+
+import io.swagger.models.auth.In;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,7 +71,7 @@ public class QfSchoolAnswerController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 2020/10/11 通过上传的答案的是否含有id 判断是
      */
     @PreAuthorize("@ss.hasPermi('survey:answer:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
@@ -78,7 +80,6 @@ public class QfSchoolAnswerController extends BaseController
     {
         return toAjax(qfSchoolAnswerService.insertQfSchoolAnswer(qfSchoolAnswer));
     }
-
     /**
      * 修改【请填写功能名称】
      */

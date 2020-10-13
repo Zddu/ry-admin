@@ -38,6 +38,16 @@ public class QfSchoolAnswer extends BaseEntity {
 
     private String type;
 
+    private Integer isTemporary;
+
+    public Integer getIsTemporary() {
+        return isTemporary;
+    }
+
+    public void setIsTemporary(Integer isTemporary) {
+        this.isTemporary = isTemporary;
+    }
+
     public String getType() {
         return type;
     }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.survey.mapper.QfCreateModelMapper">
+    
+    <resultMap type="com.ruoyi.survey.domain.QfCreateModel" id="QfCreateModelResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="strData"    column="json_data"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="creator"    column="creator"    />
+        <result property="endTime"    column="end_time"    />
+    </resultMap>
+
+    <sql id="selectQfCreateModelVo">
+        select id, title, json_data, create_time, creator, end_time from qf_create_model
+    </sql>
+
+    <select id="selectQfCreateModelList" parameterType="com.ruoyi.survey.domain.QfCreateModel" resultMap="QfCreateModelResult">
+        <include refid="selectQfCreateModelVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="strData != null  and strData != ''"> and json_data = #{strData}</if>
+            <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectQfCreateModelById" parameterType="Long" resultMap="QfCreateModelResult">
+        <include refid="selectQfCreateModelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertQfCreateModel" parameterType="com.ruoyi.survey.domain.QfCreateModel" useGeneratedKeys="true" keyProperty="id">
+        insert into qf_create_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="strData != null and strData != ''">json_data,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="creator != null">creator,</if>
+            <if test="endTime != null">end_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="strData != null and strData != ''">#{strData},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="endTime != null">#{endTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQfCreateModel" parameterType="com.ruoyi.survey.domain.QfCreateModel">
+        update qf_create_model
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="strData != null and strData != ''">json_data = #{strData},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQfCreateModelById" parameterType="Long">
+        delete from qf_create_model where id = #{id}
+    </delete>
+
+    <delete id="deleteQfCreateModelByIds" parameterType="String">
+        delete from qf_create_model where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
