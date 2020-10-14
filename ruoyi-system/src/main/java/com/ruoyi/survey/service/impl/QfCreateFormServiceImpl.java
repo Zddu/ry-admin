@@ -141,6 +141,9 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int submitQfCreateForm(QfUserFormVo qfUserFormVo) {
+        if (qfUserFormVo==null||qfUserFormVo.getEndTime()==null){
+            throw new CustomException("请设置截止时间");
+        }
         for (SchoolVO school:qfUserFormVo.getSchools()) {
             qfUserFormMapper.insertQfUserForm(new QfUserForm(qfUserFormVo.getCreateId(),school.getSchoolName(),school.getSchoolId()));
         }
@@ -167,7 +170,7 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
         qfCreateForm.setStrData(QfUtils.restructureJson(qfCreateForm.getStrData()));
         QfKeyNameVo qfKeyNames = JSONObject.parseObject(qfCreateForm.getStrData(), QfKeyNameVo.class);
         int size =-1;
-        size += qfCreateFormMapper.insertQfCreateForm(qfCreateForm);
+
         QfCreateModel qfCreateModel = new QfCreateModel();
         BeanUtils.copyProperties(qfCreateForm,qfCreateModel);
         HashSet<String> set =new HashSet<>();
@@ -175,8 +178,10 @@ public class QfCreateFormServiceImpl implements IQfCreateFormService {
             set.add(qfKeyName.getName());
         }
         if (set.size()!=qfKeyNames.getList().size()){
-            throw new CustomException("有重复标题的数据");
+            throw new CustomException("问卷中的标题有重复");
         }
+
+        size += qfCreateFormMapper.insertQfCreateForm(qfCreateForm);
         for (QfKeyName qfKeyName : qfKeyNames.getList()) {
             size += qfKeyNameMapper.insertQfKeyName(qfKeyName.setCreateId(qfCreateForm.getId()));
         }

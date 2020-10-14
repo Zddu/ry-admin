@@ -4,7 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.ruoyi.common.core.domain.TreeSelect;
+import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.file.service.IFileService;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.survey.domain.QfKeyName;
@@ -16,6 +19,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -24,6 +28,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.survey.domain.QfCreateForm;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+
+import javax.swing.*;
 
 
 /**
@@ -70,7 +76,7 @@ public class QfCreateFormController extends BaseController {
     @Log(title = "上传问卷", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public AjaxResult add( @RequestParam String title, @RequestBody String strData, @RequestParam Boolean isModel)  {
-        if ( title == null || strData == null) {
+        if (StringUtils.isEmpty(title) || StringUtils.isEmpty(strData) ) {
             return AjaxResult.error("请填写必填数据");
         }
         QfCreateForm qfCreateForm = new QfCreateForm();
@@ -91,6 +97,8 @@ public class QfCreateFormController extends BaseController {
     public AjaxResult edit(@RequestBody QfUserFormVo qfUserFormVo) {
         return toAjax(qfCreateFormService.submitQfCreateForm(qfUserFormVo));
     }
+
+
     /**
      * 撤回问卷
      */
@@ -104,7 +112,10 @@ public class QfCreateFormController extends BaseController {
     @GetMapping("/listSchool")
     public AjaxResult listSchool() {
         AjaxResult success = AjaxResult.success();
-        success.put("schools", deptService.selectSchoolList());
+        List<SysDept> depts = deptService.selectDeptList(new SysDept());
+        List<TreeSelect> treeSelects = deptService.buildDeptTreeSelect(depts);
+//        success.put("schools", deptService.selectSchoolList());
+        success.put("schools", treeSelects.get(0).getChildren());
         return success;
     }
 

@@ -116,12 +116,22 @@ public class QfUserFormServiceImpl implements IQfUserFormService {
     public int insertAnswer(String json, Long sid, Long cid,Integer state) {
         QfCreateForm qfCreateForm = qfCreateFormMapper.selectQfCreateFormById(cid);
         QfUserForm qfUserForm = qfUserFormMapper.selectQfSchoolFormBySId(sid, cid);
+        if (qfUserForm==null||qfCreateForm==null){
+            throw new CustomException("空指针异常，学校id或表单id有误请联系运维人员");
+
+        }
         if(qfUserForm.getState()!=2){
             if (qfCreateForm.getEndTime().getTime()<new Date().getTime()){
                 throw new CustomException("已截止");
             }
             if (qfUserForm.getState()==1){
                 throw new CustomException("您已提交，如需修改请联系问卷发布人");
+            }
+            if (qfUserForm.getState()==3){
+                throw new CustomException("您已修改问卷，如需修改请联系问卷发布人");
+            }
+            if (qfUserForm.getState()==4){
+                throw new CustomException("您提交的表单已被管理员查收，无法进行修改");
             }
         }
         //校验表单必填项

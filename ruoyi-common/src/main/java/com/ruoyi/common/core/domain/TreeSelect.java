@@ -74,4 +74,13 @@ public class TreeSelect implements Serializable
     {
         this.children = children;
     }
+
+    @Override
+    public String toString() {
+        return "TreeSelect{" +
+                "id=" + id +
+                ", label='" + label + '\'' +
+                ", children=" + children +
+                '}';
+    }
 }

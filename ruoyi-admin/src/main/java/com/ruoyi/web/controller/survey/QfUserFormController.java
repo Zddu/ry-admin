@@ -45,7 +45,8 @@ public class QfUserFormController extends BaseController
     @PreAuthorize("@ss.hasPermi('survey:form:list')")
     @GetMapping("/list")
     public TableDataInfo list(QfCreateForm qfUserForm) {
-        Long aLong = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
+//        Long aLong = sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId());
+        Long aLong = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId();
         startPage();
         List<QfCreateForm> list = qfUserFormService.selectQfUserFormListBySId(qfUserForm,aLong);
         return getDataTable(list);
@@ -62,7 +63,7 @@ public class QfUserFormController extends BaseController
     @PostMapping("/commit")
     public AjaxResult add(@RequestBody String json,@RequestParam Long cid,@RequestParam Integer state) {
         return toAjax(qfUserFormService.insertAnswer(json,
-                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId())
+                tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()
                 ,cid,state));
     }
     /**
@@ -92,15 +93,13 @@ public class QfUserFormController extends BaseController
         AjaxResult ajaxResult = AjaxResult.success();
         ajaxResult.put("survey",qfCreateFormService.selectQfCreateFormAndUserFormReasonById(
                 cid,
-                sysDeptService.selectParentDepByChildId(
-                        tokenService.getLoginUser(ServletUtils.getRequest()).
-                                getUser().
-                                getDeptId())
-                )
+                tokenService.getLoginUser(ServletUtils.getRequest()).
+                        getUser().
+                        getDeptId())
         );
 
         ajaxResult.put("answer",qfSchoolAnswerService.selectQfSchoolAnswerListBySId(cid,
-                sysDeptService.selectParentDepByChildId(tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId()),
+                tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDeptId(),
                 1)
         );
         return ajaxResult;

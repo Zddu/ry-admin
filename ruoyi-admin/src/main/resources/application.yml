@@ -9,7 +9,8 @@ ruoyi:
   # 实例演示开关
   demoEnabled: true
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: D:/ruoyi/uploadPath
+#  profile: D:/ruoyi/uploadPath
+  profile: /home/ruoyi/uploadPath
   # 获取ip地址开关
   addressEnabled: false
   # 验证码类型 math 数组计算 char 字符验证
@@ -48,9 +49,9 @@ spring:
   servlet:
      multipart:
        # 单个文件大小
-       max-file-size:  10MB
+       max-file-size:  500MB
        # 设置总上传的文件大小
-       max-request-size:  20MB
+       max-request-size:  1000MB
   # 服务模块
   devtools:
     restart:
@@ -59,9 +60,10 @@ spring:
   # redis 配置
   redis:
     # 地址
-    host: 112.126.66.104
+#    host: 112.126.66.104
+    host: 127.0.0.1
     # 端口，默认为6379
-    port: 6375
+    port: 6379
     # 密码
     password: 123
     # 连接超时时间
