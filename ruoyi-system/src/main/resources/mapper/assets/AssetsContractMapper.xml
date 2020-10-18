@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsContractVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="batchNum != null "> and batch_num = #{batchNum}</if>
+            <if test="batchNum != null "> and batch_num like concat('%', #{batchNum}, '%')</if>
         </where>
     </select>
     
@@ -59,6 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
             <if test="path != null">path = #{path},</if>
+            <if test="mappingName != null">mapping_name = #{mappingName},</if>
+            <if test="originalName != null">original_name = #{originalName},</if>
             <if test="batchNum != null">batch_num = #{batchNum},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="createTime != null">create_time = #{createTime},</if>

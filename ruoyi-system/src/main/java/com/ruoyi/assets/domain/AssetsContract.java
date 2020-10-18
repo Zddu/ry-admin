@@ -22,10 +22,10 @@ public class AssetsContract extends BaseEntity
     @Excel(name = "合同名称")
     private String name;
     /**文件原名称**/
-    @Excel(name = "文件原名称")
+
     private String originalName;
     /** 合同本地存放地址 */
-    @Excel(name = "合同本地存放地址")
+
     private String path;
 
     private String mappingName;
@@ -88,15 +88,23 @@ public class AssetsContract extends BaseEntity
         return batchNum;
     }
 
+
+    public AssetsContract(Long batchNum) {
+        this.batchNum = batchNum;
+    }
+
+    public AssetsContract() {
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("name", getName())
-            .append("path", getPath())
-            .append("batchNum", getBatchNum())
-            .append("updateTime", getUpdateTime())
-            .append("createTime", getCreateTime())
-            .toString();
+        return "AssetsContract{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", originalName='" + originalName + '\'' +
+                ", path='" + path + '\'' +
+                ", mappingName='" + mappingName + '\'' +
+                ", batchNum=" + batchNum +
+                '}';
     }
 }

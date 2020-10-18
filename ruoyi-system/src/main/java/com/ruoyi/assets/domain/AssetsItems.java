@@ -23,18 +23,19 @@ public class AssetsItems extends BaseEntity
 
     /** $column.columnComment */
     private Long id;
-
-    /** 物品名称 */
-    @Excel(name = "物品名称")
+    @Excel(name = "商品所属单位")
+    private String itemBelongerName;
+    /** 设备名称 */
+    @Excel(name = "设备名称")
     @NotNull
     private String itemName;
 
-    /** 物品类型0:多媒体设备、1:计算机设备（教师）、2:计算机设备（学生）、3:录播教室设备、4:网络设备 */
-    @Excel(name = "物品类型0:多媒体设备、1:计算机设备", readConverterExp = "教=师")
+    /** 设备类型0:多媒体设备、1:计算机设备（教师）、2:计算机设备（学生）、3:录播教室设备、4:网络设备 */
+    @Excel(name = "设备类型", readConverterExp = "0=多媒体设备,1=计算机设备（教师）,2=计算机设备（学生）,3=录播教室设备,4=网络设备")
     private String itemType;
 
-    /** 物品规格 */
-    @Excel(name = "物品规格")
+    /** 设备规格 */
+    @Excel(name = "设备规格")
     private String itemFormat;
 
     /** 批次号 */
@@ -51,7 +52,7 @@ public class AssetsItems extends BaseEntity
     private String postSalePhone;
 
     /** 安装时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "安装时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date installedTime;
 
@@ -72,13 +73,16 @@ public class AssetsItems extends BaseEntity
     private String itemAdmin;
 
     /** 维修记录 */
-    @Excel(name = "维修记录")
     private List<AssetsItemsMaintenance> maintenanceRecords;
 
     /** 商品状态 0:正常、1:正常（效果不好）、2:无法使用、3:已报废 */
-    @Excel(name = "商品状态 0:正常、1:正常", readConverterExp = "效=果不好")
+    @Excel(name = "商品状态",readConverterExp="0=正常,1=正常（效果不好）,2=无法使用,3=已报废")
     private Long itemState;
 
+    @Excel(name = "核销",readConverterExp = "0=未核销,1=已核销")
+    private Integer isWriteOff;
+    /**是否可以修改全部字段**/
+    private Integer isModify;
     /** 备注 */
     @Excel(name = "备注")
     private String remarks;
@@ -87,9 +91,34 @@ public class AssetsItems extends BaseEntity
 
     private Long itemBelonger;
 
-    @Excel(name = "商品所属单位")
-    private String itemBelongerName;
+   
 
+    private Long distributeId;
+
+
+    public Long getDistributeId() {
+        return distributeId;
+    }
+
+    public void setDistributeId(Long distributeId) {
+        this.distributeId = distributeId;
+    }
+
+    public Integer getIsModify() {
+        return isModify;
+    }
+
+    public void setIsModify(Integer isModify) {
+        this.isModify = isModify;
+    }
+
+    public Integer getIsWriteOff() {
+        return isWriteOff;
+    }
+
+    public void setIsWriteOff(Integer isWriteOff) {
+        this.isWriteOff = isWriteOff;
+    }
 
     public String getItemBelongerName() {
         return itemBelongerName;
@@ -244,26 +273,45 @@ public class AssetsItems extends BaseEntity
         return itemBelonger;
     }
 
+
+    public AssetsItems(@NotNull Long batchNum) {
+        this.batchNum = batchNum;
+    }
+
+    public AssetsItems() {
+    }
+
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("itemName", getItemName())
-            .append("itemType", getItemType())
-            .append("itemFormat", getItemFormat())
-            .append("batchNum", getBatchNum())
-            .append("supplierName", getSupplierName())
-            .append("postSalePhone", getPostSalePhone())
-            .append("installedTime", getInstalledTime())
-            .append("warrantyTime", getWarrantyTime())
-            .append("itemLocation", getItemLocation())
-            .append("itemIp", getItemIp())
-            .append("itemAdmin", getItemAdmin())
-            .append("maintenanceRecords", getMaintenanceRecords())
-            .append("itemState", getItemState())
-            .append("remarks", getRemarks())
-            .append("itemBelonger", getItemBelonger())
-            .append("createTime", getCreateTime())
-            .toString();
+        return "AssetsItems{" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                ", itemType='" + itemType + '\'' +
+                ", itemFormat='" + itemFormat + '\'' +
+                ", batchNum=" + batchNum +
+                ", supplierName='" + supplierName + '\'' +
+                ", postSalePhone='" + postSalePhone + '\'' +
+                ", installedTime=" + installedTime +
+                ", warrantyTime=" + warrantyTime +
+                ", itemLocation='" + itemLocation + '\'' +
+                ", itemIp='" + itemIp + '\'' +
+                ", itemAdmin='" + itemAdmin + '\'' +
+                ", maintenanceRecords=" + maintenanceRecords +
+                ", itemState=" + itemState +
+                ", isWriteOff=" + isWriteOff +
+                ", isModify=" + isModify +
+                ", remarks='" + remarks + '\'' +
+                ", itemBelonger=" + itemBelonger +
+                ", itemBelongerName='" + itemBelongerName + '\'' +
+                ", distributeId=" + distributeId +
+                '}';
+    }
+
+    public boolean fuzzyMatching(String name) {
+        if (this.getItemBelongerName().contains(name)){
+            return true;
+        }
+        return false;
     }
 }

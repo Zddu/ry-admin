@@ -1,7 +1,8 @@
 package com.ruoyi.assets.service;
 
 import java.util.List;
-import com.ruoyi.assets.domain.AssetsItems;
+
+import com.ruoyi.assets.domain.*;
 
 /**
  * 资产管理Service接口
@@ -58,4 +59,16 @@ public interface IAssetsItemsService
      * @return 结果
      */
     public int deleteAssetsItemsSchoolById(Long id);
+
+    List<Long> getBatchNum();
+
+    List<AssetsStatisticsBySchool> AssetsStatisticsBySchool();
+
+    List<AssetsStatisticsByType> AssetsStatisticsByType();
+
+    List<AssetsStatisticsByBatch> AssetsStatisticsByBatch();
+
+    List<AssetsItemsMaintenance> selectAssetsAssetsItemsMaintenanceList(AssetsItems assetsItems);
+
+    List<AssetsItems> AssetsItemsStatisticsBySchool();
 }

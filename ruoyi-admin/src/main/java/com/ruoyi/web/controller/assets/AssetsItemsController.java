@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.assets;
 
 
 import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.domain.AssetsItemsMaintenance;
 import com.ruoyi.assets.service.IAssetsItemsService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -21,44 +22,55 @@ import java.util.List;
 
 /**
  * 资产管理Controller
- * 
+ *
  * @author Zddeä¸¶
  * @date 2020-09-23
  */
 @RestController
 @RequestMapping("/assets/items")
-public class AssetsItemsController extends BaseController
-{
+public class AssetsItemsController extends BaseController {
     @Autowired
     private IAssetsItemsService assetsItemsSchoolService;
     @Autowired
     private TokenService tokenService;
+
     /**
      * 查询资产管理列表
      */
     @GetMapping("/list")
     public TableDataInfo list(AssetsItems assetsItems) {
-        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
-        if (!ObjectUtils.isEmpty(assetsItems)&&assetsItems.getItemBelonger()==null)
-        assetsItems.setItemBelonger(deptId);
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
+        if (!ObjectUtils.isEmpty(assetsItems) && assetsItems.getItemBelonger() == null)
+            assetsItems.setItemBelonger(deptId);
         startPage();
         List<AssetsItems> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItems);
-
         return getDataTable(list);
     }
 
     /**
      * 导出资产管理列表
      */
-    @PreAuthorize("@ss.hasPermi('assets:admin:export')")
     @Log(title = "资产管理", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
+        assetsItems.setItemBelonger(deptId);
         List<AssetsItems> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItems);
         ExcelUtil<AssetsItems> util = new ExcelUtil<AssetsItems>(AssetsItems.class);
         return util.exportExcel(list, "school");
     }
-
+    /**
+     * 导出资产管理列表
+     */
+    @Log(title = "资产管理", businessType = BusinessType.EXPORT)
+    @GetMapping("/export/maintenance-records")
+    public AjaxResult exportMaintenanceRecords(AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
+        assetsItems.setItemBelonger(deptId);
+        List<AssetsItemsMaintenance> list = assetsItemsSchoolService.selectAssetsAssetsItemsMaintenanceList(assetsItems);
+        ExcelUtil<AssetsItemsMaintenance> util = new ExcelUtil<>(AssetsItemsMaintenance.class);
+        return util.exportExcel(list, "维修记录");
+    }
     /**
      * 获取资产管理详细信息
      */
@@ -70,14 +82,15 @@ public class AssetsItemsController extends BaseController
     /**
      * 新增资产管理
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:add')")
+//    @PreAuthorize("@ss.hasPermi('assets:school:add')")
     @Log(title = "资产管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody @Valid AssetsItems assetsItems) {
-        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
         assetsItems.setItemBelonger(deptId);
         return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItems));
     }
+
     /**
      * 新增维修记录
      */
@@ -85,28 +98,31 @@ public class AssetsItemsController extends BaseController
     @Log(title = "资产管理", businessType = BusinessType.INSERT)
     @PostMapping("/add-maintenance")
     public AjaxResult addMaintenance(@RequestBody AssetsItems assetsItems) {
-        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
         assetsItems.setItemBelonger(deptId);
         return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItems));
     }
+
     /**
      * 修改资产管理
      */
-    @PreAuthorize("@ss.hasPermi('assets:admin:edit')")
+
     @Log(title = "资产管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AssetsItems assetsItems) {
+        System.out.println();
+        System.out.println(assetsItems);
+        System.out.println();
         return toAjax(assetsItemsSchoolService.updateAssetsItemsSchool(assetsItems));
     }
 
     /**
      * 删除资产管理
      */
-    @PreAuthorize("@ss.hasPermi('assets:admin:remove')")
+    @PreAuthorize("@ss.hasPermi('assets:school:remove')")
     @Log(title = "资产管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsItemsSchoolService.deleteAssetsItemsSchoolByIds(ids));
     }
 

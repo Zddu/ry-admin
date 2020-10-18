@@ -23,9 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectRepairMaintenanceList" parameterType="com.ruoyi.repair.domain.RepairMaintenance" resultMap="RepairMaintenanceResult">
         <include refid="selectRepairMaintenanceVo"/>
         <where>  
-            <if test="department != null  and department != ''"> and department = #{department}</if>
-            <if test="room != null  and room != ''"> and room = #{room}</if>
-            <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
+            <if test="department != null  and department != ''"> and department like '%${department}%'</if>
+            <if test="room != null  and room != ''"> and room like '%${room}%'</if>
+            <if test="contacts != null  and contacts != ''"> and contacts like '%${contacts}%'</if>
         </where>
     </select>
     

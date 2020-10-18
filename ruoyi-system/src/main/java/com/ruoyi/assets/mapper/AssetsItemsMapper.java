@@ -2,6 +2,9 @@ package com.ruoyi.assets.mapper;
 
 import java.util.List;
 import com.ruoyi.assets.domain.AssetsItems;
+import com.ruoyi.assets.domain.AssetsStatisticsByBatch;
+import com.ruoyi.assets.domain.AssetsStatisticsBySchool;
+import com.ruoyi.assets.domain.AssetsStatisticsByType;
 
 /**
  * 资产管理Mapper接口
@@ -58,4 +61,22 @@ public interface AssetsItemsMapper
      * @return 结果
      */
     public int deleteAssetsItemsSchoolByIds(Long[] ids);
+
+    List<Long> getBatchNum();
+
+    int deleteAssetsItemsSchoolByAssetsItem(AssetsItems assetsItems);
+
+    int deleteAssetsItemsByDistributeByIds(Long[] ids);
+
+    int deleteAssetsItemsSchoolByItemsDistributeId(Long id);
+
+    List<AssetsStatisticsBySchool> selectAssetsStatisticsBySchool();
+
+    List<AssetsItems> selectAssetsItemsSchoolByDeptId(Long id);
+
+    List<AssetsStatisticsByType> selectAssetsStatisticsByType();
+    List<AssetsItems> selectAssetsItemsSchoolByType(Long id);
+
+    List<AssetsStatisticsByBatch> selectAssetsStatisticsByBatch();
+    List<AssetsItems> selectAssetsItemsSchoolByBatch(Long id);
 }

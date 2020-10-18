@@ -25,11 +25,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectRepairRecordList" parameterType="com.ruoyi.repair.domain.RepairRecord" resultMap="RepairRecordResult">
         <include refid="selectRepairRecordVo"/>
         <where>  
-            <if test="department != null  and department != ''"> and department = #{department}</if>
-            <if test="orderNum != null">and order_num = #{orderNum}</if>
-            <if test="room != null  and room != ''"> and room = #{room}</if>
-            <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
-            <if test="contactNumber != null "> and contact_number = #{contactNumber}</if>
+            <if test="department != null  and department != ''"> and department like '%${department}%'</if>
+            <if test="orderNum != null">and order_num like '%${orderNum}%'</if>
+            <if test="room != null  and room != ''"> and room like  '%${room}%'</if>
+            <if test="contacts != null  and contacts != ''"> and contacts like '%${contacts}%'</if>
+            <if test="contactNumber != null "> and contact_number like '%${contactNumber}%'</if>
             <if test="isSatisfied != null "> and is_satisfied = #{isSatisfied}</if>
         </where>
     </select>

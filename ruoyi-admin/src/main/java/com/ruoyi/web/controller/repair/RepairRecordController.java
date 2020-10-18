@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.repair;
 
 import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +23,13 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 保修记录Controller
- * 
+ *
  * @author Zddeä¸¶
  * @date 2020-10-05
  */
 @RestController
 @RequestMapping("/repair/record")
-public class RepairRecordController extends BaseController
-{
+public class RepairRecordController extends BaseController {
     @Autowired
     private IRepairRecordService repairRecordService;
 
@@ -37,8 +37,7 @@ public class RepairRecordController extends BaseController
      * 查询保修记录列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(RepairRecord repairRecord)
-    {
+    public TableDataInfo list(RepairRecord repairRecord) {
         startPage();
         List<RepairRecord> list = repairRecordService.selectRepairRecordList(repairRecord);
         return getDataTable(list);
@@ -49,8 +48,7 @@ public class RepairRecordController extends BaseController
      */
     @Log(title = "保修记录", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(RepairRecord repairRecord)
-    {
+    public AjaxResult export(RepairRecord repairRecord) {
         List<RepairRecord> list = repairRecordService.selectRepairRecordList(repairRecord);
         ExcelUtil<RepairRecord> util = new ExcelUtil<RepairRecord>(RepairRecord.class);
         return util.exportExcel(list, "record");
@@ -61,8 +59,7 @@ public class RepairRecordController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('repair:record:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(repairRecordService.selectRepairRecordById(id));
     }
 
@@ -72,11 +69,9 @@ public class RepairRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('repair:record:add')")
     @Log(title = "保修记录", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody RepairRecord repairRecord)
-    {
+    public AjaxResult add(@RequestBody RepairRecord repairRecord) {
         return toAjax(repairRecordService.insertRepairRecord(repairRecord));
     }
-
 
 
     /**
@@ -85,8 +80,7 @@ public class RepairRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('repair:record:edit')")
     @Log(title = "保修记录", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody RepairRecord repairRecord)
-    {
+    public AjaxResult edit(@RequestBody RepairRecord repairRecord) {
         return toAjax(repairRecordService.updateRepairRecord(repairRecord));
     }
 
@@ -94,9 +88,8 @@ public class RepairRecordController extends BaseController
      * 删除保修记录
      */
     @Log(title = "保修记录", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(repairRecordService.deleteRepairRecordByIds(ids));
     }
 }

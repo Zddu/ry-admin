@@ -1,12 +1,15 @@
 package com.ruoyi.assets.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsContractMapper;
 import com.ruoyi.assets.domain.AssetsContract;
 import com.ruoyi.assets.service.IAssetsContractService;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 合同管理Service业务层处理
@@ -39,8 +42,7 @@ public class AssetsContractServiceImpl implements IAssetsContractService
      * @return 合同管理
      */
     @Override
-    public List<AssetsContract> selectAssetsContractList(AssetsContract assetsContract)
-    {
+    public List<AssetsContract> selectAssetsContractList(AssetsContract assetsContract) {
         return assetsContractMapper.selectAssetsContractList(assetsContract);
     }
 
@@ -51,8 +53,7 @@ public class AssetsContractServiceImpl implements IAssetsContractService
      * @return 结果
      */
     @Override
-    public int insertAssetsContract(AssetsContract assetsContract)
-    {
+    public int insertAssetsContract(AssetsContract assetsContract) {
         assetsContract.setCreateTime(DateUtils.getNowDate());
         assetsContract.setUpdateTime(DateUtils.getNowDate());
         return assetsContractMapper.insertAssetsContract(assetsContract);
@@ -65,8 +66,7 @@ public class AssetsContractServiceImpl implements IAssetsContractService
      * @return 结果
      */
     @Override
-    public int updateAssetsContract(AssetsContract assetsContract)
-    {
+    public int updateAssetsContract(AssetsContract assetsContract) {
         assetsContract.setUpdateTime(DateUtils.getNowDate());
         return assetsContractMapper.updateAssetsContract(assetsContract);
     }
@@ -93,5 +93,15 @@ public class AssetsContractServiceImpl implements IAssetsContractService
     public int deleteAssetsContractById(Long id)
     {
         return assetsContractMapper.deleteAssetsContractById(id);
+    }
+
+    private void checkContractBatchNum(Long batchNum) {
+        if (batchNum==null){
+            return;
+        }
+        List<AssetsContract> assetsContracts = assetsContractMapper.selectAssetsContractList(new AssetsContract(batchNum));
+        if (!ObjectUtils.isEmpty(assetsContracts)){
+            throw new CustomException("批次号重复，请校验后再提交");
+        }
     }
 }

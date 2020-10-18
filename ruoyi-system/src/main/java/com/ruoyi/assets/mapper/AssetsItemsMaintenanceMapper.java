@@ -61,4 +61,5 @@ public interface AssetsItemsMaintenanceMapper
     public int deleteAssetsItemsMaintenanceByIds(Long[] ids);
 
     List<AssetsItemsMaintenance> selectAssetsItemsMaintenanceByItemId(@Param("id") Long id);
+    List<AssetsItemsMaintenance> selectAssetsItemsMaintenanceAndBelongerByItemId(@Param("id") Long id);
 }

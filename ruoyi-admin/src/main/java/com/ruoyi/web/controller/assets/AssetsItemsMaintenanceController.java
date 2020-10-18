@@ -26,14 +26,13 @@ import javax.validation.Valid;
 
 /**
  * 【请填写功能名称】Controller
- * 
+ *
  * @author Zddeä¸¶
  * @date 2020-09-25
  */
 @RestController
 @RequestMapping("/assets/maintenance")
-public class AssetsItemsMaintenanceController extends BaseController
-{
+public class AssetsItemsMaintenanceController extends BaseController {
     @Autowired
     private IAssetsItemsMaintenanceService assetsItemsMaintenanceService;
 
@@ -42,8 +41,7 @@ public class AssetsItemsMaintenanceController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:maintenance:list')")
     @GetMapping("/list")
-    public TableDataInfo list(AssetsItemsMaintenance assetsItemsMaintenance)
-    {
+    public TableDataInfo list(AssetsItemsMaintenance assetsItemsMaintenance) {
         startPage();
         List<AssetsItemsMaintenance> list = assetsItemsMaintenanceService.selectAssetsItemsMaintenanceList(assetsItemsMaintenance);
         return getDataTable(list);
@@ -55,8 +53,7 @@ public class AssetsItemsMaintenanceController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:maintenance:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(AssetsItemsMaintenance assetsItemsMaintenance)
-    {
+    public AjaxResult export(AssetsItemsMaintenance assetsItemsMaintenance) {
         List<AssetsItemsMaintenance> list = assetsItemsMaintenanceService.selectAssetsItemsMaintenanceList(assetsItemsMaintenance);
         ExcelUtil<AssetsItemsMaintenance> util = new ExcelUtil<AssetsItemsMaintenance>(AssetsItemsMaintenance.class);
         return util.exportExcel(list, "maintenance");
@@ -67,15 +64,13 @@ public class AssetsItemsMaintenanceController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:maintenance:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(assetsItemsMaintenanceService.selectAssetsItemsMaintenanceById(id));
     }
 
     /**
      * 新增【请填写功能名称】
      */
-
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody @Valid AssetsItemsMaintenance assetsItemsMaintenance) {
@@ -89,8 +84,7 @@ public class AssetsItemsMaintenanceController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:maintenance:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody AssetsItemsMaintenance assetsItemsMaintenance)
-    {
+    public AjaxResult edit(@RequestBody AssetsItemsMaintenance assetsItemsMaintenance) {
         return toAjax(assetsItemsMaintenanceService.updateAssetsItemsMaintenance(assetsItemsMaintenance));
     }
 
@@ -99,9 +93,8 @@ public class AssetsItemsMaintenanceController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:maintenance:remove')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsItemsMaintenanceService.deleteAssetsItemsMaintenanceByIds(ids));
     }
 }

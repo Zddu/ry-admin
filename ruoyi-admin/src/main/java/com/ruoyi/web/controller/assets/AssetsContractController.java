@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.assets;
 
 import java.util.List;
 
+import com.ruoyi.assets.service.IAssetsItemsService;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.ServletUtils;
@@ -28,19 +29,21 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 合同管理Controller
- * 
+ *
  * @author Zddeä¸¶
  * @date 2020-09-23
  */
 @RestController
 @RequestMapping("/assets/contract")
-public class AssetsContractController extends BaseController
-{
-    @Autowired
-    private IAssetsContractService assetsContractService;
+public class AssetsContractController extends BaseController {
 
     @Autowired
+    private IAssetsContractService assetsContractService;
+    @Autowired
+    private IAssetsItemsService assetsItemsService;
+    @Autowired
     private ServerConfig serverConfig;
+
     /**
      * 查询合同管理列表
      */
@@ -49,7 +52,6 @@ public class AssetsContractController extends BaseController
     public TableDataInfo list(AssetsContract assetsContract) {
         startPage();
         List<AssetsContract> list = assetsContractService.selectAssetsContractList(assetsContract);
-
         return getDataTable(list);
     }
 
@@ -59,8 +61,7 @@ public class AssetsContractController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:contract:export')")
     @Log(title = "合同管理", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(AssetsContract assetsContract)
-    {
+    public AjaxResult export(AssetsContract assetsContract) {
         List<AssetsContract> list = assetsContractService.selectAssetsContractList(assetsContract);
         ExcelUtil<AssetsContract> util = new ExcelUtil<AssetsContract>(AssetsContract.class);
         return util.exportExcel(list, "contract");
@@ -71,8 +72,7 @@ public class AssetsContractController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(assetsContractService.selectAssetsContractById(id));
     }
 
@@ -82,8 +82,7 @@ public class AssetsContractController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:contract:add')")
     @Log(title = "合同管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody AssetsContract assetsContract)
-    {
+    public AjaxResult add(@RequestBody AssetsContract assetsContract) {
         return toAjax(assetsContractService.insertAssetsContract(assetsContract));
     }
 
@@ -93,8 +92,7 @@ public class AssetsContractController extends BaseController
     @PreAuthorize("@ss.hasPermi('assets:contract:edit')")
     @Log(title = "合同管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody AssetsContract assetsContract)
-    {
+    public AjaxResult edit(@RequestBody AssetsContract assetsContract) {
         return toAjax(assetsContractService.updateAssetsContract(assetsContract));
     }
 
@@ -103,9 +101,8 @@ public class AssetsContractController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('assets:contract:remove')")
     @Log(title = "合同管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsContractService.deleteAssetsContractByIds(ids));
     }
 
@@ -113,49 +110,51 @@ public class AssetsContractController extends BaseController
      * 上传合同
      */
     @PostMapping("/upload")
-    public AjaxResult uploadFile(MultipartFile file) throws Exception
-    {
+    public AjaxResult uploadFile(MultipartFile file) throws Exception {
         try {
             // 上传文件路径
             String filePath = RuoYiConfig.getUploadPath();
             // 上传并返回新文件名称
-            String mappingName = FileUploadUtils.upload(filePath, file).replace(Constants.RESOURCE_PREFIX,"");
+            String mappingName = FileUploadUtils.upload(filePath, file).replace(Constants.RESOURCE_PREFIX, "");
 
-            String originalName=file.getOriginalFilename();
+            String originalName = file.getOriginalFilename();
             String path = serverConfig.getUrl() + mappingName;
             AjaxResult ajax = AjaxResult.success();
             ajax.put("originalName", originalName);
             ajax.put("mappingName", mappingName);
             ajax.put("path", path);
             return ajax;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return AjaxResult.error(e.getMessage());
         }
     }
 
     @GetMapping("/download")
-    public void fileDownload(@RequestParam("id") Long id, HttpServletResponse response, HttpServletRequest request)
-    {
+    public void fileDownload(@RequestParam("id") Long id, HttpServletResponse response, HttpServletRequest request) {
         try {
             AssetsContract assetsContract = assetsContractService.selectAssetsContractById(id);
-            if (assetsContract==null)
-            {
-                throw new RuntimeException("合同"+id+"不存在");
+            if (assetsContract == null) {
+                throw new RuntimeException("合同" + id + "不存在");
             }
-            String realFileName =assetsContract.getOriginalName();
-            String filePath = RuoYiConfig.getProfile()+ assetsContract.getMappingName();
+            String suffix = assetsContract.getOriginalName().substring(assetsContract.getOriginalName().lastIndexOf("."));
+            String realFileName = assetsContract.getName() + suffix;
+            String filePath = RuoYiConfig.getProfile() + assetsContract.getMappingName();
             response.setCharacterEncoding("utf-8");
             response.setContentType("multipart/form-data");
             response.setHeader("Content-Disposition",
                     "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, realFileName));
             FileUtils.writeBytes(filePath, response.getOutputStream());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("异常");
         }
-
+    }
+    /**
+     * 获取学校上传批次号
+     */
+    @RequestMapping("/get-batch-num")
+    public AjaxResult getBatchNums(){
+        return AjaxResult.success(assetsItemsService.getBatchNum());
     }
 }

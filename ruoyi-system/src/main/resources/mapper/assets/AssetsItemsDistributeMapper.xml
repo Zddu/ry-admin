@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetsItemsDistributeMapper">
+    
+    <resultMap type="AssetsItemsDistribute" id="AssetsItemsDistributeResult">
+        <result property="id"    column="id"    />
+        <result property="itemName"    column="item_name"    />
+        <result property="itemType"    column="item_type"    />
+        <result property="itemFormat"    column="item_format"    />
+        <result property="itemNum"    column="item_num"    />
+        <result property="batchNum"    column="batch_num"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="postSalePhone"    column="post_sale_phone"    />
+        <result property="warrantyTime"    column="warranty_time"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="itemBelonger"    column="item_belonger"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectAssetsItemsDistributeVo">
+        select id, item_name, item_type, item_format, item_num, batch_num, supplier_name, post_sale_phone, warranty_time, remarks, item_belonger, create_time from assets_items_distribute
+    </sql>
+
+    <select id="selectAssetsItemsDistributeList" parameterType="AssetsItemsDistribute" resultMap="AssetsItemsDistributeResult">
+        <include refid="selectAssetsItemsDistributeVo"/>
+        <where>  
+            <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
+            <if test="itemType != null  and itemType != ''"> and item_type = #{itemType}</if>
+            <if test="batchNum != null "> and batch_num like concat('%', #{batchNum}, '%')</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="postSalePhone != null  and postSalePhone != ''"> and post_sale_phone = #{postSalePhone}</if>
+            <if test="warrantyTime != null "> and warranty_time = #{warrantyTime}</if>
+            <if test="itemBelonger != null "> and item_belonger = #{itemBelonger}</if>
+        </where>
+
+    </select>
+    
+    <select id="selectAssetsItemsDistributeById" parameterType="Long" resultMap="AssetsItemsDistributeResult">
+        <include refid="selectAssetsItemsDistributeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAssetsItemsDistribute" parameterType="AssetsItemsDistribute" useGeneratedKeys="true" keyProperty="id">
+        insert into assets_items_distribute
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">item_name,</if>
+            <if test="itemType != null">item_type,</if>
+            <if test="itemFormat != null">item_format,</if>
+            <if test="itemNum != null">item_num,</if>
+            <if test="batchNum != null">batch_num,</if>
+            <if test="supplierName != null">supplier_name,</if>
+            <if test="postSalePhone != null">post_sale_phone,</if>
+            <if test="warrantyTime != null">warranty_time,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="itemBelonger != null">item_belonger,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">#{itemName},</if>
+            <if test="itemType != null">#{itemType},</if>
+            <if test="itemFormat != null">#{itemFormat},</if>
+            <if test="itemNum != null">#{itemNum},</if>
+            <if test="batchNum != null">#{batchNum},</if>
+            <if test="supplierName != null">#{supplierName},</if>
+            <if test="postSalePhone != null">#{postSalePhone},</if>
+            <if test="warrantyTime != null">#{warrantyTime},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="itemBelonger != null">#{itemBelonger},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetsItemsDistribute" parameterType="AssetsItemsDistribute">
+        update assets_items_distribute
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
+            <if test="itemType != null">item_type = #{itemType},</if>
+            <if test="itemFormat != null">item_format = #{itemFormat},</if>
+            <if test="itemNum != null">item_num = #{itemNum},</if>
+            <if test="batchNum != null">batch_num = #{batchNum},</if>
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            <if test="postSalePhone != null">post_sale_phone = #{postSalePhone},</if>
+            <if test="warrantyTime != null">warranty_time = #{warrantyTime},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="itemBelonger != null">item_belonger = #{itemBelonger},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetsItemsDistributeById" parameterType="Long">
+        delete from assets_items_distribute where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetsItemsDistributeByIds" parameterType="String">
+        delete from assets_items_distribute where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

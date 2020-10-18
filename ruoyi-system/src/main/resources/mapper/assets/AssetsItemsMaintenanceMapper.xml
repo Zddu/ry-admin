@@ -6,6 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="com.ruoyi.assets.domain.AssetsItemsMaintenance" id="AssetsItemsMaintenanceResult">
         <result property="id"    column="id"    />
+        <result property="deptName" column="dept_name"/>
+        <result property="itemName" column="item_name"/>
         <result property="itemId"    column="item_id"    />
         <result property="content"    column="content"    />
         <result property="maintenanceTime"    column="maintenance_time"    />
@@ -15,7 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectAssetsItemsMaintenanceVo">
         select id, item_id, content, maintenance_time, submit_time from assets_items_maintenance
     </sql>
-
+    <sql id="selectAssetsItemsMaintenanceAndBelongerVo">
+       select assets_items_maintenance.id,assets_items.item_name,sys_dept.dept_name ,assets_items_maintenance.item_id, assets_items_maintenance.content, assets_items_maintenance.maintenance_time,assets_items_maintenance.submit_time
+        from assets_items_maintenance,assets_items,sys_dept
+        where sys_dept.dept_id=assets_items.item_belonger and assets_items.id =assets_items_maintenance.item_id
+    </sql>
     <select id="selectAssetsItemsMaintenanceList" parameterType="com.ruoyi.assets.domain.AssetsItemsMaintenance" resultMap="AssetsItemsMaintenanceResult">
         <include refid="selectAssetsItemsMaintenanceVo"/>
         <where>  
@@ -33,6 +39,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectAssetsItemsMaintenanceByItemId" parameterType="Long" resultMap="AssetsItemsMaintenanceResult">
         <include refid="selectAssetsItemsMaintenanceVo"/>
         where item_id = #{id}
+    </select>
+    <select id="selectAssetsItemsMaintenanceAndBelongerByItemId"
+            parameterType="Long" resultMap="AssetsItemsMaintenanceResult">
+        <include refid="selectAssetsItemsMaintenanceAndBelongerVo"/>
+        and item_id =#{id}
     </select>
     <insert id="insertAssetsItemsMaintenance" parameterType="com.ruoyi.assets.domain.AssetsItemsMaintenance" useGeneratedKeys="true" keyProperty="id">
         insert into assets_items_maintenance

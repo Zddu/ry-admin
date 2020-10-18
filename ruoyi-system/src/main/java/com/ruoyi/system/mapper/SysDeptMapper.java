@@ -118,4 +118,11 @@ public interface SysDeptMapper
     List<SysDept> selectSchoolList();
 
     Long selectParentDepByChildId(@Param("id") Long deptId);
+
+
+    List<SysDept> selectDeptByDeptName(String itemBelongerName);
+
+    List<Long> selectChildrenDeptByIds(@Param("ids") Long[] schools);
+
+    List<Long> selectChildrenIdDeptById(Long school);
 }

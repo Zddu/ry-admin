@@ -17,36 +17,115 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="itemLocation"    column="item_location"    />
         <result property="itemIp"    column="item_ip"    />
         <result property="itemAdmin"    column="item_admin"    />
-
+        <result property="isWriteOff" column="is_write_off"/>
+        <result property="distributeId" column="distribute_id"/>
+        <result property="isModify" column="is_modify"/>
         <result property="itemState"    column="item_state"    />
         <result property="remarks"    column="remarks"    />
         <result property="itemBelonger"    column="item_belonger"    />
+        <result property="itemBelongerName"    column="dept_name"    />
         <result property="createTime"    column="create_time"    />
-        <collection property="maintenanceRecords" column="id"  select="com.ruoyi.assets.mapper.AssetsItemsMaintenanceMapper.selectAssetsItemsMaintenanceByItemId">
+        <collection property="maintenanceRecords" column="id"  select="com.ruoyi.assets.mapper.AssetsItemsMaintenanceMapper.selectAssetsItemsMaintenanceAndBelongerByItemId">
         </collection>
     </resultMap>
 
-    <sql id="selectAssetsItemsSchoolVo">
-        select id, item_name, item_type, item_format, batch_num, supplier_name, post_sale_phone, installed_time, warranty_time, item_location, item_ip, item_admin, item_state, remarks, item_belonger, create_time from assets_items
-    </sql>
+    <resultMap id="AssetsStatisticsBySchoolMap" type="com.ruoyi.assets.domain.AssetsStatisticsBySchool">
+        <result property="deptName" column="dept_name"></result>
+        <result property="equipmentTotal" column="equipment_total"></result>
+        <result property="equipmentWriteOffNum" column="write_off_num"></result>
+        <collection property="assetsItemsList" column="dept_id"
+                    select="com.ruoyi.assets.mapper.AssetsItemsMapper.selectAssetsItemsSchoolByDeptId">
+        </collection>
+     </resultMap>
 
+    <resultMap id="AssetsStatisticsByTypeMap" type="com.ruoyi.assets.domain.AssetsStatisticsByType">
+        <result property="itemType" column="item_type"></result>
+        <result property="equipmentTotal" column="equipment_total"></result>
+        <result property="equipmentWriteOffNum" column="write_off_num"></result>
+        <collection property="assetsItemsList" column="item_type"
+                    select="com.ruoyi.assets.mapper.AssetsItemsMapper.selectAssetsItemsSchoolByType">
+        </collection>
+    </resultMap>
+    <resultMap id="AssetsStatisticsByBatchMap" type="com.ruoyi.assets.domain.AssetsStatisticsByBatch">
+        <result property="batchNum" column="batch_num"></result>
+        <result property="equipmentTotal" column="equipment_total"></result>
+        <result property="equipmentWriteOffNum" column="write_off_num"></result>
+        <collection property="assetsItemsList" column="batch_num"
+                    select="com.ruoyi.assets.mapper.AssetsItemsMapper.selectAssetsItemsSchoolByBatch">
+        </collection>
+    </resultMap>
+
+
+
+    <sql id="selectAssetsItemsSchoolVo">
+        select id, item_name, item_type, item_format,is_write_off,is_modify,batch_num, supplier_name, post_sale_phone, installed_time, warranty_time, item_location, item_ip, item_admin, item_state, remarks, item_belonger, create_time from assets_items
+    </sql>
+    <sql id="selectAssetsItemsSchoolAndNameVo">
+        select assets_items.id, assets_items.item_name, assets_items.item_type, assets_items.item_format,assets_items.is_write_off,assets_items.is_modify,assets_items.batch_num, assets_items.supplier_name, assets_items.post_sale_phone, assets_items.installed_time, assets_items.warranty_time, assets_items.item_location,assets_items.item_ip, assets_items.item_admin, assets_items.item_state, assets_items.remarks, assets_items.item_belonger, assets_items.create_time,sys_dept.dept_name from assets_items,sys_dept where assets_items.item_belonger=sys_dept.dept_id
+    </sql>
     <select id="selectAssetsItemsSchoolList" parameterType="com.ruoyi.assets.domain.AssetsItems" resultMap="AssetsItemsSchoolResult">
         <include refid="selectAssetsItemsSchoolVo"/>
         <where>  
             <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
-            <if test="batchNum != null "> and batch_num = #{batchNum}</if>
+            <if test="itemType != null  and itemType != ''"> and item_type  = #{itemType}</if>
+            <if test="batchNum != null "> and batch_num like concat('%', #{batchNum}, '%')</if>
             <if test="warrantyTime != null "> and warranty_time = #{warrantyTime}</if>
             <if test="itemLocation != null  and itemLocation != ''"> and item_location = #{itemLocation}</if>
             <if test="itemState != null "> and item_state = #{itemState}</if>
-            <if test="itemBelonger != null and itemBelonger !=0"> and item_belonger = #{itemBelonger}</if>
+            <if test="itemBelonger != null and itemBelonger !=100"> and item_belonger = #{itemBelonger}</if>
+            <if test="isWriteOff != null"> and is_write_off = #{isWriteOff}</if>
+            <if test="isModify != null"> and is_modify = #{isModify}</if>
         </where>
+        order by item_belonger,is_write_off
     </select>
     
     <select id="selectAssetsItemsSchoolById" parameterType="Long" resultMap="AssetsItemsSchoolResult">
         <include refid="selectAssetsItemsSchoolVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getBatchNum" resultType="long">
+        select batch_num from assets_items
+    </select>
+    <select id="selectAssetsItemsSchoolByDeptId" parameterType="Long" resultMap="AssetsItemsSchoolResult">
+        <include refid="selectAssetsItemsSchoolVo"/>
+        where item_belonger = #{id}
+    </select>
+    <select id="selectAssetsStatisticsBySchool" resultMap="AssetsStatisticsBySchoolMap">
+    select assets_items.item_belonger as dept_id,
+           sys_dept.dept_name,
+          count(assets_items.item_belonger) as equipment_total,
+          sum(case when assets_items.is_write_off=1 then 1 else 0 end) as write_off_num
+          from assets_items,sys_dept
+          where assets_items.item_belonger=sys_dept.dept_id
+          group by assets_items.item_belonger
+    </select>
+    <select id="selectAssetsStatisticsByType" resultMap="AssetsStatisticsByTypeMap">
+    select assets_items.item_type,
+    count(assets_items.item_type) as equipment_total,
+    sum(case when assets_items.is_write_off = 1 then 1 else 0 end) as write_off_num
+    from assets_items,sys_dept
+    where assets_items.item_belonger=sys_dept.dept_id
+    group by assets_items.item_type
+    </select>
+    <select id="selectAssetsItemsSchoolByType" resultMap="AssetsItemsSchoolResult">
+        <include refid="selectAssetsItemsSchoolAndNameVo"/>
+        and item_type = #{id}
+    </select>
+    <select id="selectAssetsStatisticsByBatch" resultMap="AssetsStatisticsByBatchMap">
+        select assets_items.batch_num,
+        count(assets_items.batch_num) as equipment_total,
+        sum(case when assets_items.is_write_off = 1 then 1 else 0 end) as write_off_num
+        from assets_items,sys_dept
+        where assets_items.item_belonger=sys_dept.dept_id
+        group by assets_items.batch_num
+    </select>
+    <select id="selectAssetsItemsSchoolByBatch" resultMap="AssetsItemsSchoolResult">
+        <include refid="selectAssetsItemsSchoolAndNameVo"/>
+        and batch_num=#{id}
+    </select>
+
+
+
     <insert id="insertAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItems" useGeneratedKeys="true" keyProperty="id">
         insert into assets_items
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -61,11 +140,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="itemLocation != null">item_location,</if>
             <if test="itemIp != null">item_ip,</if>
             <if test="itemAdmin != null">item_admin,</if>
-
+            <if test="isWriteOff != null"> is_write_off,</if>
             <if test="itemState != null">item_state,</if>
             <if test="remarks != null">remarks,</if>
+            <if test="distributeId != null">distribute_id,</if>
             <if test="itemBelonger != null">item_belonger,</if>
             <if test="createTime != null">create_time,</if>
+            <if test="isModify != null">is_modify,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">#{itemName},</if>
@@ -79,11 +160,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="itemLocation != null">#{itemLocation},</if>
             <if test="itemIp != null">#{itemIp},</if>
             <if test="itemAdmin != null">#{itemAdmin},</if>
-
+            <if test="isWriteOff != null">#{itemBelonger}</if>
             <if test="itemState != null">#{itemState},</if>
             <if test="remarks != null">#{remarks},</if>
+            <if test="distributeId != null">#{distributeId},</if>
             <if test="itemBelonger != null">#{itemBelonger},</if>
             <if test="createTime != null">#{createTime},</if>
+            <if test="isModify != null"> #{isModify},</if>
          </trim>
     </insert>
 
@@ -101,11 +184,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="itemLocation != null">item_location = #{itemLocation},</if>
             <if test="itemIp != null">item_ip = #{itemIp},</if>
             <if test="itemAdmin != null">item_admin = #{itemAdmin},</if>
-
+            <if test="isWriteOff != null">is_write_off = #{isWriteOff}</if>
             <if test="itemState != null">item_state = #{itemState},</if>
             <if test="remarks != null">remarks = #{remarks},</if>
             <if test="itemBelonger != null">item_belonger = #{itemBelonger},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="isModify != null"> is_modify = #{isModify},</if>
         </trim>
         where id = #{id}
     </update>
@@ -120,5 +204,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+    <delete id="deleteAssetsItemsSchoolByAssetsItem">
+        delete from assets_items where batch_num = #{batchNum} and item_belonger = #{itemBelonger}
+    </delete>
+    <delete id="deleteAssetsItemsByDistributeByIds">
+        delete from assets_items where distribute_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteAssetsItemsSchoolByItemsDistributeId">
+        delete from assets_items where distribute_id = #{id}
+    </delete>
+
 </mapper>

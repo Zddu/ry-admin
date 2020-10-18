@@ -86,6 +86,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectParentDepByChildId" resultType="java.lang.Long">
 		select d.parent_id from sys_dept d where d.dept_id =#{id}
 	</select>
+	<select id="selectDeptByDeptName" resultMap="SysDeptResult">
+		<include refid="selectDeptVo"/>
+		where dept_name like  '%${itemBelongerName}%'
+	</select>
+    <select id="selectChildrenDeptByIds" resultType="java.lang.Long">
+		select dept_id from sys_dept where parent_id in (
+		<foreach collection="ids" separator="," item="item">
+			#{item}
+		</foreach>
+		)
+	</select>
+	<select id="selectChildrenIdDeptById" resultType="java.lang.Long">
+		select dept_id from sys_dept where parent_id =#{school}
+	</select>
+
 	<delete id="deleteDeptById" parameterType="Long">
 		update sys_dept set del_flag = '2' where dept_id = #{deptId}
 	</delete>

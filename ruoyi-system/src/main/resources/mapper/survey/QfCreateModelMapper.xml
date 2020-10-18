@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectQfCreateModelList" parameterType="com.ruoyi.survey.domain.QfCreateModel" resultMap="QfCreateModelResult">
         <include refid="selectQfCreateModelVo"/>
         <where>  
-            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="title != null  and title != ''"> and title like  '%${title}%'</if>
             <if test="strData != null  and strData != ''"> and json_data = #{strData}</if>
             <if test="creator != null  and creator != ''"> and creator = #{creator}</if>
             <if test="endTime != null "> and end_time = #{endTime}</if>

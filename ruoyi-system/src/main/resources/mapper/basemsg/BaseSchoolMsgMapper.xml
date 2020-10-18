@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="teacherNum != null "> and teacher_num = #{teacherNum}</if>
             <if test="studentNum != null "> and student_num = #{studentNum}</if>
             <if test="classNum != null "> and class_num = #{classNum}</if>
-            <if test="schoolId != null and schoolId !=0"> and school_id = #{schoolId}</if>
+            <if test="schoolId != null and schoolId !=100"> and school_id = #{schoolId}</if>
         </where>
     </select>
     

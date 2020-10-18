@@ -23,9 +23,12 @@ public class AssetsItemsMaintenance extends BaseEntity
     private Long id;
 
     /** 所属物品id */
-    @Excel(name = "所属物品id")
     @NotNull
     private Long itemId;
+    @Excel(name="设备名称")
+    private String itemName;
+    @Excel(name="所属单位")
+    private String deptName;
 
     /** 维修内容 */
     @Excel(name = "维修内容")
@@ -40,10 +43,26 @@ public class AssetsItemsMaintenance extends BaseEntity
 
     /** 提交时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "提交时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date submitTime;
 
-    public void setId(Long id) 
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

@@ -39,7 +39,7 @@ public class BaseSchoolMsgController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(BaseSchoolMsg baseSchoolMsg) {
 
-        Long sid = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
+        Long sid = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
         baseSchoolMsg.setSchoolId(sid);
         startPage();
         List<BaseSchoolMsg> list = baseSchoolMsgService.selectBaseSchoolMsgList(baseSchoolMsg);
@@ -76,7 +76,7 @@ public class BaseSchoolMsgController extends BaseController
     @Log(title = "学校基本信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody @Valid BaseSchoolMsg baseSchoolMsg) {
-        Long sid = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getParentId();
+        Long sid = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
 
         baseSchoolMsg.setSchoolId(sid);
         return toAjax(baseSchoolMsgService.insertBaseSchoolMsg(baseSchoolMsg));
