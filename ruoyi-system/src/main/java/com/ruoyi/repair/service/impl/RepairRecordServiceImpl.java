@@ -1,6 +1,9 @@
 package com.ruoyi.repair.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataSource;
+import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ public class RepairRecordServiceImpl implements IRepairRecordService {
      * @return 保修记录
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public RepairRecord selectRepairRecordById(Long id)
     {
         return repairRecordMapper.selectRepairRecordById(id);
@@ -38,6 +42,7 @@ public class RepairRecordServiceImpl implements IRepairRecordService {
      * @return 保修记录
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<RepairRecord> selectRepairRecordList(RepairRecord repairRecord)
     {
         return repairRecordMapper.selectRepairRecordList(repairRecord);
@@ -50,6 +55,7 @@ public class RepairRecordServiceImpl implements IRepairRecordService {
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int insertRepairRecord(RepairRecord repairRecord)
     {
         repairRecord.setCreateTime(DateUtils.getNowDate());
@@ -63,6 +69,7 @@ public class RepairRecordServiceImpl implements IRepairRecordService {
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int updateRepairRecord(RepairRecord repairRecord)
     {
         return repairRecordMapper.updateRepairRecord(repairRecord);
@@ -75,6 +82,7 @@ public class RepairRecordServiceImpl implements IRepairRecordService {
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int deleteRepairRecordByIds(Long[] ids)
     {
         return repairRecordMapper.deleteRepairRecordByIds(ids);
@@ -87,17 +95,20 @@ public class RepairRecordServiceImpl implements IRepairRecordService {
      * @return 结果
      */
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public int deleteRepairRecordById(Long id)
     {
         return repairRecordMapper.deleteRepairRecordById(id);
     }
 
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<RepairRecord> selectRepairRecordListByLimit(Integer num) {
         return repairRecordMapper.selectRepairRecordListByLimit(num);
     }
 
     @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<RepairRecord> selectRepairRecordListByCondition(String str) {
         return repairRecordMapper.selectRepairRecordListByCondition(str);
     }
