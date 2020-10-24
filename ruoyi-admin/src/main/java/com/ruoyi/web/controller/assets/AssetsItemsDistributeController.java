@@ -74,7 +74,6 @@ public class AssetsItemsDistributeController extends BaseController {
     /**
      * 修改资产分发
      */
-    @PreAuthorize("@ss.hasPermi('assets:distribute:edit')")
     @Log(title = "资产分发", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AssetsItemsDistribute assetsItemsDistribute) {

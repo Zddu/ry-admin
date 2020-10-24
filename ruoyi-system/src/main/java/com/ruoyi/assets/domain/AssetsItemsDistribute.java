@@ -40,7 +40,7 @@ public class AssetsItemsDistribute extends BaseEntity
 
     /** 批次号 */
     @Excel(name = "批次号")
-    private Long batchNum;
+    private String batchNum;
 
     /** 供应商名称 */
     @Excel(name = "供应商名称")
@@ -52,7 +52,7 @@ public class AssetsItemsDistribute extends BaseEntity
 
     /** 保修期(年) */
     @Excel(name = "保修期(年)")
-    private Long warrantyTime;
+    private String warrantyTime;
 
     /** 备注 */
     @Excel(name = "备注")
@@ -127,16 +127,16 @@ public class AssetsItemsDistribute extends BaseEntity
     {
         return itemNum;
     }
-    public void setBatchNum(Long batchNum) 
-    {
+
+    public String getBatchNum() {
+        return batchNum;
+    }
+
+    public void setBatchNum(String batchNum) {
         this.batchNum = batchNum;
     }
 
-    public Long getBatchNum() 
-    {
-        return batchNum;
-    }
-    public void setSupplierName(String supplierName) 
+    public void setSupplierName(String supplierName)
     {
         this.supplierName = supplierName;
     }
@@ -154,16 +154,16 @@ public class AssetsItemsDistribute extends BaseEntity
     {
         return postSalePhone;
     }
-    public void setWarrantyTime(Long warrantyTime) 
-    {
+
+    public String getWarrantyTime() {
+        return warrantyTime;
+    }
+
+    public void setWarrantyTime(String warrantyTime) {
         this.warrantyTime = warrantyTime;
     }
 
-    public Long getWarrantyTime() 
-    {
-        return warrantyTime;
-    }
-    public void setRemarks(String remarks) 
+    public void setRemarks(String remarks)
     {
         this.remarks = remarks;
     }

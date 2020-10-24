@@ -1,9 +1,12 @@
 package com.ruoyi.repair.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.util.Date;
 
 /**
  * 保修记录对象 repair_record
@@ -19,7 +22,7 @@ public class RepairRecord extends BaseEntity
     private Long id;
 
     /** 订单号 */
-    @Excel(name = "订单号")
+    @Excel(name = "订单号",width = 24)
     private String orderNum;
 
     /** 科室 */
@@ -36,23 +39,56 @@ public class RepairRecord extends BaseEntity
 
     /** 联系人电话 */
     @Excel(name = "联系人电话")
-    private Long contactNumber;
+    private String contactNumber;
 
     /** 故障描述 */
-    @Excel(name = "故障描述")
+    @Excel(name = "故障描述",width = 100)
     private String describe;
     /** 故障类型 */
     @Excel(name = "故障描述")
     private String type;
-
+    @Excel(name = "维修联系人")
+    private String maintenanceContact;
     /** 是否满意(0-不满意 1-满意) */
-    @Excel(name = "是否满意(0-不满意 1-满意)")
+
     private Long isSatisfied;
+    @Excel(name = "维修状态",readConverterExp="0=未维修,1=已派人,2=已维修")
+    private Integer state;
 
     /** 微信号 */
-    @Excel(name = "微信号")
-    private String weixinNum;
 
+    private String weixinNum;
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "时间",dateFormat = "yyyy-MM-dd HH:mm:ss",width = 24)
+    private Date createTime;
+
+
+    @Override
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public String getMaintenanceContact() {
+        return maintenanceContact;
+    }
+
+    public void setMaintenanceContact(String maintenanceContact) {
+        this.maintenanceContact = maintenanceContact;
+    }
 
     public String getType() {
         return type;
@@ -107,16 +143,16 @@ public class RepairRecord extends BaseEntity
     {
         return contacts;
     }
-    public void setContactNumber(Long contactNumber) 
-    {
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
-    public Long getContactNumber() 
-    {
-        return contactNumber;
-    }
-    public void setDescribe(String describe) 
+    public void setDescribe(String describe)
     {
         this.describe = describe;
     }

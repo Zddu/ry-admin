@@ -80,4 +80,40 @@ public class AssetsStatisticsController extends BaseController {
         ExcelUtil<AssetsStatisticsByBatch> util = new ExcelUtil<>(AssetsStatisticsByBatch.class);
         return util.exportExcel(list, "资产统计");
     }
+
+
+    /**
+     * 常规统计
+     */
+    @GetMapping("/list")
+    public TableDataInfo AssetsStatistics(AssetsItems assetsItems) {
+        startPage();
+        System.out.println();
+        System.out.println(assetsItems);
+        System.out.println();
+        List<AssetsStatistics> list=assetsItemsSchoolService.getAssetsStatistics(assetsItems);
+        return getDataTable(list);
+    }
+    /**
+     * 导出资产统计
+     */
+    @Log(title = "导出资产统计", businessType = BusinessType.EXPORT)
+    @GetMapping("/export")
+    public AjaxResult export(AssetsItems assetsItems) {
+        List<AssetsStatistics> list = assetsItemsSchoolService.getAssetsStatistics(assetsItems);
+        ExcelUtil<AssetsStatistics> util = new ExcelUtil<>(AssetsStatistics.class);
+        return util.exportExcel(list, "资产统计");
+    }
+
+    /**
+     * 三级联动
+     */
+    @GetMapping("/linkage")
+    public AjaxResult threeLevelLinkage(AssetsItems assetsItems) {
+        AjaxResult ajaxResult=AjaxResult.success();
+        ajaxResult.put("batchNums",assetsItemsSchoolService.getBatchNumByAssetsItem(assetsItems));
+        ajaxResult.put("schools",assetsItemsSchoolService.getSchoolsByAssetsItem(assetsItems));
+        ajaxResult.put("types",assetsItemsSchoolService.getTypesByAssetsItem(assetsItems));
+        return ajaxResult;
+    }
 }

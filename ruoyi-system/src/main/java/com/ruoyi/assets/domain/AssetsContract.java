@@ -32,7 +32,7 @@ public class AssetsContract extends BaseEntity
 
     /** 批次号 */
     @Excel(name = "批次号")
-    private Long batchNum;
+    private String batchNum;
 
 
     public String getOriginalName() {
@@ -78,18 +78,16 @@ public class AssetsContract extends BaseEntity
     {
         return path;
     }
-    public void setBatchNum(Long batchNum) 
-    {
-        this.batchNum = batchNum;
-    }
 
-    public Long getBatchNum() 
-    {
+    public String getBatchNum() {
         return batchNum;
     }
 
+    public void setBatchNum(String batchNum) {
+        this.batchNum = batchNum;
+    }
 
-    public AssetsContract(Long batchNum) {
+    public AssetsContract(String batchNum) {
         this.batchNum = batchNum;
     }
 

@@ -1,8 +1,6 @@
 package com.ruoyi.assets.service.impl;
 
-import java.beans.Customizer;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.ruoyi.assets.domain.*;
 import com.ruoyi.common.core.domain.entity.SysDept;
@@ -10,7 +8,6 @@ import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.mapper.SysDeptMapper;
-import com.sun.corba.se.impl.orbutil.ObjectUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsItemsMapper;
@@ -82,7 +79,6 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
     @Override
     public int insertAssetsItemsSchool(AssetsItems assetsItems) {
         assetsItems.setCreateTime(DateUtils.getNowDate());
-        assetsItems.setIsModify(0);
         return assetsItemsMapper.insertAssetsItemsSchool(assetsItems);
     }
     @Deprecated
@@ -127,9 +123,9 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
     }
 
     @Override
-    public List<Long> getBatchNum() {
-        List<Long> batchNums=assetsItemsMapper.getBatchNum();
-        HashSet<Long> objects = new HashSet<>();
+    public List<String> getBatchNum() {
+        List<String> batchNums=assetsItemsMapper.getBatchNum();
+        HashSet<String> objects = new HashSet<>();
         objects.addAll(batchNums);
         return batchNums;
     }
@@ -168,5 +164,25 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
             result.addAll(assetsStatisticsBySchool.getAssetsItemsList());
         }
         return result;
+    }
+
+    @Override
+    public List<AssetsStatistics> getAssetsStatistics(AssetsItems assetsItems) {
+        return assetsItemsMapper.getAssetsStatistics(assetsItems);
+    }
+
+    @Override
+    public List<String> getSchoolsByAssetsItem(AssetsItems assetsItems) {
+        return assetsItemsMapper.getSchoolsByAssetsItem(assetsItems);
+    }
+
+    @Override
+    public List<String> getBatchNumByAssetsItem(AssetsItems assetsItems) {
+        return assetsItemsMapper.getBatchNumByAssetsItem(assetsItems);
+    }
+
+    @Override
+    public List<String> getTypesByAssetsItem(AssetsItems assetsItems) {
+        return assetsItemsMapper.getTypesByAssetsItem(assetsItems);
     }
 }

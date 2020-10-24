@@ -14,12 +14,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="describe"    column="describe"    />
         <result property="createTime"    column="create_time"    />
         <result property="type"    column="type"    />
+        <result property="state"    column="state"    />
+        <result property="maintenanceContact"    column="maintenance_contact"    />
         <result property="isSatisfied"    column="is_satisfied"    />
         <result property="weixinNum"    column="weixin_num"    />
     </resultMap>
 
     <sql id="selectRepairRecordVo">
-        select id, order_num, department, room, repair_record.type,contacts, contact_number, repair_record.describe,create_time, is_satisfied, weixin_num from repair_record
+        select id, order_num, department, room,state,maintenance_contact,repair_record.type,contacts, contact_number, repair_record.describe,create_time, is_satisfied, weixin_num from repair_record
     </sql>
 
     <select id="selectRepairRecordList" parameterType="com.ruoyi.repair.domain.RepairRecord" resultMap="RepairRecordResult">
@@ -28,10 +30,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="department != null  and department != ''"> and department like '%${department}%'</if>
             <if test="orderNum != null">and order_num like '%${orderNum}%'</if>
             <if test="room != null  and room != ''"> and room like  '%${room}%'</if>
-            <if test="contacts != null  and contacts != ''"> and contacts like '%${contacts}%'</if>
-            <if test="contactNumber != null "> and contact_number like '%${contactNumber}%'</if>
+            <if test="contacts != null  and contacts != '' "> and contacts like '%${contacts}%'</if>
+            <if test="contactNumber != null and contactNumber != '' "> and contact_number like '%${contactNumber}%'</if>
             <if test="isSatisfied != null "> and is_satisfied = #{isSatisfied}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectRepairRecordById" parameterType="Long" resultMap="RepairRecordResult">
@@ -64,6 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contacts != null">contacts,</if>
             <if test="contactNumber != null">contact_number,</if>
             <if test="describe != null">repair_record.describe,</if>
+            <if test="state != null">repair_record.state,</if>
+            <if test="maintenanceContact != null">repair_record.maintenance_contact,</if>
             <if test="createTime != null">create_time,</if>
             <if test="isSatisfied != null">is_satisfied,</if>
             <if test="weixinNum != null">weixin_num,</if>
@@ -76,6 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contacts != null">#{contacts},</if>
             <if test="contactNumber != null">#{contactNumber},</if>
             <if test="describe != null">#{describe},</if>
+            <if test="state != null">#{state},</if>
+            <if test="maintenanceContact != null">#{maintenance_contact},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="isSatisfied != null">#{isSatisfied},</if>
             <if test="weixinNum != null">#{weixinNum},</if>
@@ -92,6 +99,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactNumber != null">contact_number = #{contactNumber},</if>
             <if test="describe != null">repair_record.describe = #{describe},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="maintenanceContact != null">maintenance_contact = #{maintenanceContact},</if>
             <if test="isSatisfied != null">is_satisfied = #{isSatisfied},</if>
             <if test="weixinNum != null">weixin_num = #{weixinNum},</if>
         </trim>

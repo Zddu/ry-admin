@@ -95,13 +95,13 @@ public class AssetsContractServiceImpl implements IAssetsContractService
         return assetsContractMapper.deleteAssetsContractById(id);
     }
 
-    private void checkContractBatchNum(Long batchNum) {
-        if (batchNum==null){
-            return;
-        }
-        List<AssetsContract> assetsContracts = assetsContractMapper.selectAssetsContractList(new AssetsContract(batchNum));
-        if (!ObjectUtils.isEmpty(assetsContracts)){
-            throw new CustomException("批次号重复，请校验后再提交");
-        }
-    }
+//    private void checkContractBatchNum(Long batchNum) {
+//        if (batchNum==null){
+//            return;
+//        }
+//        List<AssetsContract> assetsContracts = assetsContractMapper.selectAssetsContractList(new AssetsContract(batchNum));
+//        if (!ObjectUtils.isEmpty(assetsContracts)){
+//            throw new CustomException("批次号重复，请校验后再提交");
+//        }
+//    }
 }

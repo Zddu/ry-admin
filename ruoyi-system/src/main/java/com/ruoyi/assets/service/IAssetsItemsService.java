@@ -60,7 +60,7 @@ public interface IAssetsItemsService
      */
     public int deleteAssetsItemsSchoolById(Long id);
 
-    List<Long> getBatchNum();
+    List<String> getBatchNum();
 
     List<AssetsStatisticsBySchool> AssetsStatisticsBySchool();
 
@@ -71,4 +71,12 @@ public interface IAssetsItemsService
     List<AssetsItemsMaintenance> selectAssetsAssetsItemsMaintenanceList(AssetsItems assetsItems);
 
     List<AssetsItems> AssetsItemsStatisticsBySchool();
+
+    List<AssetsStatistics> getAssetsStatistics(AssetsItems assetsItems);
+
+    List<String> getSchoolsByAssetsItem(AssetsItems assetsItems);
+
+    List<String> getBatchNumByAssetsItem(AssetsItems assetsItems);
+
+    List<String> getTypesByAssetsItem(AssetsItems assetsItems);
 }

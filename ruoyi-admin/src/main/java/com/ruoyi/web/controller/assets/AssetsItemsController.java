@@ -88,18 +88,19 @@ public class AssetsItemsController extends BaseController {
     public AjaxResult add(@RequestBody @Valid AssetsItems assetsItems) {
         Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
         assetsItems.setItemBelonger(deptId);
+        assetsItems.setIsModify(0);
         return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItems));
     }
 
     /**
      * 新增维修记录
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:maintenance')")
     @Log(title = "资产管理", businessType = BusinessType.INSERT)
     @PostMapping("/add-maintenance")
     public AjaxResult addMaintenance(@RequestBody AssetsItems assetsItems) {
         Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
         assetsItems.setItemBelonger(deptId);
+        assetsItems.setIsModify(0);
         return toAjax(assetsItemsSchoolService.insertAssetsItemsSchool(assetsItems));
     }
 
@@ -119,7 +120,7 @@ public class AssetsItemsController extends BaseController {
     /**
      * 删除资产管理
      */
-    @PreAuthorize("@ss.hasPermi('assets:school:remove')")
+
     @Log(title = "资产管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {

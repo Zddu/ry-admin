@@ -54,6 +54,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                     select="com.ruoyi.assets.mapper.AssetsItemsMapper.selectAssetsItemsSchoolByBatch">
         </collection>
     </resultMap>
+    <resultMap id="AssetsStatisticsResult" type="com.ruoyi.assets.domain.AssetsStatistics">
+        <result property="itemBelongerName" column="item_belonger_name"/>
+        <result property="itemType" column="item_type"/>
+        <result property="batchNum" column="batch_num"/>
+        <result property="itemNum" column="item_num"/>
+        <result property="writerOffNum" column="write_off_num"/>
+        <result property="residueNum" column="residue_num"/>
+    </resultMap>
+
+
 
 
 
@@ -83,8 +93,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsItemsSchoolVo"/>
         where id = #{id}
     </select>
-    <select id="getBatchNum" resultType="long">
-        select batch_num from assets_items
+    <select id="getBatchNum" resultType="string">
+        select batch_num from assets_items group by batch_num
     </select>
     <select id="selectAssetsItemsSchoolByDeptId" parameterType="Long" resultMap="AssetsItemsSchoolResult">
         <include refid="selectAssetsItemsSchoolVo"/>
@@ -101,8 +111,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectAssetsStatisticsByType" resultMap="AssetsStatisticsByTypeMap">
     select assets_items.item_type,
-    count(assets_items.item_type) as equipment_total,
-    sum(case when assets_items.is_write_off = 1 then 1 else 0 end) as write_off_num
+    count(assets_items.item_type) as item_num,
+    sum(case when assets_items.is_write_off = 1 then 1 else 0 end) as writer_off_num
     from assets_items,sys_dept
     where assets_items.item_belonger=sys_dept.dept_id
     group by assets_items.item_type
@@ -123,7 +133,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsItemsSchoolAndNameVo"/>
         and batch_num=#{id}
     </select>
-
+    <select id="getAssetsStatistics" resultMap="AssetsStatisticsResult">
+    select sys_dept.dept_name as item_belonger_name,assets_items.item_type,assets_items.batch_num,
+    count(assets_items.item_type) as item_num,
+    sum(case when assets_items.is_write_off = 1 then 1 else 0 end) as write_off_num,
+    sum(case when assets_items.is_write_off = 1 then 0 else 1 end) as residue_num
+    from assets_items,sys_dept
+    where assets_items.item_belonger=sys_dept.dept_id
+    <if test="itemBelongerName != null and itemBelongerName != '' ">and sys_dept.dept_name=#{itemBelongerName}</if>
+    <if test="itemType != null and itemType != '' " >and item_type=#{itemType}</if>
+    <if test="batchNum != null and batchNum !='' ">and batch_num=#{batchNum}</if>
+    group by assets_items.item_belonger,assets_items.item_type,assets_items.batch_num
+    </select>
+    <select id="getSchoolsByAssetsItem" resultType="java.lang.String">
+       select sys_dept.dept_name from sys_dept,assets_items
+       where sys_dept.dept_id = assets_items.item_belonger
+        <if test="itemBelongerName !=null">and sys_dept.dept_name = #{itemBelongerName}</if>
+        <if test="batchNum !=null">and batch_num = #{batchNum}</if>
+        <if test="itemType !=null">and item_type= #{itemType}</if>
+       group by dept_name
+    </select>
+    <select id="getBatchNumByAssetsItem" resultType="java.lang.String">
+        select batch_num from sys_dept,assets_items
+       where sys_dept.dept_id = assets_items.item_belonger
+       <if test="itemBelongerName !=null">and sys_dept.dept_name = #{itemBelongerName}</if>
+       <if test="batchNum !=null">and batch_num = #{batchNum}</if>
+       <if test="itemType !=null">and item_type= #{itemType}</if>
+        group by batch_num
+    </select>
+    <select id="getTypesByAssetsItem" resultType="java.lang.String">
+      select item_type from sys_dept,assets_items
+        where sys_dept.dept_id = assets_items.item_belonger
+        <if test="itemBelongerName !=null">and sys_dept.dept_name = #{itemBelongerName}</if>
+        <if test="batchNum !=null">and batch_num = #{batchNum}</if>
+        <if test="itemType !=null">and item_type= #{itemType}</if>
+        group by
+        item_type
+    </select>
 
 
     <insert id="insertAssetsItemsSchool" parameterType="com.ruoyi.assets.domain.AssetsItems" useGeneratedKeys="true" keyProperty="id">
@@ -184,7 +230,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="itemLocation != null">item_location = #{itemLocation},</if>
             <if test="itemIp != null">item_ip = #{itemIp},</if>
             <if test="itemAdmin != null">item_admin = #{itemAdmin},</if>
-            <if test="isWriteOff != null">is_write_off = #{isWriteOff}</if>
+            <if test="isWriteOff != null">is_write_off = #{isWriteOff},</if>
             <if test="itemState != null">item_state = #{itemState},</if>
             <if test="remarks != null">remarks = #{remarks},</if>
             <if test="itemBelonger != null">item_belonger = #{itemBelonger},</if>

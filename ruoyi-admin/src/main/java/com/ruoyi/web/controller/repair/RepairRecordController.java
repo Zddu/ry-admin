@@ -57,7 +57,6 @@ public class RepairRecordController extends BaseController {
     /**
      * 获取保修记录详细信息
      */
-    @PreAuthorize("@ss.hasPermi('repair:record:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(repairRecordService.selectRepairRecordById(id));
@@ -77,7 +76,6 @@ public class RepairRecordController extends BaseController {
     /**
      * 修改保修记录
      */
-    @PreAuthorize("@ss.hasPermi('repair:record:edit')")
     @Log(title = "保修记录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody RepairRecord repairRecord) {

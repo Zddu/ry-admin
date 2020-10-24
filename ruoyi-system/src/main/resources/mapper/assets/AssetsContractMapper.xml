@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateAssetsContract" parameterType="com.ruoyi.assets.domain.AssetsContract">
         update assets_contract
         <trim prefix="SET" suffixOverrides=",">
-            <if test="name != null">name = #{name},</if>
+            <if test="name != null">assets_contract.name = #{name},</if>
             <if test="path != null">path = #{path},</if>
             <if test="mappingName != null">mapping_name = #{mappingName},</if>
             <if test="originalName != null">original_name = #{originalName},</if>
