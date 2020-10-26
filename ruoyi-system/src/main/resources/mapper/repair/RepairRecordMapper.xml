@@ -56,6 +56,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             or contact_number like '%${str}%'
         or order_num like '%${str}%'
     </select>
+    <select id="selectRepairRecordByOrderNum" resultMap="RepairRecordResult">
+        <include refid="selectRepairRecordVo"/>
+        where order_num = #{orderNum}
+    </select>
 
     <insert id="insertRepairRecord" parameterType="com.ruoyi.repair.domain.RepairRecord" useGeneratedKeys="true" keyProperty="id">
         insert into repair_record
@@ -95,6 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderNum != null">order_num = #{orderNum},</if>
             <if test="department != null">department = #{department},</if>
             <if test="room != null">room = #{room},</if>
+            <if test="type != null">repair_record.type = #{type},</if>
             <if test="contacts != null">contacts = #{contacts},</if>
             <if test="contactNumber != null">contact_number = #{contactNumber},</if>
             <if test="describe != null">repair_record.describe = #{describe},</if>

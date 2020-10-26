@@ -63,4 +63,6 @@ public interface RepairRecordMapper
     List<RepairRecord> selectRepairRecordListByLimit(@Param("num") Integer num);
 
     List<RepairRecord> selectRepairRecordListByCondition(@Param("str") String str);
+
+    RepairRecord selectRepairRecordByOrderNum(@Param("orderNum") String orderNum);
 }

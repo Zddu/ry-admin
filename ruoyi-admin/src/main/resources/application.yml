@@ -19,7 +19,7 @@ ruoyi:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 9000
+  port: 443
   servlet:
     # 应用的访问路径
     context-path: /
@@ -32,10 +32,10 @@ server:
     min-spare-threads: 30
 #  ssl:
 #    enabled: true
-#    key-alias: openapi
-#    key-store: classpath:server2020-2022.jks
-#    key-store-password: juneyao123
-#    key-password: juneyao123
+#    keyStoreType : PKCS12
+#    key-alias: tomcat
+#    key-store: classpath:keystore.p12
+#    key-store-password: jtj@admin
 
 # 日志配置
 logging:
@@ -66,10 +66,10 @@ spring:
   # redis 配置
   redis:
     # 地址
-    host: 112.126.66.104
-#    host: 127.0.0.1
+#    host: 112.126.66.104
+    host: 127.0.0.1
 #     端口，默认为6379
-    port: 6375
+    port: 6379
     # 密码
     password: 123
     # 连接超时时间

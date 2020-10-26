@@ -7,6 +7,7 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 保修记录对象 repair_record
@@ -178,6 +179,21 @@ public class RepairRecord extends BaseEntity
     public String getWeixinNum() 
     {
         return weixinNum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RepairRecord that = (RepairRecord) o;
+        return  Objects.equals(orderNum, that.orderNum) &&
+                Objects.equals(department, that.department) &&
+                Objects.equals(room, that.room);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( orderNum, department, room);
     }
 
     @Override

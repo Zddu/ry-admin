@@ -1,8 +1,12 @@
 package com.ruoyi.web.controller.repair;
 
 import java.util.List;
+
+import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.framework.datasource.DynamicDataSourceContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -92,8 +96,14 @@ public class RepairMaintenanceController extends BaseController
      */
     @Log(title = "维修记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
-        return toAjax(repairMaintenanceService.deleteRepairMaintenanceByIds(ids));
+    @Transactional(rollbackFor = Exception.class)
+    public AjaxResult remove(@PathVariable Long[] ids) {
+        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
+        int i = repairMaintenanceService.deleteRepairMaintenanceByIds(ids);
+        DynamicDataSourceContextHolder.clearDataSourceType();
+        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.MASTER.name());
+        i += repairMaintenanceService.deleteRepairMaintenanceByIds(ids);
+        DynamicDataSourceContextHolder.clearDataSourceType();
+        return toAjax(i);
     }
 }
