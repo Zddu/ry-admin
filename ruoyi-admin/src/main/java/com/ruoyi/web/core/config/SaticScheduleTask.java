@@ -20,19 +20,19 @@ public class SaticScheduleTask {
     private RepairRecordMapper repairRecordMapper;
 
 //    或直接指定时间间隔，例如：5秒
-    @Scheduled(fixedRate=120000)
-    private void configureTasks() {
-        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
-        List<RepairRecord> repairRecords = repairRecordMapper.selectRepairRecordList(new RepairRecord());
-        DynamicDataSourceContextHolder.clearDataSourceType();
-        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.MASTER.name());
-        List<RepairRecord> repairRecordMain = repairRecordMapper.selectRepairRecordList(new RepairRecord());
-        for (RepairRecord repairRecord : repairRecords) {
-            if (!repairRecordMain.contains(repairRecord)){
-                repairRecordMapper.insertRepairRecord(repairRecord);
-            }
-        }
-        DynamicDataSourceContextHolder.clearDataSourceType();
-
-    }
+//    @Scheduled(fixedRate=120000)
+//    private void configureTasks() {
+//        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
+//        List<RepairRecord> repairRecords = repairRecordMapper.selectRepairRecordList(new RepairRecord());
+//        DynamicDataSourceContextHolder.clearDataSourceType();
+//        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.MASTER.name());
+//        List<RepairRecord> repairRecordMain = repairRecordMapper.selectRepairRecordList(new RepairRecord());
+//        for (RepairRecord repairRecord : repairRecords) {
+//            if (!repairRecordMain.contains(repairRecord)){
+//                repairRecordMapper.insertRepairRecord(repairRecord);
+//            }
+//        }
+//        DynamicDataSourceContextHolder.clearDataSourceType();
+//
+//    }
 }
