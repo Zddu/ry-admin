@@ -58,4 +58,6 @@ public interface IAssetsItemsDistributeService
      * @return 结果
      */
     public int deleteAssetsItemsDistributeById(Long id);
+
+    int insertAssetsItemsByDistributeRecode(Long[] ids);
 }

@@ -90,12 +90,8 @@ public class RepairRecordController extends BaseController {
     @Log(title = "保修记录", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
-        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
         int i = repairRecordService.deleteRepairRecordByIds(ids);
-        DynamicDataSourceContextHolder.clearDataSourceType();
-        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.MASTER.name());
-        i += repairRecordService.deleteRepairRecordByIds(ids);
-        DynamicDataSourceContextHolder.clearDataSourceType();
+
         return toAjax(i);
     }
 }

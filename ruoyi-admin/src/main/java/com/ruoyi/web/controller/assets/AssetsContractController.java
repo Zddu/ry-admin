@@ -1,18 +1,22 @@
 package com.ruoyi.web.controller.assets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ruoyi.assets.service.IAssetsItemsService;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.ZipUtil;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.framework.config.ServerConfig;
 import com.ruoyi.framework.web.service.TokenService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -144,12 +148,32 @@ public class AssetsContractController extends BaseController {
             response.setHeader("Content-Disposition",
                     "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, realFileName));
             FileUtils.writeBytes(filePath, response.getOutputStream());
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("异常");
         }
     }
+    @GetMapping("/download/{batch}")
+    public void fileDownloadBySchool(@PathVariable String batch, HttpServletResponse response, HttpServletRequest request) {
+        List<AssetsContract> assetsContract=assetsContractService.selectAssetsContractByBatch(batch);
+        if (ObjectUtils.isEmpty(assetsContract)) {
+            throw new RuntimeException("批次号" + batch + "不存在");
+        }
+        List<String> urlList=new ArrayList<>();
+        List<String> fileNameList=new ArrayList<>();
+        String suffix = null;
+        String realFileName = null;
+        String filePath = null;
+        for (AssetsContract contract : assetsContract) {
+            suffix = contract.getOriginalName().substring(contract.getOriginalName().lastIndexOf("."));
+            realFileName = contract.getName() + suffix;
+            filePath = RuoYiConfig.getProfile() + contract.getMappingName();
+            fileNameList.add(realFileName);
+            urlList.add(filePath);
+        }
+         ZipUtil.downZip(response,request,urlList,fileNameList,batch);
+    }
+
     /**
      * 获取学校上传批次号
      */

@@ -3,6 +3,7 @@ package com.ruoyi.assets.service.impl;
 import java.util.*;
 
 import com.ruoyi.assets.domain.*;
+import com.ruoyi.assets.mapper.AssetsContractMapper;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.assets.mapper.AssetsItemsMapper;
 import com.ruoyi.assets.service.IAssetsItemsService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -26,6 +28,8 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
     private AssetsItemsMapper assetsItemsMapper;
     @Autowired
     private SysDeptMapper sysDeptMapper;
+    @Autowired
+    private AssetsContractMapper assetsContractMapper;
 
     /**
      * 查询资产管理
@@ -47,6 +51,7 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
     @Override
     public List<AssetsItems> selectAssetsItemsSchoolList(AssetsItems assetsItems) {
         List<AssetsItems> result = assetsItemsMapper.selectAssetsItemsSchoolList(assetsItems);
+
         for (AssetsItems item : result) {
             SysDept sysDept = sysDeptMapper.selectDeptById(item.getItemBelonger());
             if (sysDept == null) {
@@ -54,8 +59,58 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
             }
             item.setItemBelongerName(sysDept.getDeptName());
         }
-        if (!StringUtils.isEmpty(assetsItems.getItemBelongerName())){
-            result=filterDepartmentsByName(result,assetsItems.getItemBelongerName());
+        return result;
+    }
+    @Override
+    public List<AssetsItems> selectAssetsItemsSchoolListNeed2Review(AssetsItems assetsItems) {
+        assetsItems.setIsWriteOff(1);
+        List<AssetsItems> result = assetsItemsMapper.selectAssetsItemsSchoolList(assetsItems);
+        for (AssetsItems item : result) {
+            SysDept sysDept = sysDeptMapper.selectDeptById(item.getItemBelonger());
+            if (sysDept == null) {
+                throw new CustomException("单位id无法查询到具体单位");
+            }
+            item.setItemBelongerName(sysDept.getDeptName());
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateAssetsItemsSchoolByIds(Long[] ids) {
+        int result=0;
+        for (Long id : ids) {
+            AssetsItems assetsItems = assetsItemsMapper.selectAssetsItemsSchoolById(id);
+            assetsItems.setIsWriteOff(2);
+            result+=assetsItemsMapper.updateAssetsItemsSchool(assetsItems);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateAssetsItemsSchoolWriteOffByIds(Long[] ids) {
+        int result=0;
+        for (Long id : ids) {
+            AssetsItems assetsItems = assetsItemsMapper.selectAssetsItemsSchoolById(id);
+            if(assetsItems.getIsWriteOff()!=0){
+                throw new CustomException("所选设备包含非未核销项，请重新选择");
+            }
+            assetsItems.setIsWriteOff(1);
+            result+=assetsItemsMapper.updateAssetsItemsSchool(assetsItems);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateAssetsItemsSchoolByAssetsItems(List<AssetsItems> assetsItems) {
+        int result=0;
+        for (AssetsItems assetsItem : assetsItems) {
+            AssetsItems item = assetsItemsMapper.selectAssetsItemsSchoolById(assetsItem.getId());
+            item.setReasons(assetsItem.getReasons());
+            item.setIsWriteOff(3);
+            result+=assetsItemsMapper.updateAssetsItemsSchool(item);
         }
         return result;
     }
@@ -97,6 +152,11 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
      */
     @Override
     public int updateAssetsItemsSchool(AssetsItems assetsItems) {
+        AssetsItems assetsItems1 = assetsItemsMapper.selectAssetsItemsSchoolById(assetsItems.getId());
+        System.out.println(assetsItems1);
+        if (assetsItems1.getIsWriteOff()==1||assetsItems1.getIsWriteOff()==2){
+            throw new CustomException("资产正在核销中或已核销，不能进行修改");
+        }
         return assetsItemsMapper.updateAssetsItemsSchool(assetsItems);
     }
 
@@ -168,7 +228,17 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
 
     @Override
     public List<AssetsStatistics> getAssetsStatistics(AssetsItems assetsItems) {
-        return assetsItemsMapper.getAssetsStatistics(assetsItems);
+        List<AssetsStatistics> assetsStatistics = assetsItemsMapper.getAssetsStatistics(assetsItems);
+        List<AssetsContract> assetsContracts =null;
+        for (AssetsStatistics assetsStatistic : assetsStatistics) {
+            assetsContracts = assetsContractMapper.selectAssetsContractByBatch(assetsStatistic.getBatchNum());
+            if (assetsContracts.size()==0){
+                assetsStatistic.setIsContract(0);
+            }else{
+                assetsStatistic.setIsContract(1);
+            }
+        }
+        return assetsStatistics;
     }
 
     @Override
@@ -185,4 +255,6 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
     public List<String> getTypesByAssetsItem(AssetsItems assetsItems) {
         return assetsItemsMapper.getTypesByAssetsItem(assetsItems);
     }
+
+
 }

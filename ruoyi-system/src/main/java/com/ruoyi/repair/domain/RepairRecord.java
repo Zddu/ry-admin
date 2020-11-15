@@ -59,10 +59,14 @@ public class RepairRecord extends BaseEntity
     /** 微信号 */
 
     private String weixinNum;
+
+    @Excel(name = "报修解决方法")
+    private String solution;
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "时间",dateFormat = "yyyy-MM-dd HH:mm:ss",width = 24)
     private Date createTime;
+
 
 
     @Override
@@ -179,6 +183,14 @@ public class RepairRecord extends BaseEntity
     public String getWeixinNum() 
     {
         return weixinNum;
+    }
+
+    public String getSolution() {
+        return solution;
+    }
+
+    public void setSolution(String solution) {
+        this.solution = solution;
     }
 
     @Override

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.assets.mapper.AssetsItemsDistributeMapper">
     
-    <resultMap type="AssetsItemsDistribute" id="AssetsItemsDistributeResult">
+    <resultMap type="com.ruoyi.assets.domain.AssetsItemsDistribute" id="AssetsItemsDistributeResult">
         <result property="id"    column="id"    />
         <result property="itemName"    column="item_name"    />
         <result property="itemType"    column="item_type"    />
@@ -17,13 +17,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remarks"    column="remarks"    />
         <result property="itemBelonger"    column="item_belonger"    />
         <result property="createTime"    column="create_time"    />
+        <result property="state" column="state"/>
     </resultMap>
 
     <sql id="selectAssetsItemsDistributeVo">
-        select id, item_name, item_type, item_format, item_num, batch_num, supplier_name, post_sale_phone, warranty_time, remarks, item_belonger, create_time from assets_items_distribute
+        select id, item_name, item_type, item_format, item_num, batch_num, supplier_name, post_sale_phone, warranty_time, remarks, item_belonger, create_time,state from assets_items_distribute
     </sql>
 
-    <select id="selectAssetsItemsDistributeList" parameterType="AssetsItemsDistribute" resultMap="AssetsItemsDistributeResult">
+    <select id="selectAssetsItemsDistributeList" parameterType="com.ruoyi.assets.domain.AssetsItemsDistribute" resultMap="AssetsItemsDistributeResult">
         <include refid="selectAssetsItemsDistributeVo"/>
         <where>  
             <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
@@ -34,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="warrantyTime != null "> and warranty_time = #{warrantyTime}</if>
             <if test="itemBelonger != null "> and item_belonger = #{itemBelonger}</if>
         </where>
-        order by create_time desc
+        order by state,create_time desc
     </select>
     
     <select id="selectAssetsItemsDistributeById" parameterType="Long" resultMap="AssetsItemsDistributeResult">
@@ -42,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertAssetsItemsDistribute" parameterType="AssetsItemsDistribute" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertAssetsItemsDistribute" parameterType="com.ruoyi.assets.domain.AssetsItemsDistribute" useGeneratedKeys="true" keyProperty="id">
         insert into assets_items_distribute
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name,</if>
@@ -56,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remarks != null">remarks,</if>
             <if test="itemBelonger != null">item_belonger,</if>
             <if test="createTime != null">create_time,</if>
+            <if test="state != null">state,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">#{itemName},</if>
@@ -69,10 +71,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remarks != null">#{remarks},</if>
             <if test="itemBelonger != null">#{itemBelonger},</if>
             <if test="createTime != null">#{createTime},</if>
+            <if test="state != null">#{state},</if>
          </trim>
     </insert>
 
-    <update id="updateAssetsItemsDistribute" parameterType="AssetsItemsDistribute">
+    <update id="updateAssetsItemsDistribute" parameterType="com.ruoyi.assets.domain.AssetsItemsDistribute">
         update assets_items_distribute
         <trim prefix="SET" suffixOverrides=",">
             <if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
@@ -86,6 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remarks != null">remarks = #{remarks},</if>
             <if test="itemBelonger != null">item_belonger = #{itemBelonger},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="state != null">state = #{state},</if>
         </trim>
         where id = #{id}
     </update>

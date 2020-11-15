@@ -31,7 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsContractVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectAssetsContractByBatch" resultMap="AssetsContractResult">
+        <include refid="selectAssetsContractVo"/>
+        where batch_num = #{batch}
+    </select>
+
     <insert id="insertAssetsContract" parameterType="com.ruoyi.assets.domain.AssetsContract" useGeneratedKeys="true" keyProperty="id">
         insert into assets_contract
         <trim prefix="(" suffix=")" suffixOverrides=",">

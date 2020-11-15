@@ -96,14 +96,8 @@ public class RepairMaintenanceController extends BaseController
      */
     @Log(title = "维修记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    @Transactional(rollbackFor = Exception.class)
     public AjaxResult remove(@PathVariable Long[] ids) {
-        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
         int i = repairMaintenanceService.deleteRepairMaintenanceByIds(ids);
-        DynamicDataSourceContextHolder.clearDataSourceType();
-        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.MASTER.name());
-        i += repairMaintenanceService.deleteRepairMaintenanceByIds(ids);
-        DynamicDataSourceContextHolder.clearDataSourceType();
         return toAjax(i);
     }
 }

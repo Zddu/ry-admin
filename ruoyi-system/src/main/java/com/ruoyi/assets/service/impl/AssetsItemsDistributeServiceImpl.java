@@ -101,7 +101,7 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
             throw new CustomException("学校为空，无法进行发布");
         }
         checkSchool(assetsItemsDistribute);
-        result += insertAssetsItemsAndDistributeRecord(assetsItemsDistribute);
+        result += insertDistributeRecord(assetsItemsDistribute);
 
         return result;
     }
@@ -162,6 +162,13 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteAssetsItemsDistributeByIds(Long[] ids) {
+        for (Long id : ids) {
+            AssetsItemsDistribute assetsItemsDistribute = assetsItemsDistributeMapper.selectAssetsItemsDistributeById(id);
+            if (assetsItemsDistribute.getState()==1){
+                throw new CustomException("包含已发布的记录，不能删除");
+            }
+        }
+
         int result = 0;
         result += assetsItemsMapper.deleteAssetsItemsByDistributeByIds(ids);
         result += assetsItemsDistributeMapper.deleteAssetsItemsDistributeByIds(ids);
@@ -180,8 +187,30 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
         return assetsItemsDistributeMapper.deleteAssetsItemsDistributeById(id);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int insertAssetsItemsByDistributeRecode(Long[] ids) {
+        int result=0;
+
+        for (Long id : ids) {
+            AssetsItemsDistribute assetsItemsDistribute = assetsItemsDistributeMapper.selectAssetsItemsDistributeById(id);
+            if (assetsItemsDistribute.getState()==1){
+                throw new CustomException("包含已发布的记录，不能进行操作");
+            }
+            assetsItemsDistribute.setState(1);
+            assetsItemsDistributeMapper.updateAssetsItemsDistribute(assetsItemsDistribute);
+            AssetsItems assetsItems = new AssetsItems();
+            for (int i=0;i<assetsItemsDistribute.getItemNum();i++){
+                BeanUtils.copyProperties(assetsItemsDistribute,assetsItems);
+                result+=assetsItemsMapper.insertAssetsItemsSchool(assetsItems);
+            }
+
+        }
+        return result;
+    }
+
     /**
-     * 将通过分发的设备数量批量插入分发设备
+     * 将通过分发的设备数量批量插入分发设备的记录
      *
      * @param assetsItemsDistribute 教体局分发设备数量
      * @return
@@ -191,13 +220,13 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
         for (Long schoolId : assetsItemsDistribute.getSchools()) {
             assetsItemsDistribute.setItemBelonger(schoolId);
             result += assetsItemsDistributeMapper.insertAssetsItemsDistribute(assetsItemsDistribute);
-            for (int i = 0; i < assetsItemsDistribute.getItemNum(); i++) {
-                AssetsItems assetsItems = new AssetsItems();
-                BeanUtils.copyProperties(assetsItemsDistribute, assetsItems);
-                assetsItems.setIsModify(1);
-                assetsItems.setDistributeId(assetsItemsDistribute.getId());
-                result += assetsItemsService.insertAssetsItemsSchool(assetsItems);
-            }
+//            for (int i = 0; i < assetsItemsDistribute.getItemNum(); i++) {
+//                AssetsItems assetsItems = new AssetsItems();
+//                BeanUtils.copyProperties(assetsItemsDistribute, assetsItems);
+//                assetsItems.setIsModify(1);
+//                assetsItems.setDistributeId(assetsItemsDistribute.getId());
+//                result += assetsItemsService.insertAssetsItemsSchool(assetsItems);
+//            }
         }
 
         return result;
@@ -206,10 +235,11 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
     /**
      * 根据上传的学校数分批插入记录
      */
-    private Integer insertAssetsItemsDistributeBySchool(AssetsItemsDistribute assetsItemsDistribute) {
-        int result = -1;
+    private Integer insertDistributeRecord(AssetsItemsDistribute assetsItemsDistribute) {
+        int result = 0;
         for (Long school : assetsItemsDistribute.getSchools()) {
             assetsItemsDistribute.setItemBelonger(school);
+            assetsItemsDistribute.setState(0);
             result += assetsItemsDistributeMapper.insertAssetsItemsDistribute(assetsItemsDistribute);
         }
         return result;

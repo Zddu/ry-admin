@@ -79,4 +79,12 @@ public interface IAssetsItemsService
     List<String> getBatchNumByAssetsItem(AssetsItems assetsItems);
 
     List<String> getTypesByAssetsItem(AssetsItems assetsItems);
+
+    List<AssetsItems> selectAssetsItemsSchoolListNeed2Review(AssetsItems assetsItems);
+
+    int updateAssetsItemsSchoolByIds(Long[] ids);
+
+    int updateAssetsItemsSchoolWriteOffByIds(Long[] ids);
+
+    int updateAssetsItemsSchoolByAssetsItems(List<AssetsItems> assetsItems);
 }

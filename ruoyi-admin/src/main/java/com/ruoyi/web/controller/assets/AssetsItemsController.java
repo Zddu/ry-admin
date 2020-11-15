@@ -46,7 +46,18 @@ public class AssetsItemsController extends BaseController {
         List<AssetsItems> list = assetsItemsSchoolService.selectAssetsItemsSchoolList(assetsItems);
         return getDataTable(list);
     }
-
+    /**
+     * 审核核销商品
+     */
+    @GetMapping("/write-off")
+    public TableDataInfo listWriteOff(AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
+        if (!ObjectUtils.isEmpty(assetsItems) && assetsItems.getItemBelonger() == null)
+            assetsItems.setItemBelonger(deptId);
+        startPage();
+        List<AssetsItems> list = assetsItemsSchoolService.selectAssetsItemsSchoolListNeed2Review(assetsItems);
+        return getDataTable(list);
+    }
     /**
      * 导出资产管理列表
      */
@@ -107,24 +118,57 @@ public class AssetsItemsController extends BaseController {
     /**
      * 修改资产管理
      */
-
     @Log(title = "资产管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AssetsItems assetsItems) {
-        System.out.println();
-        System.out.println(assetsItems);
-        System.out.println();
+        return toAjax(assetsItemsSchoolService.updateAssetsItemsSchool(assetsItems));
+    }
+    /**
+     * 审核核销
+     */
+    @Log(title = "资产管理", businessType = BusinessType.UPDATE)
+    @GetMapping("/edit/{ids}")
+    public AjaxResult edit(@PathVariable Long[] ids) {
+        return toAjax(assetsItemsSchoolService.updateAssetsItemsSchoolByIds(ids));
+    }
+    /**
+     * 批量核销
+     */
+    @Log(title = "资产管理", businessType = BusinessType.UPDATE)
+    @GetMapping("/write-off/{ids}")
+    public AjaxResult writeEdit(@PathVariable Long[] ids) {
+        return toAjax(assetsItemsSchoolService.updateAssetsItemsSchoolWriteOffByIds(ids));
+    }
+    /**
+     * 退回核销申请
+     */
+    @Log(title = "资产管理", businessType = BusinessType.UPDATE)
+    @PostMapping("/back")
+    public AjaxResult returnWriteOff(@RequestBody List<AssetsItems> assetsItems) {
+        return toAjax(assetsItemsSchoolService.updateAssetsItemsSchoolByAssetsItems(assetsItems));
+    }
+
+    /**
+     *还原为未核销状态
+     */
+    @Log(title = "资产管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/{id}")
+    public AjaxResult reduction(@PathVariable Long id) {
+        AssetsItems assetsItems = new AssetsItems();
+        assetsItems.setId(id);
+        assetsItems.setIsWriteOff(0);
         return toAjax(assetsItemsSchoolService.updateAssetsItemsSchool(assetsItems));
     }
 
     /**
      * 删除资产管理
      */
-
     @Log(title = "资产管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(assetsItemsSchoolService.deleteAssetsItemsSchoolByIds(ids));
     }
+
+
 
 }

@@ -58,6 +58,8 @@ public class AssetsItemsDistribute extends BaseEntity
     @Excel(name = "备注")
     private String remarks;
 
+    private int state;
+
     /** 商品所属单位id */
     private Long itemBelonger;
 
@@ -65,6 +67,14 @@ public class AssetsItemsDistribute extends BaseEntity
     private String itemBelongerName;
 
     private Long[] schools;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public Long[] getSchools() {
         return schools;

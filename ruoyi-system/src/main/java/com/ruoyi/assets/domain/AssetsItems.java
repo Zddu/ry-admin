@@ -79,13 +79,15 @@ public class AssetsItems extends BaseEntity
     @Excel(name = "商品状态",readConverterExp="0=正常,1=正常（效果不好）,2=无法使用,3=已报废")
     private Long itemState;
 
-    @Excel(name = "核销",readConverterExp = "0=未核销,1=已核销")
+    @Excel(name = "核销",readConverterExp = "0=未核销,1=审核中,2=已核销,3=已退回")
     private Integer isWriteOff;
     /**是否可以修改全部字段**/
     private Integer isModify;
     /** 备注 */
     @Excel(name = "备注")
     private String remarks;
+
+    private String reasons;
 
     /** 商品所属单位id */
 
@@ -95,6 +97,14 @@ public class AssetsItems extends BaseEntity
 
     private Long distributeId;
 
+
+    public String getReasons() {
+        return reasons;
+    }
+
+    public void setReasons(String reasons) {
+        this.reasons = reasons;
+    }
 
     public Long getDistributeId() {
         return distributeId;
@@ -286,14 +296,15 @@ public class AssetsItems extends BaseEntity
     public String toString() {
         return "AssetsItems{" +
                 "id=" + id +
+                ", itemBelongerName='" + itemBelongerName + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", itemType='" + itemType + '\'' +
                 ", itemFormat='" + itemFormat + '\'' +
-                ", batchNum=" + batchNum +
+                ", batchNum='" + batchNum + '\'' +
                 ", supplierName='" + supplierName + '\'' +
                 ", postSalePhone='" + postSalePhone + '\'' +
                 ", installedTime=" + installedTime +
-                ", warrantyTime=" + warrantyTime +
+                ", warrantyTime='" + warrantyTime + '\'' +
                 ", itemLocation='" + itemLocation + '\'' +
                 ", itemIp='" + itemIp + '\'' +
                 ", itemAdmin='" + itemAdmin + '\'' +
@@ -302,8 +313,8 @@ public class AssetsItems extends BaseEntity
                 ", isWriteOff=" + isWriteOff +
                 ", isModify=" + isModify +
                 ", remarks='" + remarks + '\'' +
+                ", reasons='" + reasons + '\'' +
                 ", itemBelonger=" + itemBelonger +
-                ", itemBelongerName='" + itemBelongerName + '\'' +
                 ", distributeId=" + distributeId +
                 '}';
     }

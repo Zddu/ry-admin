@@ -58,4 +58,6 @@ public interface IAssetsContractService
      * @return 结果
      */
     public int deleteAssetsContractById(Long id);
+
+    List<AssetsContract> selectAssetsContractByBatch(String batch);
 }

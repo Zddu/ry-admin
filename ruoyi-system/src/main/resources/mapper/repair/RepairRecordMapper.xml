@@ -18,10 +18,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="maintenanceContact"    column="maintenance_contact"    />
         <result property="isSatisfied"    column="is_satisfied"    />
         <result property="weixinNum"    column="weixin_num"    />
+        <result property="solution"    column="solution"    />
     </resultMap>
 
     <sql id="selectRepairRecordVo">
-        select id, order_num, department, room,state,maintenance_contact,repair_record.type,contacts, contact_number, repair_record.describe,create_time, is_satisfied, weixin_num from repair_record
+        select id, order_num, department, room,state,maintenance_contact,repair_record.type,contacts, contact_number, repair_record.describe,create_time, is_satisfied, weixin_num,solution from repair_record
     </sql>
 
     <select id="selectRepairRecordList" parameterType="com.ruoyi.repair.domain.RepairRecord" resultMap="RepairRecordResult">
@@ -108,6 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="maintenanceContact != null">maintenance_contact = #{maintenanceContact},</if>
             <if test="isSatisfied != null">is_satisfied = #{isSatisfied},</if>
             <if test="weixinNum != null">weixin_num = #{weixinNum},</if>
+            <if test="solution != null">solution = #{solution},</if>
         </trim>
         where id = #{id}
     </update>

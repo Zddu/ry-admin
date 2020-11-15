@@ -1,7 +1,9 @@
 package com.ruoyi.web.controller.assets;
 
+import java.util.Currency;
 import java.util.List;
 
+import com.ruoyi.common.exception.CustomException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,6 +72,14 @@ public class AssetsItemsDistributeController extends BaseController {
     public AjaxResult add(@RequestBody AssetsItemsDistribute assetsItemsDistribute) {
         return toAjax(assetsItemsDistributeService.insertAssetsItemsDistribute(assetsItemsDistribute));
     }
+    /**
+     * 将资产分发给指定学校
+     */
+    @Log(title = "资产分发", businessType = BusinessType.INSERT)
+    @GetMapping("/distribute/{ids}")
+    public AjaxResult distribute(@PathVariable Long[] ids) {
+        return toAjax(assetsItemsDistributeService.insertAssetsItemsByDistributeRecode(ids));
+    }
 
     /**
      * 修改资产分发
@@ -77,6 +87,9 @@ public class AssetsItemsDistributeController extends BaseController {
     @Log(title = "资产分发", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody AssetsItemsDistribute assetsItemsDistribute) {
+        if (assetsItemsDistribute.getState()==1){
+            throw new CustomException("已发布不能修改");
+        }
         return toAjax(assetsItemsDistributeService.updateAssetsItemsDistribute(assetsItemsDistribute));
     }
 

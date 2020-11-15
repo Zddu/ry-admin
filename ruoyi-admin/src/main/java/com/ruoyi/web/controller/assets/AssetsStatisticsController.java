@@ -7,9 +7,12 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.web.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,8 @@ import java.util.List;
 public class AssetsStatisticsController extends BaseController {
     @Autowired
     private IAssetsItemsService assetsItemsSchoolService;
+    @Autowired
+    private TokenService tokenService;
     /**
      * 获取资产分发详细信息
      */
@@ -87,10 +92,10 @@ public class AssetsStatisticsController extends BaseController {
      */
     @GetMapping("/list")
     public TableDataInfo AssetsStatistics(AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
+        if (!ObjectUtils.isEmpty(assetsItems) && assetsItems.getItemBelonger() == null)
+            assetsItems.setItemBelonger(deptId);
         startPage();
-        System.out.println();
-        System.out.println(assetsItems);
-        System.out.println();
         List<AssetsStatistics> list=assetsItemsSchoolService.getAssetsStatistics(assetsItems);
         return getDataTable(list);
     }
@@ -100,6 +105,9 @@ public class AssetsStatisticsController extends BaseController {
     @Log(title = "导出资产统计", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
+        if (!ObjectUtils.isEmpty(assetsItems) && assetsItems.getItemBelonger() == null)
+            assetsItems.setItemBelonger(deptId);
         List<AssetsStatistics> list = assetsItemsSchoolService.getAssetsStatistics(assetsItems);
         ExcelUtil<AssetsStatistics> util = new ExcelUtil<>(AssetsStatistics.class);
         return util.exportExcel(list, "资产统计");
@@ -113,6 +121,20 @@ public class AssetsStatisticsController extends BaseController {
         AjaxResult ajaxResult=AjaxResult.success();
         ajaxResult.put("batchNums",assetsItemsSchoolService.getBatchNumByAssetsItem(assetsItems));
         ajaxResult.put("schools",assetsItemsSchoolService.getSchoolsByAssetsItem(assetsItems));
+        ajaxResult.put("types",assetsItemsSchoolService.getTypesByAssetsItem(assetsItems));
+        return ajaxResult;
+    }
+    /**
+     * 三级联动
+     */
+    @GetMapping("/sh_linkage")
+    public AjaxResult threeLevelLinkageBySchool(AssetsItems assetsItems) {
+        Long deptId = tokenService.getLoginUser(ServletUtils.getRequest()).getUser().getDept().getDeptId();
+        if (!ObjectUtils.isEmpty(assetsItems) && assetsItems.getItemBelonger() == null)
+            assetsItems.setItemBelonger(deptId);
+        AjaxResult ajaxResult=AjaxResult.success();
+        assetsItems.setItemBelonger(deptId);
+        ajaxResult.put("batchNums",assetsItemsSchoolService.getBatchNumByAssetsItem(assetsItems));
         ajaxResult.put("types",assetsItemsSchoolService.getTypesByAssetsItem(assetsItems));
         return ajaxResult;
     }

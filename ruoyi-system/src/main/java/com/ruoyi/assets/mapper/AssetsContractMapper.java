@@ -59,4 +59,6 @@ public interface AssetsContractMapper
      * @return 结果
      */
     public int deleteAssetsContractByIds(Long[] ids);
+
+    List<AssetsContract> selectAssetsContractByBatch(String batch);
 }

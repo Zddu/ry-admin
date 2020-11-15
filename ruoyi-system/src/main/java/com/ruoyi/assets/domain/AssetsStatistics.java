@@ -20,6 +20,16 @@ public class AssetsStatistics {
     private Integer writerOffNum;
     @Excel(name = "剩余数",isStatistics=true)
     private Integer residueNum;
+    //是否有合同（0-无 1-有）
+    private Integer isContract;
+
+    public Integer getIsContract() {
+        return isContract;
+    }
+
+    public void setIsContract(Integer isContract) {
+        this.isContract = isContract;
+    }
 
     public String getItemBelongerName() {
         return itemBelongerName;
