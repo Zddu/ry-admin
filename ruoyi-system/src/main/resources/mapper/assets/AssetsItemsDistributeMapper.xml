@@ -42,7 +42,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAssetsItemsDistributeVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectAssetsItemsDistributeByBelongerAndBatch" resultMap="AssetsItemsDistributeResult">
+        <include refid="selectAssetsItemsDistributeVo"/>
+        where batch_num = #{batch} and item_belonger =#{itemBelonger}
+    </select>
+
     <insert id="insertAssetsItemsDistribute" parameterType="com.ruoyi.assets.domain.AssetsItemsDistribute" useGeneratedKeys="true" keyProperty="id">
         insert into assets_items_distribute
         <trim prefix="(" suffix=")" suffixOverrides=",">

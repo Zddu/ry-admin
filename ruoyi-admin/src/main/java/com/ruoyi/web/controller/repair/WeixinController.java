@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.repair;
 
 import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -8,6 +9,7 @@ import com.ruoyi.common.utils.uuid.IdUtils;
 import com.ruoyi.repair.domain.RepairRecord;
 import com.ruoyi.repair.service.IRepairRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;

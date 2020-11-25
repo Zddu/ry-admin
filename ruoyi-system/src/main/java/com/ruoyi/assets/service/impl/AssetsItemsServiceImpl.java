@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.ruoyi.assets.domain.*;
 import com.ruoyi.assets.mapper.AssetsContractMapper;
+import com.ruoyi.assets.mapper.AssetsItemsDistributeMapper;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.DateUtils;
@@ -30,6 +31,8 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
     private SysDeptMapper sysDeptMapper;
     @Autowired
     private AssetsContractMapper assetsContractMapper;
+    @Autowired
+    private AssetsItemsDistributeMapper assetsItemsDistributeMapper;
 
     /**
      * 查询资产管理
@@ -109,7 +112,7 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
         for (AssetsItems assetsItem : assetsItems) {
             AssetsItems item = assetsItemsMapper.selectAssetsItemsSchoolById(assetsItem.getId());
             item.setReasons(assetsItem.getReasons());
-            item.setIsWriteOff(3);
+            item.setIsWriteOff(0);
             result+=assetsItemsMapper.updateAssetsItemsSchool(item);
         }
         return result;
@@ -168,6 +171,21 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
      */
     @Override
     public int deleteAssetsItemsSchoolByIds(Long[] ids) {
+        AssetsItems assetsItems =null;
+        AssetsItemsDistribute assetsItemsDistribute=null;
+        long num=0;
+        for (Long id : ids) {
+            assetsItems = assetsItemsMapper.selectAssetsItemsSchoolById(id);
+            assetsItemsDistribute =assetsItemsDistributeMapper.selectAssetsItemsDistributeByBelongerAndBatch(assetsItems.getBatchNum(),assetsItems.getItemBelonger());
+            num=assetsItemsDistribute.getItemNum()-1L;
+            if (num>0){
+                assetsItemsDistribute.setItemNum(num);
+                assetsItemsDistributeMapper.updateAssetsItemsDistribute(assetsItemsDistribute);
+            }else {
+                assetsItemsDistributeMapper.deleteAssetsItemsDistributeById(assetsItemsDistribute.getId());
+            }
+
+        }
         return assetsItemsMapper.deleteAssetsItemsSchoolByIds(ids);
     }
 

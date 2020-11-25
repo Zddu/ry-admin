@@ -100,7 +100,7 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
         if (ObjectUtils.isEmpty(assetsItemsDistribute.getSchools())) {
             throw new CustomException("学校为空，无法进行发布");
         }
-        checkSchool(assetsItemsDistribute);
+        assetsItemsDistribute = checkSchool(assetsItemsDistribute);
         result += insertDistributeRecord(assetsItemsDistribute);
 
         return result;
@@ -114,18 +114,18 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
      * @return
      */
     private AssetsItemsDistribute checkSchool(AssetsItemsDistribute assetsItemsDistribute) {
-        List<Long> result=new ArrayList<>();
+        List<Long> result = new ArrayList<>();
         for (Long school : assetsItemsDistribute.getSchools()) {
             List<Long> sysDepts = sysDeptMapper.selectChildrenIdDeptById(school);
-            if (ObjectUtils.isEmpty(sysDepts)){
+            if (ObjectUtils.isEmpty(sysDepts)) {
                 result.add(school);
-            }else{
+            } else {
                 result.addAll(sysDepts);
             }
         }
-        Long[] longs=new Long[result.size()];
-        for (int i=0;i<result.size();i++) {
-            longs[i]=result.get(i);
+        Long[] longs = new Long[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            longs[i] = result.get(i);
         }
         assetsItemsDistribute.setSchools(longs);
         return assetsItemsDistribute;
@@ -141,15 +141,8 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateAssetsItemsDistribute(AssetsItemsDistribute assetsItemsDistribute) {
-        Integer result=0;
-        System.out.println(assetsItemsDistribute.getId());
-        result+=assetsItemsMapper.deleteAssetsItemsSchoolByItemsDistributeId(assetsItemsDistribute.getId());
-        for (int i=0;i<assetsItemsDistribute.getItemNum();i++) {
-            AssetsItems assetsItems = new AssetsItems();
-            BeanUtils.copyProperties(assetsItemsDistribute,assetsItems);
-            result+=assetsItemsService.insertAssetsItemsSchool(assetsItems);
-        }
-        result+=assetsItemsDistributeMapper.updateAssetsItemsDistribute(assetsItemsDistribute);
+        Integer result = 0;
+        result += assetsItemsDistributeMapper.updateAssetsItemsDistribute(assetsItemsDistribute);
         return result;
     }
 
@@ -164,7 +157,7 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
     public int deleteAssetsItemsDistributeByIds(Long[] ids) {
         for (Long id : ids) {
             AssetsItemsDistribute assetsItemsDistribute = assetsItemsDistributeMapper.selectAssetsItemsDistributeById(id);
-            if (assetsItemsDistribute.getState()==1){
+            if (assetsItemsDistribute.getState() == 1) {
                 throw new CustomException("包含已发布的记录，不能删除");
             }
         }
@@ -190,19 +183,19 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertAssetsItemsByDistributeRecode(Long[] ids) {
-        int result=0;
+        int result = 0;
 
         for (Long id : ids) {
             AssetsItemsDistribute assetsItemsDistribute = assetsItemsDistributeMapper.selectAssetsItemsDistributeById(id);
-            if (assetsItemsDistribute.getState()==1){
+            if (assetsItemsDistribute.getState() == 1) {
                 throw new CustomException("包含已发布的记录，不能进行操作");
             }
             assetsItemsDistribute.setState(1);
             assetsItemsDistributeMapper.updateAssetsItemsDistribute(assetsItemsDistribute);
             AssetsItems assetsItems = new AssetsItems();
-            for (int i=0;i<assetsItemsDistribute.getItemNum();i++){
-                BeanUtils.copyProperties(assetsItemsDistribute,assetsItems);
-                result+=assetsItemsMapper.insertAssetsItemsSchool(assetsItems);
+            for (int i = 0; i < assetsItemsDistribute.getItemNum(); i++) {
+                BeanUtils.copyProperties(assetsItemsDistribute, assetsItems);
+                result += assetsItemsMapper.insertAssetsItemsSchool(assetsItems);
             }
 
         }
@@ -237,10 +230,25 @@ public class AssetsItemsDistributeServiceImpl implements IAssetsItemsDistributeS
      */
     private Integer insertDistributeRecord(AssetsItemsDistribute assetsItemsDistribute) {
         int result = 0;
+        AssetsItemsDistribute assetsItemsDistribute1=null;
         for (Long school : assetsItemsDistribute.getSchools()) {
             assetsItemsDistribute.setItemBelonger(school);
             assetsItemsDistribute.setState(0);
-            result += assetsItemsDistributeMapper.insertAssetsItemsDistribute(assetsItemsDistribute);
+            assetsItemsDistribute1 = assetsItemsDistributeMapper.selectAssetsItemsDistributeByBelongerAndBatch(assetsItemsDistribute.getBatchNum(), school);
+            if (assetsItemsDistribute1==null){
+                result += assetsItemsDistributeMapper.insertAssetsItemsDistribute(assetsItemsDistribute);
+            }else{
+                assetsItemsDistribute1.setItemNum(assetsItemsDistribute1.getItemNum()+assetsItemsDistribute.getItemNum());
+                result += assetsItemsDistributeMapper.updateAssetsItemsDistribute(assetsItemsDistribute1);
+                if (assetsItemsDistribute1.getState()==1){
+                    AssetsItems assetsItems = new AssetsItems();
+                    for (int i = 0; i < assetsItemsDistribute.getItemNum(); i++) {
+                        BeanUtils.copyProperties(assetsItemsDistribute1, assetsItems);
+                        result += assetsItemsMapper.insertAssetsItemsSchool(assetsItems);
+                    }
+                }
+            }
+
         }
         return result;
     }

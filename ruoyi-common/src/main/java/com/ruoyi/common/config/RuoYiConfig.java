@@ -30,6 +30,18 @@ public class RuoYiConfig
     /** 获取地址开关 */
     private static boolean addressEnabled;
 
+    /** 拉数据的接口地址 **/
+    private static String pulldataInterface;
+
+
+    public static String getPulldataInterface() {
+        return pulldataInterface;
+    }
+
+    public static void setPulldataInterface(String pulldataInterface) {
+        RuoYiConfig.pulldataInterface = pulldataInterface;
+    }
+
     public String getName()
     {
         return name;

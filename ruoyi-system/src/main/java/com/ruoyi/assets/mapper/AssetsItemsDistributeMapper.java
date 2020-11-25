@@ -2,6 +2,7 @@ package com.ruoyi.assets.mapper;
 
 import java.util.List;
 import com.ruoyi.assets.domain.AssetsItemsDistribute;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 资产分发Mapper接口
@@ -60,4 +61,5 @@ public interface AssetsItemsDistributeMapper
     public int deleteAssetsItemsDistributeByIds(Long[] ids);
 
 
+    AssetsItemsDistribute selectAssetsItemsDistributeByBelongerAndBatch(@Param("batch") String batch,@Param("itemBelonger") Long itemBelonger);
 }
