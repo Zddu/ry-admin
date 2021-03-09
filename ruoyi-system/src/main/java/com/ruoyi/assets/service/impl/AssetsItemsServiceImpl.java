@@ -177,6 +177,9 @@ public class AssetsItemsServiceImpl implements IAssetsItemsService {
         for (Long id : ids) {
             assetsItems = assetsItemsMapper.selectAssetsItemsSchoolById(id);
             assetsItemsDistribute =assetsItemsDistributeMapper.selectAssetsItemsDistributeByBelongerAndBatch(assetsItems.getBatchNum(),assetsItems.getItemBelonger());
+            if (null ==assetsItemsDistribute){
+                return assetsItemsMapper.deleteAssetsItemsSchoolByIds(ids);
+            }
             num=assetsItemsDistribute.getItemNum()-1L;
             if (num>0){
                 assetsItemsDistribute.setItemNum(num);

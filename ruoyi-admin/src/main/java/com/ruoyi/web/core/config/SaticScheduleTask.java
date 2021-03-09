@@ -27,7 +27,7 @@ public class SaticScheduleTask {
     private SysOperLogMapper sysOperLogMapper;
 //    或直接指定时间间隔，例如：5秒
 //    @Scheduled(fixedRate=120000)
-//    private void configureTasks() {
+//    private void configureTasks1() {
 //        DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
 //        List<RepairRecord> repairRecords = repairRecordMapper.selectRepairRecordList(new RepairRecord());
 //        DynamicDataSourceContextHolder.clearDataSourceType();
